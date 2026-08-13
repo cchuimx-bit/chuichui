@@ -21,7 +21,7 @@ button { border: 0; background: none; }
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 ::selection { background: var(--yellow); color: var(--brown); }
 
-.capsule-nav { position: fixed; z-index: 100; width: min(620px, calc(100vw - 38px)); height: 49px; left: 50%; top: 18px; transform: translateX(-50%); border-radius: 28px; background: var(--brown); color: var(--yellow); display: grid; grid-template-columns: 54px 1fr auto; align-items: center; padding: 4px 6px 4px 12px; box-shadow: 0 3px 0 rgba(15,63,50,.7); }
+.capsule-nav { position: fixed; z-index: 100; width: min(560px, calc(100vw - 38px)); height: 49px; left: 50%; top: 18px; transform: translateX(-50%); border-radius: 28px; background: var(--brown); color: var(--yellow); display: grid; grid-template-columns: 54px 1fr auto; align-items: center; padding: 4px 6px 4px 12px; box-shadow: 0 3px 0 rgba(15,63,50,.7); }
 .palm { font-size: 25px; text-align: left; transition: transform .3s; }
 .palm:hover { transform: rotate(20deg); }
 .capsule-nav nav { display: flex; justify-content: space-around; }
@@ -36,13 +36,13 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .grain { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .22; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
 .sun-disc { position: absolute; width: 32vw; height: 32vw; min-width: 350px; min-height: 350px; border-radius: 50%; background: rgba(247,145,36,.18); top: 15%; left: 34%; filter: blur(1px); }
 .hero-logo { position: relative; z-index: 4; text-align: center; color: var(--yellow); text-shadow: 0 2px var(--teal), 2px 0 var(--teal), -2px 0 var(--teal), 0 -2px var(--teal); margin-top: 5vh; }
-.hero-logo > p:first-child { font-size: 11px; letter-spacing: .24em; text-shadow: 1px 1px var(--teal); }
-.hero-logo h1 { margin: 12px 0 8px; font: 900 clamp(66px,10vw,150px)/.77 var(--display); letter-spacing: -.08em; transform: rotate(-2deg); }
-.hero-logo h1 em { font-style: normal; font-size: 1.12em; }
+.hero-logo h1 { margin: 0 0 20px; font: 900 clamp(62px,8.7vw,138px)/.82 var(--display); letter-spacing: -.045em; transform: rotate(-2deg); }
+.hero-logo h1 em { font-style: normal; font-size: 1.08em; }
+.hero-welcome { text-transform: uppercase; }
 .hero-flourish { font-size: 56px; line-height: 1; }
 .hero-sub { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-shadow: 1px 1px var(--teal); }
-.hero-logo button, .scenic-button { margin-top: 16px; background: var(--brown); color: var(--yellow); border-radius: 28px; padding: 13px 24px; font: 700 14px var(--display); box-shadow: 0 3px 0 rgba(255,205,24,.45); transition: transform .25s; }
-.hero-logo button:hover, .scenic-button:hover { transform: translateY(-3px) rotate(-1deg); }
+.scenic-button { margin-top: 16px; background: var(--brown); color: var(--yellow); border-radius: 28px; padding: 13px 24px; font: 700 14px var(--display); box-shadow: 0 3px 0 rgba(255,205,24,.45); transition: transform .25s; }
+.scenic-button:hover { transform: translateY(-3px) rotate(-1deg); }
 .address-mark { position: absolute; z-index: 4; bottom: 28px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--yellow); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-shadow: 1px 1px var(--brown); }
 .palm-tree { position: absolute; z-index: 3; bottom: -70px; width: 180px; height: 470px; }
 .palm-tree i { position: absolute; width: 42px; height: 390px; left: 70px; bottom: 0; background: repeating-linear-gradient(12deg,#2f3d20 0 10px,#4d512c 11px 18px); border-radius: 80% 20% 30% 20%; transform: rotate(8deg); }
@@ -153,9 +153,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .mobile-drawer.show { visibility: visible; opacity: 1; }
   .mobile-drawer button { padding: 16px 0; border-bottom: 1px solid rgba(255,205,24,.4); text-align: left; font: 800 35px var(--display); }
   .tropical-hero { min-height: 740px; background-position: 55% center; }
-  .hero-logo h1 { font-size: clamp(63px,20vw,92px); }
+  .hero-logo h1 { font-size: clamp(48px,14vw,76px); line-height: .88; }
   .hero-logo { padding: 0 20px; }
-  .hero-logo > p:first-child { font-size: 8px; }
   .hero-sub { font-size: 9px; line-height: 1.5; }
   .palm-tree { opacity: .75; }
   .palm-left { left: -100px; }

@@ -62,7 +62,7 @@ export default function Home() {
       <header className="capsule-nav">
         <button className="palm" onClick={() => go("home")} aria-label="返回首页">✺</button>
         <nav aria-label="主要导航">
-          {nav.map(([id, label]) => <button key={id} className={active === id ? "active" : ""} onClick={() => go(id)}>{label}</button>)}
+          {nav.filter(([id]) => id !== "home" && id !== "contact").map(([id, label]) => <button key={id} className={active === id ? "active" : ""} onClick={() => go(id)}>{label}</button>)}
         </nav>
         <button className="contact-pill" onClick={() => go("contact")}>联系我</button>
         <button className="mobile-toggle" onClick={() => setMenu(!menu)} aria-expanded={menu}>{menu ? "关闭" : "菜单"}</button>
@@ -78,11 +78,9 @@ export default function Home() {
         <div className="palm-tree palm-left"><i /><b /><span /></div>
         <div className="palm-tree palm-right"><i /><b /><span /></div>
         <div className="hero-logo">
-          <p>WELCOME TO MY LITTLE WORLD</p>
-          <h1>你好，我是<br /><em>林知远</em></h1>
+          <h1 className="hero-welcome">WELCOME TO MY<br /><em>LITTLE WORLD</em></h1>
           <div className="hero-flourish">☼</div>
-          <p className="hero-sub">新闻与传播专业学生 · 生活观察者 · 永远保持好奇</p>
-          <button onClick={() => go("experience")}>认识我一点 ↓</button>
+          <p className="hero-sub">你呢 你会怎样度过今天？</p>
         </div>
         <div className="address-mark">PERSONAL ARCHIVE<br />CHINA · EST. 2026</div>
       </section>

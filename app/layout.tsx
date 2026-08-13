@@ -5,16 +5,16 @@ export const metadata: Metadata = {
   title: "林知远 — 个人主页",
   description: "林知远的个人主页：设计、经历、兴趣与生活片段。",
   openGraph: {
-    title: "林知远 — 个人主页",
-    description: "设计 · 经历 · 兴趣 · 日常",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "林知远个人主页分享封面" }],
+    title: "Welcome to My Little World",
+    description: "你呢 你会怎样度过今天？",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Welcome to My Little World 复古热带分享封面" }],
     locale: "zh_CN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "林知远 — 个人主页",
-    description: "设计 · 经历 · 兴趣 · 日常",
+    title: "Welcome to My Little World",
+    description: "你呢 你会怎样度过今天？",
     images: ["/og.png"],
   },
   icons: {
