@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const nav = [
   ["home", "首页"],
@@ -30,12 +30,24 @@ const photos = [
   ["coast-d", "落日以前"],
 ] as const;
 
+const reelPhotos = [
+  { src: "/photos/reel/lake-garden.jpg", alt: "树荫下的湖畔花园", shape: "wide" },
+  { src: "/photos/reel/clear-water.jpg", alt: "清澈海水中的小船", shape: "portrait" },
+  { src: "/photos/reel/sunset-coast.jpg", alt: "晚霞下的海岸与棕榈树", shape: "wide" },
+  { src: "/photos/reel/green-canopy.jpg", alt: "阳光下的绿色树冠", shape: "wide" },
+  { src: "/photos/reel/blue-mountains.jpg", alt: "蓝色暮色中的雪山", shape: "wide" },
+  { src: "/photos/reel/forest-path.jpg", alt: "树林里的弯曲小路", shape: "wide" },
+  { src: "/photos/reel/west-lake.jpg", alt: "树影覆盖的安静湖面", shape: "wide" },
+] as const;
+
 export default function Home() {
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(true);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -44,6 +56,13 @@ export default function Home() {
     }, { rootMargin: "-42% 0px -48%" });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.58;
+    audio.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
   }, []);
 
   const go = (id: string) => {
@@ -55,6 +74,22 @@ export default function Home() {
     await navigator.clipboard.writeText("hello@yourname.com");
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
+  };
+
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setMusicPlaying(true);
+      } catch {
+        setMusicPlaying(false);
+      }
+    } else {
+      audio.pause();
+      setMusicPlaying(false);
+    }
   };
 
   return (
@@ -85,16 +120,49 @@ export default function Home() {
         <div className="address-mark">PERSONAL ARCHIVE<br />CHINA · EST. 2026</div>
       </section>
 
-      <section className="intro-strip">
-        <div className="round-sticker">嘿！<br />很高兴<br />认识你</div>
-        <div className="photo-slice scene-crop scene-crop-left" role="img" aria-label="复古热带海岸风景" />
-        <div className="intro-copy">
-          <span>ABOUT ME</span>
-          <h2>认真生活，<br />偶尔做梦。</h2>
-          <p>这里是我的个人小站，记录经历、热爱与路上捡到的闪光片段。</p>
+      <section className="intro-strip" aria-label="流动风景与音乐播放器">
+        <div className="music-deck">
+          <audio
+            ref={audioRef}
+            src="/audio/city-of-stars-preview.m4a"
+            autoPlay
+            loop
+            preload="auto"
+            onPlay={() => setMusicPlaying(true)}
+            onPause={() => setMusicPlaying(false)}
+          />
+          <button
+            className={`vinyl-control ${musicPlaying ? "is-playing" : "is-paused"}`}
+            onClick={toggleMusic}
+            aria-label={musicPlaying ? "暂停 City of Stars" : "播放 City of Stars"}
+            title={musicPlaying ? "暂停音乐" : "播放音乐"}
+          >
+            <span className="vinyl-disc" aria-hidden="true">
+              <i className="vinyl-label" />
+              <b className="vinyl-hole" />
+            </span>
+            <span className="music-state" aria-hidden="true">{musicPlaying ? "Ⅱ" : "▶"}</span>
+          </button>
+          <span className="tonearm" aria-hidden="true" />
         </div>
-        <div className="photo-slice scene-crop scene-crop-right" role="img" aria-label="复古热带海岸风景" />
-        <div className="color-block">慢慢走<br /><b>也很好</b></div>
+
+        <div className="moving-gallery">
+          {["left", "right"].map((direction, row) => (
+            <div className={`reel-row reel-${direction}`} key={direction}>
+              <div className="reel-track">
+                {[0, 1].map((copyIndex) => (
+                  <div className="reel-group" aria-hidden={copyIndex === 1} key={copyIndex}>
+                    {reelPhotos.slice(row ? 0 : 2).concat(reelPhotos.slice(0, row ? 0 : 2)).map((photo) => (
+                      <figure className={`reel-frame ${photo.shape}`} key={`${copyIndex}-${photo.src}`}>
+                        <img src={photo.src} alt={copyIndex === 0 ? photo.alt : ""} />
+                      </figure>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="experience-section scenic" id="experience">

@@ -51,18 +51,30 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .palm-left { left: -50px; transform: rotate(-10deg); }
 .palm-right { right: -50px; transform: scaleX(-1) rotate(-8deg); }
 
-.intro-strip { min-height: 360px; background: var(--paper); display: grid; grid-template-columns: .7fr 1.2fr 1.6fr 1.2fr .8fr; align-items: stretch; overflow: hidden; }
-.photo-slice img { filter: saturate(.85) sepia(.08); }
-.scene-crop { background-image: url("/photos/tropical-coast.png"); background-size: cover; filter: saturate(.78) sepia(.12); }
-.scene-crop-left { background-position: left center; }
-.scene-crop-right { background-position: right center; }
-.intro-copy { padding: 60px 4vw; display: flex; flex-direction: column; justify-content: center; }
-.intro-copy span, .section-heading p { font-size: 10px; letter-spacing: .18em; font-weight: 700; }
-.intro-copy h2 { margin: 15px 0; font: 900 clamp(40px,4vw,62px)/.92 var(--display); }
-.intro-copy p { font-size: 12px; line-height: 1.65; max-width: 340px; }
-.round-sticker { align-self: center; justify-self: center; width: 115px; height: 115px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; text-align: center; font: 800 16px/1.2 var(--display); transform: rotate(-8deg); box-shadow: 4px 4px 0 var(--brown); }
-.color-block { background: var(--orange); display: grid; place-content: center; text-align: center; color: var(--brown); font: 800 22px/1.15 var(--display); }
-.color-block b { font-size: 32px; }
+.intro-strip { height: min(780px, 88svh); min-height: 620px; background: var(--paper); display: grid; grid-template-columns: clamp(190px, 22vw, 320px) 1fr; overflow: hidden; border-top: 4px solid var(--brown); border-bottom: 4px solid var(--brown); }
+.music-deck { position: relative; z-index: 5; display: grid; place-items: center; background: var(--paper); border-right: 3px solid var(--brown); box-shadow: 12px 0 0 rgba(62,39,8,.08); }
+.vinyl-control { position: relative; width: clamp(150px, 15vw, 220px); aspect-ratio: 1; border-radius: 50%; padding: 0; filter: drop-shadow(8px 9px 0 var(--brown)); transition: transform .25s ease, filter .25s ease; }
+.vinyl-control:hover { transform: translateY(-5px) rotate(-1deg); filter: drop-shadow(10px 12px 0 var(--brown)); }
+.vinyl-control:focus-visible { outline: 4px solid var(--orange); outline-offset: 10px; }
+.vinyl-disc { position: absolute; inset: 0; overflow: hidden; border: 4px solid var(--brown); border-radius: 50%; background: repeating-radial-gradient(circle at center, #21180f 0 2px, #0c0b0a 3px 7px, #30251c 8px 9px); animation: vinyl-spin 4.8s linear infinite; animation-play-state: paused; }
+.is-playing .vinyl-disc { animation-play-state: running; }
+.vinyl-disc::after { content: ""; position: absolute; inset: -20%; border-radius: 50%; background: conic-gradient(from 30deg, transparent 0 7%, rgba(255,255,255,.12) 9% 15%, transparent 18% 51%, rgba(255,255,255,.08) 54% 60%, transparent 63%); }
+.vinyl-label { position: absolute; z-index: 2; width: 39%; aspect-ratio: 1; left: 50%; top: 50%; transform: translate(-50%,-50%); border: 3px solid var(--brown); border-radius: 50%; background: var(--orange); box-shadow: inset 0 0 0 8px var(--yellow); }
+.vinyl-hole { position: absolute; z-index: 3; width: 9%; aspect-ratio: 1; left: 50%; top: 50%; transform: translate(-50%,-50%); border: 3px solid var(--brown); border-radius: 50%; background: var(--paper); }
+.music-state { position: absolute; z-index: 6; right: -4px; bottom: 5px; width: 40px; height: 40px; border: 3px solid var(--brown); border-radius: 50%; display: grid; place-items: center; color: var(--brown); background: var(--yellow); font: 900 16px/1 Arial,sans-serif; box-shadow: 3px 3px 0 var(--brown); }
+.tonearm { position: absolute; width: 10px; height: 34%; top: 21%; right: 12%; border-radius: 10px; background: var(--brown); transform-origin: 50% 5%; transform: rotate(18deg); box-shadow: 0 -12px 0 5px var(--orange); pointer-events: none; }
+.tonearm::after { content: ""; position: absolute; left: -7px; bottom: -8px; width: 24px; height: 34px; border-radius: 4px; background: var(--brown); transform: rotate(-12deg); }
+.moving-gallery { min-width: 0; display: grid; grid-template-rows: 1fr 1fr; gap: 14px; padding: 14px 0; background: var(--cream); }
+.reel-row { min-width: 0; overflow: hidden; }
+.reel-track { height: 100%; display: flex; width: max-content; animation: reel-left 39s linear infinite; will-change: transform; }
+.reel-right .reel-track { animation-name: reel-right; animation-duration: 43s; }
+.reel-group { height: 100%; display: flex; flex-shrink: 0; gap: 14px; padding-right: 14px; }
+.reel-frame { width: clamp(270px, 31vw, 480px); height: 100%; flex: none; margin: 0; overflow: hidden; border: 7px solid #fff9ed; background: #fff9ed; box-shadow: inset 0 0 0 1px rgba(62,39,8,.18); }
+.reel-frame.portrait { width: clamp(190px, 21vw, 320px); }
+.reel-frame:nth-child(3n + 2) { width: clamp(230px, 26vw, 400px); }
+.reel-frame img { filter: saturate(.82) contrast(.96) sepia(.08); transition: transform .6s ease; }
+.reel-frame:hover img { transform: scale(1.035); }
+.section-heading p { font-size: 10px; letter-spacing: .18em; font-weight: 700; }
 
 .experience-section { min-height: 1080px; position: relative; padding: 110px 8vw 160px; background: linear-gradient(rgba(5,54,50,.34),rgba(5,54,50,.46)), url("/photos/tropical-coast.png") center / cover fixed; }
 .section-heading { position: relative; z-index: 3; text-align: center; margin-bottom: 55px; }
@@ -144,6 +156,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .back-top { position: absolute; right: 5vw; bottom: 45px; background: var(--brown); color: var(--yellow); border-radius: 22px; padding: 10px 17px; font: 700 12px var(--display); }
 
 @keyframes photo-in { from { opacity: 0; transform: scale(1.05); } }
+@keyframes vinyl-spin { to { transform: rotate(360deg); } }
+@keyframes reel-left { to { transform: translateX(-50%); } }
+@keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
 @media (max-width: 760px) {
   .capsule-nav { grid-template-columns: 1fr auto; top: 12px; }
@@ -159,11 +174,14 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .palm-tree { opacity: .75; }
   .palm-left { left: -100px; }
   .palm-right { right: -100px; }
-  .intro-strip { grid-template-columns: 1fr 1.5fr; min-height: auto; }
-  .round-sticker { width: 85px; height: 85px; font-size: 12px; }
-  .intro-copy { padding: 45px 22px; }
-  .photo-slice { min-height: 230px; }
-  .intro-strip .photo-slice:nth-of-type(2), .color-block { display: none; }
+  .intro-strip { height: 720px; min-height: 0; grid-template-columns: 1fr; grid-template-rows: 190px 1fr; }
+  .music-deck { border-right: 0; border-bottom: 3px solid var(--brown); }
+  .vinyl-control { width: 132px; }
+  .tonearm { height: 46%; top: 21%; right: calc(50% - 100px); }
+  .moving-gallery { gap: 9px; padding: 9px 0; }
+  .reel-group { gap: 9px; padding-right: 9px; }
+  .reel-frame { width: 300px; border-width: 5px; }
+  .reel-frame.portrait { width: 190px; }
   .experience-section { min-height: 940px; padding: 90px 15px 120px; background-attachment: scroll; }
   .section-heading h2 { font-size: 60px; }
   .tab-card { display: block; padding-top: 39px; }
@@ -189,4 +207,5 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reel-track { animation: none !important; }
 }
