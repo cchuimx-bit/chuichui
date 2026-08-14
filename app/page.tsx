@@ -24,7 +24,6 @@ const educationHistory = [
     programme: "新闻传播学院 · 新闻传播学专业",
     degree: "硕士研究生",
     courses: "新闻传播理论研究、新闻传播历史研究、马克思主义新闻学、媒介技术与社会、传播学定量研究、数字记忆研究、数字媒介研究关键词、媒介与文化史",
-    address: "上海市静安区延长校区",
     photos: [
       { src: "/photos/education/shanghai-university-campus.jpg", alt: "上海大学校园春日风光" },
       { src: "/photos/education/shanghai-university-red-building.jpg", alt: "树荫下的上海大学红砖教学楼" },
@@ -37,7 +36,6 @@ const educationHistory = [
     programme: "学校、学院与专业信息待补充",
     degree: "教育经历",
     courses: "请把第二段教育经历的学校、时间、专业、学历与主修课程发给我，我会继续补充在这里。",
-    address: "待补充",
     photos: [],
   },
 ] as const;
@@ -237,10 +235,6 @@ export default function Home() {
                     <h4>主修课程</h4>
                     <p>{education.courses}</p>
                   </section>
-                  <section>
-                    <h4>学校地址</h4>
-                    <p>{education.address}</p>
-                  </section>
                 </div>
               </div>
 
@@ -263,13 +257,13 @@ export default function Home() {
             </article>
           ) : (
             <>
-              <div className={`card-copy ${experience[exp].color}`}>
+              <div className={`card-copy ${experience[exp].color}`} key={`copy-${exp}`}>
                 <span>{experience[exp].years}</span>
                 <h3>{experience[exp].title}</h3>
                 <p>{experience[exp].text}</p>
                 <button onClick={() => setExp((exp + 1) % experience.length)}>下一段故事</button>
               </div>
-              <div className="card-photo"><img key={`${experience[exp].image}-${exp}`} src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
+              <div className="card-photo" key={`photo-${exp}`}><img src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
             </>
           )}
         </div>
