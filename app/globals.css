@@ -91,7 +91,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-section .section-heading h2 { margin: 0; font-family: "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
 .tab-card { position: relative; z-index: 4; margin: 0 auto; width: min(930px,100%); min-height: 550px; display: grid; grid-template-columns: 1fr 1fr; padding-top: 42px; }
 .tab-row { position: absolute; z-index: 3; top: 0; left: 4%; right: 4%; display: grid; grid-template-columns: repeat(3,1fr); }
-.tab-row button { background: var(--brown); color: var(--yellow); padding: 13px 15px 20px; border-radius: 18px 18px 0 0; font: 700 14px var(--display); margin: 0 2px; transform: translateY(10px); transition: .25s; }
+.tab-row button { background: var(--brown); color: var(--yellow); padding: 13px 15px 20px; border-radius: 18px 18px 0 0; font: 800 14px "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; margin: 0 2px; transform: translateY(10px); transition: .25s; }
 .tab-row button.selected { transform: translateY(0); color: var(--brown); }
 .tab-row .tab-0 { background: #efe4cf; color: var(--brown) !important; }
 .tab-row .tab-1 { background: #cf9584; color: var(--brown) !important; }
@@ -106,6 +106,32 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .card-copy button { margin-top: 22px; border: 2px solid currentColor; padding: 10px 18px; border-radius: 22px; font: 700 12px var(--display); }
 .card-photo { overflow: hidden; border-radius: 0 28px 28px 0; }
 .card-photo img { animation: photo-in .45s ease both; }
+.tab-card.education-mode { display: block; min-height: 0; }
+.education-panel { position: relative; min-height: 760px; overflow: hidden; display: grid; grid-template-rows: auto 260px auto; gap: 28px; padding: 70px 50px 32px; border-radius: 28px; background: #efe4cf; color: var(--brown); box-shadow: 0 8px 0 rgba(41,73,65,.34); font-family: "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; animation: photo-in .45s ease both; }
+.education-panel::before { content: ""; position: absolute; width: 340px; aspect-ratio: 1; right: -130px; top: -165px; border: 70px solid rgba(207,149,132,.22); border-radius: 50%; pointer-events: none; }
+.education-copy, .education-photos, .education-placeholder, .education-next { position: relative; z-index: 1; }
+.education-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 18px; padding-bottom: 18px; border-bottom: 2px solid rgba(62,39,8,.22); }
+.education-heading > span { color: #b96252; font-size: clamp(52px,6vw,76px); font-weight: 400; line-height: .8; text-shadow: 1px 1px var(--paper); }
+.education-heading h3 { margin: 0; font-size: clamp(38px,5vw,62px); font-weight: 800; line-height: .9; letter-spacing: -.055em; }
+.education-heading time { padding: 9px 14px; border: 2px solid currentColor; border-radius: 999px; font-size: 13px; font-style: normal; letter-spacing: .08em; white-space: nowrap; }
+.education-programme { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.education-programme p { margin: 0; font-size: clamp(18px,2vw,24px); font-weight: 800; letter-spacing: -.025em; }
+.education-programme b { padding: 7px 12px; border-radius: 999px; background: #cf9584; font-size: 12px; letter-spacing: .08em; }
+.education-details { display: grid; grid-template-columns: minmax(0,2fr) minmax(210px,1fr); gap: 28px; margin-top: 26px; }
+.education-details section { padding-top: 14px; border-top: 1px solid rgba(62,39,8,.32); }
+.education-details h4 { margin: 0 0 9px; color: #9a4d40; font-size: 12px; letter-spacing: .14em; }
+.education-details p { margin: 0; font-size: 14px; line-height: 1.75; letter-spacing: .025em; }
+.education-photos { min-width: 0; display: grid; grid-template-columns: 1.14fr .86fr; gap: 20px; }
+.education-photos figure { min-width: 0; height: 100%; margin: 0; overflow: hidden; border: 7px solid #fff9ed; border-radius: 18px; background: #fff9ed; box-shadow: 5px 6px 0 rgba(62,39,8,.18); }
+.education-photos figure:first-child { transform: rotate(-.7deg); }
+.education-photos figure:last-child { transform: rotate(.8deg); }
+.education-photos img { transition: transform .55s ease; }
+.education-photos figure:hover img { transform: scale(1.035); }
+.education-placeholder { min-height: 260px; display: grid; place-content: center; text-align: center; border: 2px dashed rgba(62,39,8,.35); border-radius: 20px; background: rgba(255,249,237,.35); }
+.education-placeholder span { color: rgba(185,98,82,.28); font-size: 112px; line-height: .8; }
+.education-placeholder p { margin: 18px 0 0; font-size: 14px; letter-spacing: .12em; }
+.education-next { justify-self: center; align-self: end; min-width: 210px; padding: 12px 22px; border: 2px solid var(--brown); border-radius: 999px; background: #ffcf76; font-size: 14px; font-weight: 800; box-shadow: 3px 3px 0 var(--brown); transition: transform .22s ease, box-shadow .22s ease; }
+.education-next:hover { transform: translateY(-3px); box-shadow: 5px 6px 0 var(--brown); }
 .scenic-button { position: relative; z-index: 4; display: block; margin: 60px auto 0; }
 
 .interest-section { padding: 100px 20px 140px; background: var(--paper); overflow: hidden; }
@@ -198,6 +224,18 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .section-heading h2 { font-size: 60px; }
   .tab-card { display: block; padding-top: 39px; }
   .tab-row button { font-size: 11px; padding: 12px 4px 17px; }
+  .education-panel { min-height: 0; grid-template-rows: auto auto auto; gap: 24px; padding: 58px 22px 27px; }
+  .education-heading { grid-template-columns: auto 1fr; gap: 12px; }
+  .education-heading > span { font-size: 48px; }
+  .education-heading h3 { font-size: 38px; }
+  .education-heading time { grid-column: 1 / -1; justify-self: start; }
+  .education-programme { align-items: flex-start; flex-direction: column; }
+  .education-programme p { font-size: 18px; line-height: 1.35; }
+  .education-details { grid-template-columns: 1fr; gap: 18px; margin-top: 22px; }
+  .education-details p { font-size: 13px; }
+  .education-photos { grid-template-columns: 1fr; gap: 13px; }
+  .education-photos figure { height: 190px; }
+  .education-placeholder { min-height: 300px; }
   .card-copy { min-height: 380px; border-radius: 24px 24px 0 0; padding: 75px 30px 40px; }
   .card-photo { height: 390px; border-radius: 0 0 24px 24px; }
   .notes-stack { width: calc(100vw - 40px); height: 520px; }

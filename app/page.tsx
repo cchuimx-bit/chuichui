@@ -16,6 +16,32 @@ const experience = [
   { tab: "项目经历", years: "2025 — 至今", title: "新的旅程", text: "继续学习，继续出发。希望遇见不同的人和地方，也期待把兴趣发展成更长久的方向。", image: "/photos/tropical-coast.png", color: "teal", pos: "center bottom" },
 ];
 
+const educationHistory = [
+  {
+    number: "01",
+    school: "上海大学",
+    years: "2024 — 2027",
+    programme: "新闻传播学院 · 新闻传播学专业",
+    degree: "硕士研究生",
+    courses: "新闻传播理论研究、新闻传播历史研究、马克思主义新闻学、媒介技术与社会、传播学定量研究、数字记忆研究、数字媒介研究关键词、媒介与文化史",
+    address: "上海市静安区延长校区",
+    photos: [
+      { src: "/photos/education/shanghai-university-campus.jpg", alt: "上海大学校园春日风光" },
+      { src: "/photos/education/shanghai-university-red-building.jpg", alt: "树荫下的上海大学红砖教学楼" },
+    ],
+  },
+  {
+    number: "02",
+    school: "第二段教育经历",
+    years: "待补充",
+    programme: "学校、学院与专业信息待补充",
+    degree: "教育经历",
+    courses: "请把第二段教育经历的学校、时间、专业、学历与主修课程发给我，我会继续补充在这里。",
+    address: "待补充",
+    photos: [],
+  },
+] as const;
+
 const notes = [
   { label: "摄影", text: "我喜欢按下快门的瞬间。照片会记住光线，也会记住当时没有说出口的心情。", cls: "note-yellow" },
   { label: "旅行", text: "去陌生的城市散步，把地图折起来，偶尔迷路，往往会遇到当天最惊喜的风景。", cls: "note-orange" },
@@ -57,6 +83,7 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
+  const [educationIndex, setEducationIndex] = useState(0);
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -104,6 +131,8 @@ export default function Home() {
       setMusicPlaying(false);
     }
   };
+
+  const education = educationHistory[educationIndex];
 
   return (
     <main>
@@ -187,17 +216,62 @@ export default function Home() {
           <p>01 / MY JOURNEY</p>
           <h2>个人经历</h2>
         </div>
-        <div className="tab-card">
+        <div className={`tab-card ${exp === 0 ? "education-mode" : ""}`}>
           <div className="tab-row">
-            {experience.map((item, index) => <button key={item.tab} className={exp === index ? `selected tab-${index}` : ""} onClick={() => setExp(index)}>{item.tab}</button>)}
+            {experience.map((item, index) => <button key={item.tab} className={`${exp === index ? "selected " : ""}tab-${index}`} onClick={() => setExp(index)}>{item.tab}</button>)}
           </div>
-          <div className={`card-copy ${experience[exp].color}`}>
-            <span>{experience[exp].years}</span>
-            <h3>{experience[exp].title}</h3>
-            <p>{experience[exp].text}</p>
-            <button onClick={() => setExp((exp + 1) % experience.length)}>下一段故事</button>
-          </div>
-          <div className="card-photo"><img key={`${experience[exp].image}-${exp}`} src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
+          {exp === 0 ? (
+            <article className={`education-panel ${education.photos.length ? "" : "is-placeholder"}`} key={education.number}>
+              <div className="education-copy">
+                <div className="education-heading">
+                  <span>{education.number}</span>
+                  <h3>{education.school}</h3>
+                  <time>{education.years}</time>
+                </div>
+                <div className="education-programme">
+                  <p>{education.programme}</p>
+                  <b>{education.degree}</b>
+                </div>
+                <div className="education-details">
+                  <section>
+                    <h4>主修课程</h4>
+                    <p>{education.courses}</p>
+                  </section>
+                  <section>
+                    <h4>学校地址</h4>
+                    <p>{education.address}</p>
+                  </section>
+                </div>
+              </div>
+
+              {education.photos.length ? (
+                <div className="education-photos" aria-label="上海大学校园风光">
+                  {education.photos.map((photo) => (
+                    <figure key={photo.src}><img src={photo.src} alt={photo.alt} /></figure>
+                  ))}
+                </div>
+              ) : (
+                <div className="education-placeholder" aria-label="第二段教育经历内容待补充">
+                  <span>02</span>
+                  <p>等待你的下一段故事</p>
+                </div>
+              )}
+
+              <button className="education-next" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
+                {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
+              </button>
+            </article>
+          ) : (
+            <>
+              <div className={`card-copy ${experience[exp].color}`}>
+                <span>{experience[exp].years}</span>
+                <h3>{experience[exp].title}</h3>
+                <p>{experience[exp].text}</p>
+                <button onClick={() => setExp((exp + 1) % experience.length)}>下一段故事</button>
+              </div>
+              <div className="card-photo"><img key={`${experience[exp].image}-${exp}`} src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
+            </>
+          )}
         </div>
         <button className="scenic-button" onClick={() => go("interests")}>继续向下逛</button>
       </section>
