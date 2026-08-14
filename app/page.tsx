@@ -186,7 +186,6 @@ export default function Home() {
         <div className="section-heading">
           <p>01 / MY JOURNEY</p>
           <h2>个人经历</h2>
-          <span>一路走来，一路收集</span>
         </div>
         <div className="tab-card">
           <div className="tab-row">
