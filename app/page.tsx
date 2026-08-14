@@ -30,14 +30,27 @@ const photos = [
   ["coast-d", "落日以前"],
 ] as const;
 
-const reelPhotos = [
-  { src: "/photos/reel/lake-garden.jpg", alt: "树荫下的湖畔花园", shape: "wide" },
-  { src: "/photos/reel/clear-water.jpg", alt: "清澈海水中的小船", shape: "portrait" },
+const upperReelPhotos = [
   { src: "/photos/reel/sunset-coast.jpg", alt: "晚霞下的海岸与棕榈树", shape: "wide" },
   { src: "/photos/reel/green-canopy.jpg", alt: "阳光下的绿色树冠", shape: "wide" },
   { src: "/photos/reel/blue-mountains.jpg", alt: "蓝色暮色中的雪山", shape: "wide" },
   { src: "/photos/reel/forest-path.jpg", alt: "树林里的弯曲小路", shape: "wide" },
   { src: "/photos/reel/west-lake.jpg", alt: "树影覆盖的安静湖面", shape: "wide" },
+  { src: "/photos/reel/lake-garden.jpg", alt: "树荫下的湖畔花园", shape: "wide" },
+  { src: "/photos/reel/clear-water.jpg", alt: "清澈海水中的小船", shape: "portrait" },
+] as const;
+
+const lowerReelPhotos = [
+  { src: "/photos/reel-bottom/sunlit-riverside.jpg", alt: "阳光穿过树影的河岸步道", shape: "portrait" },
+  { src: "/photos/reel-bottom/tropical-sunset.jpg", alt: "晚霞下的热带海滩", shape: "portrait" },
+  { src: "/photos/reel-bottom/golden-city-road.jpg", alt: "金色阳光中的林荫街道", shape: "portrait" },
+  { src: "/photos/reel-bottom/palm-sunset.jpg", alt: "棕榈树环绕的落日海岸", shape: "portrait" },
+  { src: "/photos/reel-bottom/rainy-willow-path.jpg", alt: "雨中的柳树湖畔栈道", shape: "portrait" },
+  { src: "/photos/reel-bottom/lakeside-tree-walk.jpg", alt: "大树下的湖滨步道", shape: "portrait" },
+  { src: "/photos/reel-bottom/sunlit-riverbank.jpg", alt: "阳光闪烁的河边日常", shape: "portrait" },
+  { src: "/photos/reel-bottom/rainbow-palms.jpg", alt: "彩虹下的棕榈树", shape: "portrait" },
+  { src: "/photos/reel-bottom/city-lake.jpg", alt: "云影下的城市湖面", shape: "wide" },
+  { src: "/photos/reel-bottom/urban-palms.jpg", alt: "城市中的棕榈树", shape: "portrait" },
 ] as const;
 
 export default function Home() {
@@ -156,7 +169,7 @@ export default function Home() {
               <div className="reel-track">
                 {[0, 1].map((copyIndex) => (
                   <div className="reel-group" aria-hidden={copyIndex === 1} key={copyIndex}>
-                    {reelPhotos.slice(row ? 0 : 2).concat(reelPhotos.slice(0, row ? 0 : 2)).map((photo) => (
+                    {(row === 0 ? upperReelPhotos : lowerReelPhotos).map((photo) => (
                       <figure className={`reel-frame ${photo.shape}`} key={`${copyIndex}-${photo.src}`}>
                         <img src={photo.src} alt={copyIndex === 0 ? photo.alt : ""} />
                       </figure>
