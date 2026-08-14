@@ -79,8 +79,11 @@ const lowerReelPhotos = [
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const experienceTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
+  const [selectedExp, setSelectedExp] = useState(0);
+  const [experienceSwitching, setExperienceSwitching] = useState(false);
   const [educationIndex, setEducationIndex] = useState(0);
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
@@ -103,6 +106,10 @@ export default function Home() {
     audio.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
   }, []);
 
+  useEffect(() => () => {
+    if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
+  }, []);
+
   const go = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenu(false);
@@ -112,6 +119,17 @@ export default function Home() {
     await navigator.clipboard.writeText("hello@yourname.com");
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
+  };
+
+  const switchExperience = (index: number) => {
+    if (index === selectedExp) return;
+    setSelectedExp(index);
+    setExperienceSwitching(true);
+    if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
+    experienceTimerRef.current = window.setTimeout(() => {
+      setExp(index);
+      setExperienceSwitching(false);
+    }, 220);
   };
 
   const toggleMusic = async () => {
@@ -214,9 +232,9 @@ export default function Home() {
           <p>01 / MY JOURNEY</p>
           <h2>个人经历</h2>
         </div>
-        <div className={`tab-card ${exp === 0 ? "education-mode" : ""}`}>
+        <div className={`tab-card ${exp === 0 ? "education-mode" : ""} ${experienceSwitching ? "is-leaving" : ""}`}>
           <div className="tab-row">
-            {experience.map((item, index) => <button key={item.tab} className={`${exp === index ? "selected " : ""}tab-${index}`} onClick={() => setExp(index)}>{item.tab}</button>)}
+            {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
           </div>
           {exp === 0 ? (
             <article className={`education-panel ${education.photos.length ? "" : "is-placeholder"}`} key={education.number}>
@@ -261,7 +279,7 @@ export default function Home() {
                 <span>{experience[exp].years}</span>
                 <h3>{experience[exp].title}</h3>
                 <p>{experience[exp].text}</p>
-                <button onClick={() => setExp((exp + 1) % experience.length)}>下一段故事</button>
+                <button onClick={() => switchExperience((exp + 1) % experience.length)}>下一段故事</button>
               </div>
               <div className="card-photo" key={`photo-${exp}`}><img src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
             </>
