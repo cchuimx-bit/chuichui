@@ -110,6 +110,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .card-photo { overflow: hidden; border-radius: 0 24px 24px 0; transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .card-photo img { animation: photo-in .45s ease both; }
 .tab-card.education-mode { display: block; min-height: 0; }
+.tab-card.internship-mode { display: block; min-height: 0; }
 .education-panel { position: relative; min-height: 555px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 206px auto; gap: 0; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .education-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 42px 16px; }
 .education-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
@@ -133,6 +134,29 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .education-actions { grid-column: 1; grid-row: 3; align-self: center; display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 15px 18px 20px; }
 .education-action { min-width: 190px; padding: 10px 20px; border: 2px solid var(--brown); border-radius: 22px; background: transparent; font: 800 12px var(--body); transition: transform .22s ease, background .22s ease; }
 .education-action:hover { transform: translateY(-2px); background: #f3c932; }
+.internship-panel { position: relative; min-height: 690px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 176px auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
+.internship-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 42px 18px; }
+.internship-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
+.internship-heading > span { color: #a75545; font-size: 32px; font-weight: 800; line-height: 1; }
+.internship-heading h3 { margin: 0; font-size: 32px; font-weight: 800; line-height: 1; letter-spacing: -.045em; }
+.internship-heading time { font-size: 12px; font-style: normal; letter-spacing: .08em; white-space: nowrap; }
+.internship-role { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+.internship-role b { padding: 6px 10px; border-radius: 6px; background: #d9aa83; font-size: 11px; letter-spacing: .06em; }
+.internship-role p { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -.02em; }
+.internship-work { margin-top: 15px; padding-top: 11px; border-top: 1px solid rgba(62,39,8,.26); }
+.internship-work > h4 { margin: 0 0 9px; color: #8f493d; font-size: 11px; letter-spacing: .12em; }
+.internship-work ul { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; list-style: none; }
+.internship-work li { min-width: 0; padding: 10px 12px; border-radius: 10px; background: rgba(217,170,131,.19); }
+.internship-work h5 { margin: 0 0 5px; color: #8f493d; font-size: 12px; font-weight: 800; line-height: 1.35; }
+.internship-work li p { margin: 0; font-size: 11.5px; font-weight: 400; line-height: 1.57; text-align: justify; }
+.internship-photos { min-width: 0; min-height: 0; grid-column: 1; grid-row: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; padding: 0 42px; }
+.internship-photos figure { min-width: 0; min-height: 0; height: 100%; margin: 0; overflow: hidden; border-radius: 12px; background: #e1d0b5; }
+.internship-photos img { transition: transform .55s ease; }
+.internship-photos figure:hover img { transform: scale(1.035); }
+.internship-placeholder { grid-column: 1; grid-row: 2; margin: 0 42px; display: grid; place-content: center; text-align: center; border-radius: 12px; background: #e4d5bf; }
+.internship-placeholder span { color: rgba(67,42,12,.18); font-size: 72px; font-weight: 800; line-height: 1; }
+.internship-placeholder p { margin: 12px 0 0; font-size: 12px; letter-spacing: .1em; }
+.internship-actions { grid-column: 1; grid-row: 3; align-self: center; display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 15px 18px 20px; }
 .thoughts-backdrop { position: fixed; z-index: 150; inset: 0; display: grid; place-items: center; padding: 28px; background: rgba(20,43,38,.55); -webkit-backdrop-filter: blur(5px) saturate(.78); backdrop-filter: blur(5px) saturate(.78); animation: thoughts-backdrop-in .3s ease both; }
 .thoughts-card { width: min(720px, 92vw); max-height: min(760px, calc(100dvh - 56px)); overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr) auto; padding: 30px 34px 24px; border: 2px solid var(--brown); border-radius: 20px; background: #f3e8d4; color: var(--brown); box-shadow: 0 14px 42px rgba(21,41,36,.28), 0 6px 0 rgba(67,42,12,.2); font-family: var(--body); animation: thoughts-card-in .42s cubic-bezier(.2,.82,.2,1) both; }
 .thoughts-card header { padding: 0 2px 19px; border-bottom: 1px solid rgba(62,39,8,.22); }
@@ -149,6 +173,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @keyframes thoughts-card-in { from { opacity: 0; transform: translateY(18px) scale(.94); } }
 @keyframes thoughts-card-out { to { opacity: 0; transform: translateY(14px) scale(.96); } }
 .tab-card.is-leaving > .education-panel,
+.tab-card.is-leaving > .internship-panel,
 .tab-card.is-leaving > .card-copy,
 .tab-card.is-leaving > .card-photo { opacity: 0; transform: translateX(-28px); }
 .scenic-button { position: relative; z-index: 4; display: block; margin: 60px auto 0; }
@@ -257,6 +282,18 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .education-placeholder { grid-column: 1; grid-row: 2; min-height: 180px; margin: 0 12px; }
   .education-actions { grid-column: 1; grid-row: 3; flex-direction: column; align-items: center; margin-bottom: 24px; }
   .education-action { width: min(250px, 82vw); }
+  .internship-panel { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+  .internship-copy { grid-column: 1; grid-row: 1; padding: 54px 22px 24px; }
+  .internship-heading { grid-template-columns: auto 1fr; gap: 10px; }
+  .internship-heading > span, .internship-heading h3 { font-size: 30px; }
+  .internship-heading time { grid-column: 1 / -1; }
+  .internship-role { align-items: flex-start; flex-direction: column; }
+  .internship-role p { font-size: 15px; }
+  .internship-work ul { grid-template-columns: 1fr; }
+  .internship-work li p { font-size: 12px; }
+  .internship-photos { grid-column: 1; grid-row: 2; height: 225px; grid-template-columns: 1fr 1fr; gap: 7px; padding: 0 12px; }
+  .internship-placeholder { grid-column: 1; grid-row: 2; min-height: 180px; margin: 0 12px; }
+  .internship-actions { grid-column: 1; grid-row: 3; flex-direction: column; align-items: center; margin: 16px 18px 24px; }
   .thoughts-backdrop { padding: 14px; }
   .thoughts-card { width: min(94vw, 620px); max-height: calc(100dvh - 28px); padding: 24px 20px 20px; border-radius: 17px; }
   .thoughts-copy p { font-size: 13px; line-height: 1.75; }

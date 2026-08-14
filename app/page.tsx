@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 const nav = [
   ["home", "首页"],
   ["experience", "个人经历"],
-  ["interests", "兴趣爱好"],
-  ["gallery", "个人相册"],
+  ["interests", "作品集"],
+  ["gallery", "兴趣爱好"],
   ["contact", "联系我"],
 ] as const;
 
@@ -51,6 +51,50 @@ const educationThoughts = [
     "希望上海这座城市保留她包容万千的气象，让每一个在这里或路过暂驻、或长久栖留的人，都能从她冷漠又温情的秩序与边界中找到一个文明发达的现代都市带给人的安全感和确定性。上海永远是《繁花》，梧桐树下太多吉光片羽，在这里就像坐着一艘前路无尽但令人安心的夜航船，空枝对晚风，海上花永远在开。",
   ],
   ["关于东北师范大学的校园记忆与思考，正在慢慢整理中。"],
+] as const;
+
+const internshipHistory = [
+  {
+    number: "01",
+    company: "字节跳动",
+    business: "抖音电商",
+    role: "头部作者运营",
+    years: "2026.03 — 2026.07",
+    highlights: [
+      { title: "618大促运营", text: "协助大促 POC 负责部门 618 全周期运营，核心指标达成 103%；负责 KA 作者分层运营、作者资源摸排、异常场次归因；跟进大促五阶段 700+ 重点直播，覆盖支付 GMV 约 50 亿元，推动经营优化。" },
+      { title: "耐消专项", text: "独立搭建品牌达人合作库，完成 300+ 达人摸排及 100+ 意向达人拓展，推动 700+ 场品牌合作直播，覆盖支付 GMV 超 14 亿元；策划线下商达撮合会，对接 100+ 品牌及 100+ 达人资源，促进品牌与达人合作。" },
+      { title: "品类营销活动", text: "独立负责智能装备、清凉节专项运营，负责类目资源协调、活动信息宣发、经营监控及复盘分析；落地 60+ 场头部达人直播，推动品类目标达成率分别达 107% 和 104%。" },
+      { title: "AI运营提效", text: "基于 AIME 搭建经营数据实时推送模板，实现经营指标自动汇总及推送，提升团队经营分析效率。" },
+    ],
+    photos: [
+      { src: "/photos/internship/bytedance-team-polaroid.jpg", alt: "字节跳动团队拍立得合影" },
+      { src: "/photos/internship/bytedance-618-team.jpg", alt: "抖音电商 618 团队合影" },
+    ],
+  },
+  {
+    number: "02",
+    company: "第二段实习经历",
+    business: "内容待补充",
+    role: "岗位信息待补充",
+    years: "待补充",
+    highlights: [{ title: "工作内容", text: "这段经历正在整理中，之后会继续补充完整。" }],
+    photos: [],
+  },
+  {
+    number: "03",
+    company: "第三段实习经历",
+    business: "内容待补充",
+    role: "岗位信息待补充",
+    years: "待补充",
+    highlights: [{ title: "工作内容", text: "这段经历正在整理中，之后会继续补充完整。" }],
+    photos: [],
+  },
+] as const;
+
+const internshipThoughts = [
+  ["关于这段实习的思考与感悟，正在慢慢整理中。"],
+  ["关于第二段实习经历的思考与感悟，正在慢慢整理中。"],
+  ["关于第三段实习经历的思考与感悟，正在慢慢整理中。"],
 ] as const;
 
 const notes = [
@@ -99,8 +143,10 @@ export default function Home() {
   const [selectedExp, setSelectedExp] = useState(0);
   const [experienceSwitching, setExperienceSwitching] = useState(false);
   const [educationIndex, setEducationIndex] = useState(0);
+  const [internshipIndex, setInternshipIndex] = useState(0);
   const [showThoughts, setShowThoughts] = useState(false);
   const [thoughtsClosing, setThoughtsClosing] = useState(false);
+  const [thoughtsContext, setThoughtsContext] = useState<"education" | "internship">("education");
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -151,7 +197,8 @@ export default function Home() {
     }, 220);
   };
 
-  const openThoughts = () => {
+  const openThoughts = (context: "education" | "internship") => {
+    setThoughtsContext(context);
     setThoughtsClosing(false);
     setShowThoughts(true);
   };
@@ -196,7 +243,8 @@ export default function Home() {
   };
 
   const education = educationHistory[educationIndex];
-  const thoughts = educationThoughts[educationIndex];
+  const internship = internshipHistory[internshipIndex];
+  const thoughts = thoughtsContext === "education" ? educationThoughts[educationIndex] : internshipThoughts[internshipIndex];
 
   return (
     <main>
@@ -280,7 +328,7 @@ export default function Home() {
           <p>01 / MY JOURNEY</p>
           <h2>个人经历</h2>
         </div>
-        <div className={`tab-card ${exp === 0 ? "education-mode" : ""} ${experienceSwitching ? "is-leaving" : ""}`}>
+        <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : ""} ${experienceSwitching ? "is-leaving" : ""}`}>
           <div className="tab-row">
             {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
           </div>
@@ -318,10 +366,53 @@ export default function Home() {
               )}
 
               <div className="education-actions">
-                <button className="education-action" onClick={openThoughts}>吹吹的碎碎念</button>
+                <button className="education-action" onClick={() => openThoughts("education")}>吹吹的碎碎念</button>
                 <button className="education-action" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
                   {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
                 </button>
+              </div>
+            </article>
+          ) : exp === 1 ? (
+            <article className={`internship-panel ${internship.photos.length ? "" : "is-placeholder"}`} key={internship.number}>
+              <div className="internship-copy">
+                <div className="internship-heading">
+                  <span>{internship.number}</span>
+                  <h3>{internship.company}</h3>
+                  <time>{internship.years}</time>
+                </div>
+                <div className="internship-role">
+                  <b>{internship.business}</b>
+                  <p>{internship.role}</p>
+                </div>
+                <section className="internship-work">
+                  <h4>工作内容</h4>
+                  <ul>
+                    {internship.highlights.map((item) => (
+                      <li key={item.title}>
+                        <h5>{item.title}</h5>
+                        <p>{item.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+
+              {internship.photos.length ? (
+                <div className="internship-photos" aria-label={`${internship.company}实习影像`}>
+                  {internship.photos.map((photo) => (
+                    <figure key={photo.src}><img src={photo.src} alt={photo.alt} /></figure>
+                  ))}
+                </div>
+              ) : (
+                <div className="internship-placeholder" aria-label={`${internship.company}内容待补充`}>
+                  <span>{internship.number}</span>
+                  <p>等待下一段职场故事</p>
+                </div>
+              )}
+
+              <div className="internship-actions">
+                <button className="education-action" onClick={() => openThoughts("internship")}>吹吹的碎碎念</button>
+                <button className="education-action" onClick={() => setInternshipIndex((internshipIndex + 1) % internshipHistory.length)}>下一段实习经历</button>
               </div>
             </article>
           ) : (
