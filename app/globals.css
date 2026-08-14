@@ -17,7 +17,7 @@
   --wine: #77103e;
   --teal: #0c5e5b;
   --green: #b9db61;
-  --display: "Hiragino Mincho ProN", "Songti SC", Georgia, serif;
+  --display: "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif;
   --body: "Courier New", "Noto Serif SC", monospace;
 }
 
@@ -88,7 +88,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-section .section-heading p { margin: 0; display: flex; align-items: center; gap: 14px; font: 400 clamp(13px,1.25vw,17px)/1 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: .16em; }
 .experience-section .section-heading p::before,
 .experience-section .section-heading p::after { content: ""; width: clamp(24px,4vw,52px); height: 2px; background: currentColor; box-shadow: 1px 1px var(--brown); }
-.experience-section .section-heading h2 { margin: 0; font-family: "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
+.experience-section .section-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
 .tab-card { position: relative; z-index: 4; margin: 0 auto; width: min(930px,94vw); min-height: 430px; display: grid; grid-template-columns: 1fr 1fr; padding-top: 42px; font-family: var(--body); }
 .tab-row { position: absolute; z-index: 3; top: 0; left: 4%; right: 4%; display: grid; grid-template-columns: repeat(3,1fr); }
 .tab-row button { margin: 0 3px; padding: 12px 15px 19px; border-radius: 15px 15px 0 0; background: #432a0c; color: #f3c932; font: 800 13px var(--display); transform: translateY(9px); transition: transform .38s cubic-bezier(.2,.8,.2,1), background .32s ease, color .32s ease; }
@@ -137,9 +137,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .internship-panel { position: relative; min-height: 560px; overflow: hidden; display: grid; grid-template-columns: minmax(0,1.42fr) minmax(340px,.78fr); grid-template-rows: minmax(0,1fr) auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--display); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .internship-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 30px 18px 42px; }
 .internship-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
-.internship-heading > span { color: #a75545; font: 400 32px/1 "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; }
-.internship-heading h3 { margin: 0; font: 800 32px/1 "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; letter-spacing: -.045em; }
-.internship-heading time { font: 400 12px/1 "Caprasimo", "Hiragino Mincho ProN", "Songti SC", Georgia, serif; letter-spacing: .08em; white-space: nowrap; }
+.internship-heading > span { color: #a75545; font: 800 32px/1 var(--display); }
+.internship-heading h3 { margin: 0; font: 800 32px/1 var(--display); letter-spacing: -.045em; }
+.internship-heading time { padding: 0; font: 400 12px var(--body); font-style: normal; letter-spacing: .1em; white-space: nowrap; }
 .internship-role { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
 .internship-role b { padding: 6px 10px; border-radius: 6px; background: #d9aa83; font-size: 11px; letter-spacing: .06em; }
 .internship-role p { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -.02em; }
