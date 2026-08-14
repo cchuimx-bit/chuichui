@@ -112,12 +112,13 @@ export default function Home() {
         <div className="grain" />
         <div className="hero-logo">
           <h1 className="hero-welcome">WELCOME TO MY<br /><em>LITTLE WORLD</em></h1>
-          <img
-            className="hero-building"
-            src="/illustrations/warehouse-gold-v2.png"
-            alt=""
-            aria-hidden="true"
-          />
+          <div className="hero-building-frame" aria-hidden="true">
+            <img
+              className="hero-building"
+              src="/illustrations/warehouse-gold-v2.png"
+              alt=""
+            />
+          </div>
           <p className="hero-sub">你呢 你会怎样度过今天？</p>
         </div>
         <div className="address-mark">PERSONAL ARCHIVE<br />CHINA · EST. 2026</div>
