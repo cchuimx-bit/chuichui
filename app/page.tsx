@@ -335,7 +335,7 @@ export default function Home() {
         >
           <article className="thoughts-card" role="dialog" aria-modal="true" aria-labelledby="thoughts-title">
             <header>
-              <p>SHANGHAI · RAIN &amp; SUNSHINE</p>
+              <p>CHUICUI&apos;S LITTLE MUSINGS</p>
               <h3 id="thoughts-title">吹吹的碎碎念</h3>
             </header>
             <div className="thoughts-copy">
