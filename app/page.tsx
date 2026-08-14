@@ -43,6 +43,16 @@ const educationHistory = [
   },
 ] as const;
 
+const educationThoughts = [
+  [
+    "加缪说：“在隆冬，我终于知道，我身上有一个不可战胜的夏天。”可我的夏天，被困在了上海漫长的梅雨季里。",
+    "九月的开学季，我初来上海。闷热、潮湿、拥挤是我对这座城的初印象。连带着，对新学校也没了多少期待。上海的雨很细，不像北方那样来得痛快。它总是黏在空气里，落在头发上、肩膀上、鞋面上，也落在人的情绪里。地铁站里人潮涌动，大家都行色匆匆。那时我常常觉得，自己像被这座城市吞进去的一粒灰尘，没有方向，也没有声音。",
+    "但天气总有放晴的时候。金黄灿烂的银杏树、清澈湛蓝的天空，就这样抱着电脑躺在学院门口的大草坪上，沐浴在天地光华下，日光之下万物鲜妍可爱。直到这种时刻才会真正感慨：没有永恒的雨季，只有久违的艳阳天。",
+    "希望上海这座城市保留她包容万千的气象，让每一个在这里或路过暂驻、或长久栖留的人，都能从她冷漠又温情的秩序与边界中找到一个文明发达的现代都市带给人的安全感和确定性。上海永远是《繁花》，梧桐树下太多吉光片羽，在这里就像坐着一艘前路无尽但令人安心的夜航船，空枝对晚风，海上花永远在开。",
+  ],
+  ["关于东北师范大学的校园记忆与思考，正在慢慢整理中。"],
+] as const;
+
 const notes = [
   { label: "摄影", text: "我喜欢按下快门的瞬间。照片会记住光线，也会记住当时没有说出口的心情。", cls: "note-yellow" },
   { label: "旅行", text: "去陌生的城市散步，把地图折起来，偶尔迷路，往往会遇到当天最惊喜的风景。", cls: "note-orange" },
@@ -142,7 +152,6 @@ export default function Home() {
   };
 
   const openThoughts = () => {
-    setEducationIndex(0);
     setThoughtsClosing(false);
     setShowThoughts(true);
   };
@@ -153,7 +162,6 @@ export default function Home() {
     thoughtsTimerRef.current = window.setTimeout(() => {
       setShowThoughts(false);
       setThoughtsClosing(false);
-      setEducationIndex(0);
     }, 280);
   };
 
@@ -188,6 +196,7 @@ export default function Home() {
   };
 
   const education = educationHistory[educationIndex];
+  const thoughts = educationThoughts[educationIndex];
 
   return (
     <main>
@@ -309,7 +318,7 @@ export default function Home() {
               )}
 
               <div className="education-actions">
-                {educationIndex === 0 && <button className="education-action" onClick={openThoughts}>吹吹的碎碎念</button>}
+                <button className="education-action" onClick={openThoughts}>吹吹的碎碎念</button>
                 <button className="education-action" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
                   {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
                 </button>
@@ -342,10 +351,7 @@ export default function Home() {
               <h3 id="thoughts-title">吹吹的碎碎念</h3>
             </header>
             <div className="thoughts-copy">
-              <p>加缪说：“在隆冬，我终于知道，我身上有一个不可战胜的夏天。”可我的夏天，被困在了上海漫长的梅雨季里。</p>
-              <p>九月的开学季，我初来上海。闷热、潮湿、拥挤是我对这座城的初印象。连带着，对新学校也没了多少期待。上海的雨很细，不像北方那样来得痛快。它总是黏在空气里，落在头发上、肩膀上、鞋面上，也落在人的情绪里。地铁站里人潮涌动，大家都行色匆匆。那时我常常觉得，自己像被这座城市吞进去的一粒灰尘，没有方向，也没有声音。</p>
-              <p>但天气总有放晴的时候。金黄灿烂的银杏树、清澈湛蓝的天空，就这样抱着电脑躺在学院门口的大草坪上，沐浴在天地光华下，日光之下万物鲜妍可爱。直到这种时刻才会真正感慨：没有永恒的雨季，只有久违的艳阳天。</p>
-              <p>希望上海这座城市保留她包容万千的气象，让每一个在这里或路过暂驻、或长久栖留的人，都能从她冷漠又温情的秩序与边界中找到一个文明发达的现代都市带给人的安全感和确定性。上海永远是《繁花》，梧桐树下太多吉光片羽，在这里就像坐着一艘前路无尽但令人安心的夜航船，空枝对晚风，海上花永远在开。</p>
+              {thoughts.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
             <button className="thoughts-return" onClick={closeThoughts}>返回</button>
           </article>
