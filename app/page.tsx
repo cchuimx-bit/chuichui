@@ -147,6 +147,7 @@ export default function Home() {
   const [showThoughts, setShowThoughts] = useState(false);
   const [thoughtsClosing, setThoughtsClosing] = useState(false);
   const [thoughtsContext, setThoughtsContext] = useState<"education" | "internship">("education");
+  const [zoomedPhoto, setZoomedPhoto] = useState<{ src: string; alt: string } | null>(null);
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -188,6 +189,7 @@ export default function Home() {
     if (index === selectedExp) return;
     setShowThoughts(false);
     setThoughtsClosing(false);
+    setZoomedPhoto(null);
     setSelectedExp(index);
     setExperienceSwitching(true);
     if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
@@ -213,18 +215,20 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!showThoughts) return;
+    if (!showThoughts && !zoomedPhoto) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeThoughts();
+      if (event.key !== "Escape") return;
+      if (zoomedPhoto) setZoomedPhoto(null);
+      else closeThoughts();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [showThoughts]);
+  }, [showThoughts, zoomedPhoto]);
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
@@ -355,7 +359,11 @@ export default function Home() {
               {education.photos.length ? (
                 <div className="education-photos" aria-label={`${education.school}校园风光`}>
                   {education.photos.map((photo) => (
-                    <figure key={photo.src}><img src={photo.src} alt={photo.alt} /></figure>
+                    <figure key={photo.src}>
+                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
+                        <img src={photo.src} alt={photo.alt} />
+                      </button>
+                    </figure>
                   ))}
                 </div>
               ) : (
@@ -400,7 +408,11 @@ export default function Home() {
               {internship.photos.length ? (
                 <div className="internship-photos" aria-label={`${internship.company}实习影像`}>
                   {internship.photos.map((photo) => (
-                    <figure key={photo.src}><img src={photo.src} alt={photo.alt} /></figure>
+                    <figure key={photo.src}>
+                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
+                        <img src={photo.src} alt={photo.alt} />
+                      </button>
+                    </figure>
                   ))}
                 </div>
               ) : (
@@ -446,6 +458,22 @@ export default function Home() {
             </div>
             <button className="thoughts-return" onClick={closeThoughts}>返回</button>
           </article>
+        </div>
+      )}
+
+      {zoomedPhoto && (
+        <div
+          className="photo-lightbox"
+          role="presentation"
+          onMouseDown={(event) => event.target === event.currentTarget && setZoomedPhoto(null)}
+        >
+          <section role="dialog" aria-modal="true" aria-label={zoomedPhoto.alt}>
+            <button className="photo-lightbox-close" onClick={() => setZoomedPhoto(null)} aria-label="关闭大图">×</button>
+            <figure>
+              <img src={zoomedPhoto.src} alt={zoomedPhoto.alt} />
+              <figcaption>{zoomedPhoto.alt}</figcaption>
+            </figure>
+          </section>
         </div>
       )}
 

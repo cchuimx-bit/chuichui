@@ -110,7 +110,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .card-photo { overflow: hidden; border-radius: 0 24px 24px 0; transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .card-photo img { animation: photo-in .45s ease both; }
 .tab-card.education-mode { display: block; min-height: 0; }
-.tab-card.internship-mode { display: block; min-height: 0; }
+.tab-card.internship-mode { width: min(1120px,96vw); min-height: 0; display: block; }
 .education-panel { position: relative; min-height: 555px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 206px auto; gap: 0; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .education-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 42px 16px; }
 .education-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
@@ -134,7 +134,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .education-actions { grid-column: 1; grid-row: 3; align-self: center; display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 15px 18px 20px; }
 .education-action { min-width: 190px; padding: 10px 20px; border: 2px solid var(--brown); border-radius: 22px; background: transparent; font: 800 12px var(--body); transition: transform .22s ease, background .22s ease; }
 .education-action:hover { transform: translateY(-2px); background: #f3c932; }
-.internship-panel { position: relative; min-height: 690px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 176px auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
+.internship-panel { position: relative; min-height: 585px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 150px auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .internship-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 42px 18px; }
 .internship-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
 .internship-heading > span { color: #a75545; font-size: 32px; font-weight: 800; line-height: 1; }
@@ -157,6 +157,15 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .internship-placeholder span { color: rgba(67,42,12,.18); font-size: 72px; font-weight: 800; line-height: 1; }
 .internship-placeholder p { margin: 12px 0 0; font-size: 12px; letter-spacing: .1em; }
 .internship-actions { grid-column: 1; grid-row: 3; align-self: center; display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 15px 18px 20px; }
+.zoomable-photo { display: block; width: 100%; height: 100%; overflow: hidden; cursor: zoom-in; }
+.zoomable-photo:focus-visible { outline: 3px solid #f3c932; outline-offset: -4px; }
+.photo-lightbox { position: fixed; z-index: 180; inset: 0; display: grid; place-items: center; padding: 28px; background: rgba(18,35,31,.78); -webkit-backdrop-filter: blur(7px) saturate(.75); backdrop-filter: blur(7px) saturate(.75); animation: thoughts-backdrop-in .25s ease both; }
+.photo-lightbox > section { position: relative; max-width: 94vw; max-height: calc(100dvh - 56px); }
+.photo-lightbox figure { max-width: 94vw; max-height: calc(100dvh - 56px); margin: 0; display: grid; grid-template-rows: minmax(0,1fr) auto; overflow: hidden; border: 8px solid #f3e8d4; border-radius: 16px; background: #f3e8d4; box-shadow: 0 18px 55px rgba(0,0,0,.45); animation: thoughts-card-in .35s cubic-bezier(.2,.82,.2,1) both; }
+.photo-lightbox img { width: auto; height: auto; max-width: calc(94vw - 16px); max-height: calc(100dvh - 118px); object-fit: contain; background: #182b27; }
+.photo-lightbox figcaption { padding: 10px 14px 6px; color: var(--brown); font: 700 12px/1.4 var(--body); text-align: center; }
+.photo-lightbox-close { position: absolute; z-index: 2; top: 14px; right: 14px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--brown); color: #f3c932; font: 400 25px/1 var(--body); box-shadow: 0 3px 0 rgba(255,255,255,.28); transition: transform .2s ease, background .2s ease; }
+.photo-lightbox-close:hover { transform: rotate(8deg) scale(1.06); background: #6f4311; }
 .thoughts-backdrop { position: fixed; z-index: 150; inset: 0; display: grid; place-items: center; padding: 28px; background: rgba(20,43,38,.55); -webkit-backdrop-filter: blur(5px) saturate(.78); backdrop-filter: blur(5px) saturate(.78); animation: thoughts-backdrop-in .3s ease both; }
 .thoughts-card { width: min(720px, 92vw); max-height: min(760px, calc(100dvh - 56px)); overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr) auto; padding: 30px 34px 24px; border: 2px solid var(--brown); border-radius: 20px; background: #f3e8d4; color: var(--brown); box-shadow: 0 14px 42px rgba(21,41,36,.28), 0 6px 0 rgba(67,42,12,.2); font-family: var(--body); animation: thoughts-card-in .42s cubic-bezier(.2,.82,.2,1) both; }
 .thoughts-card header { padding: 0 2px 19px; border-bottom: 1px solid rgba(62,39,8,.22); }
