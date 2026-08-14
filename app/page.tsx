@@ -31,12 +31,15 @@ const educationHistory = [
   },
   {
     number: "02",
-    school: "第二段教育经历",
-    years: "待补充",
-    programme: "学校、学院与专业信息待补充",
-    degree: "教育经历",
-    courses: "请把第二段教育经历的学校、时间、专业、学历与主修课程发给我，我会继续补充在这里。",
-    photos: [],
+    school: "东北师范大学",
+    years: "2020 — 2024",
+    programme: "传媒科学学院（新闻学院） · 广播电视编导专业",
+    degree: "本科生",
+    courses: "文化基础、艺术基础、传播学概论、新媒体概论、社会心理学、市场调查与分析、新闻采访与写作、数字媒体艺术理论、中外美学史、新媒体写作",
+    photos: [
+      { src: "/photos/education/northeast-normal-clocktower.jpg", alt: "东北师范大学校园钟楼" },
+      { src: "/photos/education/northeast-normal-campus.jpg", alt: "东北师范大学校园与教学楼" },
+    ],
   },
 ] as const;
 
@@ -293,7 +296,7 @@ export default function Home() {
               </div>
 
               {education.photos.length ? (
-                <div className="education-photos" aria-label="上海大学校园风光">
+                <div className="education-photos" aria-label={`${education.school}校园风光`}>
                   {education.photos.map((photo) => (
                     <figure key={photo.src}><img src={photo.src} alt={photo.alt} /></figure>
                   ))}
