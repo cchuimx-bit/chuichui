@@ -80,11 +80,14 @@ const lowerReelPhotos = [
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const experienceTimerRef = useRef<number | null>(null);
+  const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
   const [selectedExp, setSelectedExp] = useState(0);
   const [experienceSwitching, setExperienceSwitching] = useState(false);
   const [educationIndex, setEducationIndex] = useState(0);
+  const [showThoughts, setShowThoughts] = useState(false);
+  const [thoughtsClosing, setThoughtsClosing] = useState(false);
   const [note, setNote] = useState(1);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -108,6 +111,7 @@ export default function Home() {
 
   useEffect(() => () => {
     if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
+    if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
   }, []);
 
   const go = (id: string) => {
@@ -123,6 +127,8 @@ export default function Home() {
 
   const switchExperience = (index: number) => {
     if (index === selectedExp) return;
+    setShowThoughts(false);
+    setThoughtsClosing(false);
     setSelectedExp(index);
     setExperienceSwitching(true);
     if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
@@ -131,6 +137,36 @@ export default function Home() {
       setExperienceSwitching(false);
     }, 220);
   };
+
+  const openThoughts = () => {
+    setEducationIndex(0);
+    setThoughtsClosing(false);
+    setShowThoughts(true);
+  };
+
+  const closeThoughts = () => {
+    setThoughtsClosing(true);
+    if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
+    thoughtsTimerRef.current = window.setTimeout(() => {
+      setShowThoughts(false);
+      setThoughtsClosing(false);
+      setEducationIndex(0);
+    }, 280);
+  };
+
+  useEffect(() => {
+    if (!showThoughts) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeThoughts();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showThoughts]);
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
@@ -269,9 +305,12 @@ export default function Home() {
                 </div>
               )}
 
-              <button className="education-next" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
-                {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
-              </button>
+              <div className="education-actions">
+                {educationIndex === 0 && <button className="education-action" onClick={openThoughts}>吹吹的碎碎念</button>}
+                <button className="education-action" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
+                  {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
+                </button>
+              </div>
             </article>
           ) : (
             <>
@@ -287,6 +326,28 @@ export default function Home() {
         </div>
         <button className="scenic-button" onClick={() => go("interests")}>继续向下逛</button>
       </section>
+
+      {showThoughts && (
+        <div
+          className={`thoughts-backdrop ${thoughtsClosing ? "is-closing" : ""}`}
+          role="presentation"
+          onMouseDown={(event) => event.target === event.currentTarget && closeThoughts()}
+        >
+          <article className="thoughts-card" role="dialog" aria-modal="true" aria-labelledby="thoughts-title">
+            <header>
+              <p>SHANGHAI · RAIN &amp; SUNSHINE</p>
+              <h3 id="thoughts-title">吹吹的碎碎念</h3>
+            </header>
+            <div className="thoughts-copy">
+              <p>加缪说：“在隆冬，我终于知道，我身上有一个不可战胜的夏天。”可我的夏天，被困在了上海漫长的梅雨季里。</p>
+              <p>九月的开学季，我初来上海。闷热、潮湿、拥挤是我对这座城的初印象。连带着，对新学校也没了多少期待。上海的雨很细，不像北方那样来得痛快。它总是黏在空气里，落在头发上、肩膀上、鞋面上，也落在人的情绪里。地铁站里人潮涌动，大家都行色匆匆。那时我常常觉得，自己像被这座城市吞进去的一粒灰尘，没有方向，也没有声音。</p>
+              <p>但天气总有放晴的时候。金黄灿烂的银杏树、清澈湛蓝的天空，就这样抱着电脑躺在学院门口的大草坪上，沐浴在天地光华下，日光之下万物鲜妍可爱。直到这种时刻才会真正感慨：没有永恒的雨季，只有久违的艳阳天。</p>
+              <p>希望上海这座城市保留她包容万千的气象，让每一个在这里或路过暂驻、或长久栖留的人，都能从她冷漠又温情的秩序与边界中找到一个文明发达的现代都市带给人的安全感和确定性。上海永远是《繁花》，梧桐树下太多吉光片羽，在这里就像坐着一艘前路无尽但令人安心的夜航船，空枝对晚风，海上花永远在开。</p>
+            </div>
+            <button className="thoughts-return" onClick={closeThoughts}>返回</button>
+          </article>
+        </div>
+      )}
 
       <section className="interest-section" id="interests">
         <div className="section-heading dark-heading">
