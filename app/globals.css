@@ -147,6 +147,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .internship-work > h4 { margin: 0 0 11px; color: #8f493d; font-size: 14px; line-height: 1.4; letter-spacing: .1em; }
 .internship-work ul { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px; list-style: none; }
 .internship-work li { min-width: 0; padding: 12px 14px; border-radius: 10px; background: rgba(217,170,131,.19); }
+.internship-work li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .internship-work h5 { margin: 0 0 7px; color: #8f493d; font-size: 15px; font-weight: 800; line-height: 1.4; }
 .internship-work li p { margin: 0; font-size: 14.5px; font-weight: 400; line-height: 1.68; text-align: left; }
 .internship-photos { min-width: 0; min-height: 0; grid-column: 2; grid-row: 1 / 3; display: grid; grid-template-columns: 1fr; grid-template-rows: repeat(2,minmax(0,1fr)); gap: 10px; padding: 54px 42px 54px 0; }

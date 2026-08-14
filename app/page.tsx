@@ -73,21 +73,35 @@ const internshipHistory = [
   },
   {
     number: "02",
-    company: "第二段实习经历",
-    business: "内容待补充",
-    role: "岗位信息待补充",
-    years: "待补充",
-    highlights: [{ title: "工作内容", text: "这段经历正在整理中，之后会继续补充完整。" }],
-    photos: [],
+    company: "蔚来",
+    business: "NIO App",
+    role: "活动运营 · 内容运营",
+    years: "2025.05 — 2025.07",
+    highlights: [
+      { title: "活动运营", text: "策划并落地 NIO App 线上营销活动数 5+（账号：粉丝福利官多多），设计抽奖、任务打卡及互动玩法，实现用户留资 1w+、锁单 80+；持续监测曝光、参与及转化等核心指标，结合数据表现优化活动机制。" },
+      { title: "内容与用户运营", text: "围绕用户购车全生命周期策划 UGC 内容，联动 NIO App、社交媒体及社群开展整合运营，建立用户互动机制，持续提升社区内容活跃度及用户参与度。" },
+      { title: "经营分析", text: "监测活动核心指标达成情况，结合用户行为与内容表现进行分析，迭代内容方向与运营策略，持续优化内容分发机制与投放策略，提升内容传播效率与用户转化效果并强化增长表现。" },
+    ],
+    photos: [
+      { src: "/photos/internship/nio-badge.jpg", alt: "蔚来实习工牌" },
+      { src: "/photos/internship/nio-office.jpg", alt: "蔚来办公园区" },
+    ],
   },
   {
     number: "03",
-    company: "第三段实习经历",
-    business: "内容待补充",
-    role: "岗位信息待补充",
-    years: "待补充",
-    highlights: [{ title: "工作内容", text: "这段经历正在整理中，之后会继续补充完整。" }],
-    photos: [],
+    company: "阳狮",
+    business: "内容营销",
+    role: "内容营销策划",
+    years: "2024.02 — 2024.04",
+    highlights: [
+      { title: "内容策略", text: "洞察影视剧、综艺及短剧营销趋势，筛选优质 IP 资源并参与输出内容营销策略方案、竞品分析及媒介资源评估报告，为客户在不同内容场景下的投放决策提供结构化参考。" },
+      { title: "品牌营销", text: "联系并协调各大咖啡品牌与其他知名 IP，推动客户欧莱雅与咖啡品牌的联名合作，打造创新营销方案。" },
+      { title: "数据分析", text: "围绕合作短剧及内容投放项目，持续跟踪播放量、互动率、完播率及带货转化等核心指标，输出投放效果复盘报告与优化建议，为后续内容投放策略迭代、预算分配与资源优先级调整提供数据支持。" },
+    ],
+    photos: [
+      { src: "/photos/internship/publicis-event.jpg", alt: "阳狮集团品牌活动现场" },
+      { src: "/photos/internship/publicis-team.jpg", alt: "阳狮集团活动团队合影" },
+    ],
   },
 ] as const;
 
