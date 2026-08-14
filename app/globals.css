@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Caprasimo";
+  src: url("/fonts/caprasimo-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --cream: #f1dec2;
   --paper: #f5e7d0;
@@ -31,26 +39,19 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .contact-pill { background: var(--yellow); color: var(--brown); padding: 10px 18px; border-radius: 22px; font: 700 13px var(--display); }
 .mobile-toggle, .mobile-drawer { display: none; }
 
-.tropical-hero { height: 100svh; min-height: 650px; position: relative; overflow: hidden; display: grid; place-items: center; background: linear-gradient(to bottom, rgba(27,71,82,.15), rgba(17,61,59,.12)), url("/photos/tropical-coast.png") center / cover; }
+.tropical-hero { height: 100svh; min-height: 650px; position: relative; isolation: isolate; overflow: hidden; display: grid; place-items: center; background: #315f66; }
+.hero-background { position: absolute; z-index: -2; inset: -5%; background: linear-gradient(to bottom, rgba(27,71,82,.12), rgba(17,61,59,.16)), url("/photos/tropical-coast.png") center / cover no-repeat; animation: hero-drift 14s ease-in-out infinite alternate; will-change: transform; }
 .tropical-hero::after, .scenic::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(14,54,55,.1), rgba(11,48,36,.24)), radial-gradient(circle at 30% 30%, transparent 0 15%, rgba(57,36,7,.12) 70%); mix-blend-mode: multiply; }
 .grain { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: .22; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
-.sun-disc { position: absolute; width: 32vw; height: 32vw; min-width: 350px; min-height: 350px; border-radius: 50%; background: rgba(247,145,36,.18); top: 15%; left: 34%; filter: blur(1px); }
-.hero-logo { position: relative; z-index: 4; text-align: center; color: var(--yellow); text-shadow: 0 2px var(--teal), 2px 0 var(--teal), -2px 0 var(--teal), 0 -2px var(--teal); margin-top: 5vh; }
-.hero-logo h1 { margin: 0 0 20px; font: 900 clamp(62px,8.7vw,138px)/.82 var(--display); letter-spacing: -.045em; transform: rotate(-2deg); }
+.hero-logo { position: relative; z-index: 4; width: min(920px, 92vw); display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--yellow); text-shadow: 0 2px var(--teal), 2px 0 var(--teal), -2px 0 var(--teal), 0 -2px var(--teal); margin-top: 6vh; }
+.hero-logo h1 { margin: 0; font: 400 clamp(66px,8.2vw,126px)/.82 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: -.055em; transform: rotate(-1.5deg); }
 .hero-logo h1 em { font-style: normal; font-size: 1.08em; }
 .hero-welcome { text-transform: uppercase; }
-.hero-flourish { font-size: 56px; line-height: 1; }
-.hero-sub { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-shadow: 1px 1px var(--teal); }
+.hero-building { width: min(650px, 65vw); height: auto; margin-top: 18px; object-fit: contain; filter: drop-shadow(0 2px 0 var(--teal)); }
+.hero-sub { margin: 7px 0 0; font-size: clamp(10px,1vw,13px); font-weight: 700; letter-spacing: .12em; text-shadow: 1px 1px var(--teal); }
 .scenic-button { margin-top: 16px; background: var(--brown); color: var(--yellow); border-radius: 28px; padding: 13px 24px; font: 700 14px var(--display); box-shadow: 0 3px 0 rgba(255,205,24,.45); transition: transform .25s; }
 .scenic-button:hover { transform: translateY(-3px) rotate(-1deg); }
 .address-mark { position: absolute; z-index: 4; bottom: 28px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--yellow); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-shadow: 1px 1px var(--brown); }
-.palm-tree { position: absolute; z-index: 3; bottom: -70px; width: 180px; height: 470px; }
-.palm-tree i { position: absolute; width: 42px; height: 390px; left: 70px; bottom: 0; background: repeating-linear-gradient(12deg,#2f3d20 0 10px,#4d512c 11px 18px); border-radius: 80% 20% 30% 20%; transform: rotate(8deg); }
-.palm-tree b, .palm-tree span { position: absolute; width: 330px; height: 160px; left: -68px; top: 8px; background: #203c29; clip-path: polygon(50% 42%,100% 0,62% 48%,100% 45%,62% 56%,94% 90%,57% 62%,61% 100%,50% 66%,35% 100%,43% 61%,0 85%,39% 55%,0 40%,40% 48%,8% 4%); }
-.palm-tree span { transform: rotate(55deg); }
-.palm-left { left: -50px; transform: rotate(-10deg); }
-.palm-right { right: -50px; transform: scaleX(-1) rotate(-8deg); }
-
 .intro-strip { height: min(780px, 88svh); min-height: 620px; background: var(--paper); display: grid; grid-template-columns: clamp(190px, 22vw, 320px) 1fr; grid-template-rows: 100%; overflow: hidden; border-top: 4px solid var(--brown); border-bottom: 4px solid var(--brown); }
 .music-deck { position: relative; z-index: 5; align-self: stretch; min-width: 0; min-height: 0; overflow: hidden; background: var(--paper); border-right: 3px solid var(--brown); box-shadow: 12px 0 0 rgba(62,39,8,.08); }
 .music-deck audio { display: none; }
@@ -157,6 +158,11 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .back-top { position: absolute; right: 5vw; bottom: 45px; background: var(--brown); color: var(--yellow); border-radius: 22px; padding: 10px 17px; font: 700 12px var(--display); }
 
 @keyframes photo-in { from { opacity: 0; transform: scale(1.05); } }
+@keyframes hero-drift {
+  0% { transform: scale(1.065) translate3d(-1.2%,-.5%,0); }
+  48% { transform: scale(1.09) translate3d(.8%,.35%,0); }
+  100% { transform: scale(1.075) translate3d(-.2%,1%,0); }
+}
 @keyframes vinyl-spin { to { transform: rotate(360deg); } }
 @keyframes reel-left { to { transform: translateX(-50%); } }
 @keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -168,13 +174,12 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .mobile-drawer { display: flex; visibility: hidden; opacity: 0; position: fixed; inset: 0; z-index: 90; background: var(--brown); color: var(--yellow); padding: 100px 30px 40px; flex-direction: column; transition: .35s; }
   .mobile-drawer.show { visibility: visible; opacity: 1; }
   .mobile-drawer button { padding: 16px 0; border-bottom: 1px solid rgba(255,205,24,.4); text-align: left; font: 800 35px var(--display); }
-  .tropical-hero { min-height: 740px; background-position: 55% center; }
-  .hero-logo h1 { font-size: clamp(48px,14vw,76px); line-height: .88; }
-  .hero-logo { padding: 0 20px; }
+  .tropical-hero { min-height: 740px; }
+  .hero-background { background-position: 55% center; }
+  .hero-logo h1 { font-size: clamp(45px,13.5vw,72px); line-height: .86; }
+  .hero-logo { width: 94vw; padding: 0 12px; margin-top: 2vh; }
+  .hero-building { width: min(620px, 92vw); margin-top: 22px; }
   .hero-sub { font-size: 9px; line-height: 1.5; }
-  .palm-tree { opacity: .75; }
-  .palm-left { left: -100px; }
-  .palm-right { right: -100px; }
   .intro-strip { height: 720px; min-height: 0; grid-template-columns: 1fr; grid-template-rows: 190px 1fr; }
   .music-deck { border-right: 0; border-bottom: 3px solid var(--brown); }
   .vinyl-control { width: 132px; height: 132px; }
@@ -208,5 +213,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .hero-background { animation: none !important; transform: scale(1.06); }
   .reel-track { animation: none !important; }
 }

@@ -108,13 +108,16 @@ export default function Home() {
       </div>
 
       <section className="tropical-hero" id="home">
+        <div className="hero-background" aria-hidden="true" />
         <div className="grain" />
-        <div className="sun-disc" />
-        <div className="palm-tree palm-left"><i /><b /><span /></div>
-        <div className="palm-tree palm-right"><i /><b /><span /></div>
         <div className="hero-logo">
           <h1 className="hero-welcome">WELCOME TO MY<br /><em>LITTLE WORLD</em></h1>
-          <div className="hero-flourish">☼</div>
+          <img
+            className="hero-building"
+            src="/illustrations/warehouse-gold-v2.png"
+            alt=""
+            aria-hidden="true"
+          />
           <p className="hero-sub">你呢 你会怎样度过今天？</p>
         </div>
         <div className="address-mark">PERSONAL ARCHIVE<br />CHINA · EST. 2026</div>
