@@ -528,7 +528,7 @@ export default function Home() {
               </div>
             </article>
           ) : (
-            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"}`} key={project.number}>
+            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"} ${project.number === "04" ? "no-photo-space" : ""}`} key={project.number}>
               <div className="project-copy">
                 <div className="project-heading">
                   <span>{project.number}</span>
@@ -553,7 +553,7 @@ export default function Home() {
               </div>
 
               {project.photos.length ? (
-                <div className={`project-photos count-${project.photos.length}`} aria-label={`${project.title}项目影像`}>
+                <div className={`project-photos count-${project.photos.length} ${project.number === "01" || project.number === "03" ? "compact-photo" : ""}`} aria-label={`${project.title}项目影像`}>
                   {project.photos.map((photo) => (
                     <figure key={photo.src}>
                       <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
@@ -562,12 +562,12 @@ export default function Home() {
                     </figure>
                   ))}
                 </div>
-              ) : (
+              ) : project.number !== "04" ? (
                 <div className="project-placeholder" aria-label={`${project.title}项目档案`}>
                   <span>{project.number}</span>
                   <p>PROJECT ARCHIVE</p>
                 </div>
-              )}
+              ) : null}
 
               <div className="project-actions">
                 <button className="education-action" onClick={() => setProjectIndex((projectIndex + 1) % projectHistory.length)}>
