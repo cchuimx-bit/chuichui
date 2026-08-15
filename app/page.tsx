@@ -111,6 +111,90 @@ const internshipThoughts = [
   ["关于第三段实习经历的思考与感悟，正在慢慢整理中。"],
 ] as const;
 
+const projectHistory = [
+  {
+    number: "01",
+    title: "小红书个人账号运营",
+    subtitle: "账号 ID：十九河道",
+    years: "2023.10 — 至今",
+    details: [
+      { title: "内容策划与账号运营", text: "独立运营小红书游戏类内容账号，围绕游戏体验、玩法分享、入坑建议等方向进行选题策划与图文创作。结合平台用户兴趣与真实游戏体验，优化标题、封面和正文结构，提升内容在小红书场景中的吸引力与传播效果。" },
+      { title: "视觉呈现与内容制作", text: "负责笔记文案撰写、图片排版、封面设计与发布优化，注重内容的视觉统一性和阅读体验。依托视觉设计基础，提升笔记的第一眼呈现效果，使内容表达更清晰、更具辨识度。" },
+      { title: "数据复盘与用户洞察", text: "累计发布 20 余篇图文内容，获得 30 万以上浏览量和 1.9 万以上赞藏。通过关注点赞、收藏、评论等互动数据，分析用户偏好的游戏类型与内容角度，并据此调整后续选题方向，提升内容策划、用户洞察和数据复盘能力。" },
+    ],
+    photos: [
+      { src: "/photos/projects/xiaohongshu-account.png", alt: "小红书账号十九河道的主页与内容数据" },
+    ],
+  },
+  {
+    number: "02",
+    title: "编导专业联合创作",
+    subtitle: "校园影视内容项目",
+    years: "2021.09 — 2023.12",
+    details: [
+      { title: "项目策划与统筹执行", text: "参与校园影视内容项目策划与制作，担任组长、制片及后期成员，负责前期选题策划、拍摄方案制定、脚本沟通以及项目整体推进。协调团队成员分工，推动影视作品从创意构思到拍摄制作、后期交付的完整落地。" },
+      { title: "资源协调与团队管理", text: "负责演员、拍摄场地及外部合作资源对接，根据项目进度协调人员安排和拍摄流程，保障各环节顺利衔接。项目执行期间累计沟通 30 余家商家，促成 5 家合作，获得 5000 余元赞助支持，为项目开展提供资源保障。" },
+      { title: "内容制作与项目复盘优化", text: "深度参与脚本完善、现场拍摄、后期剪辑和成片优化等环节，根据传播需求调整内容表现形式，提升作品完整度和传播效果。通过项目实践，培养了影视内容策划、团队协作、资源整合和项目管理能力。" },
+    ],
+    photos: [
+      { src: "/photos/projects/film-team.jpg", alt: "编导专业联合创作团队合影" },
+      { src: "/photos/projects/film-shoot.jpg", alt: "校园影视项目夜间拍摄现场" },
+    ],
+  },
+  {
+    number: "03",
+    title: "学院公众号运营",
+    subtitle: "账号 ID：东师传媒",
+    years: "2020.09 — 2023.09",
+    details: [
+      { title: "内容运营", text: "参与学院官方微信公众号“东师传媒”的日常运营与内容建设，负责校园动态、师生风采、活动报道等主题内容策划、素材采集、采访撰稿和图文编辑。累计输出原创图文 10 余篇，总阅读量超过 1 万，具备从选题规划到内容发布的完整运营经验。" },
+      { title: "选题策划", text: "参与编辑部选题讨论，结合校园热点、受众兴趣和传播效果优化内容方向，对文章标题、内容结构和呈现形式进行调整。通过持续复盘内容反馈，提高选题质量，选题建议采纳率达到 90% 以上。" },
+      { title: "团队协作", text: "在团队运营过程中，负责协调稿件采编流程，与采访、编辑等成员协作推进内容生产。通过校园媒体实践，提升了新闻敏感度、文字表达能力、内容策划能力以及团队协同推进能力。" },
+    ],
+    photos: [
+      { src: "/photos/projects/dongshi-media.jpg", alt: "东师传媒微信公众号内容列表" },
+    ],
+  },
+  {
+    number: "04",
+    title: "“快通”——智慧助力老年人接轨数字化生活",
+    subtitle: "创新创业项目",
+    years: "2022.07",
+    details: [
+      { title: "项目策划", text: "作为创新创业项目组长，围绕老年群体数字化生活需求开展项目设计，聚焦智能手机使用、线上支付、数字政务、出行服务等场景中的数字鸿沟问题。通过文献梳理、问卷调研和竞品分析，挖掘用户痛点，并形成面向老年人的智能化辅助服务方案。" },
+      { title: "市场分析与方案设计", text: "负责项目竞争态势分析、营销策划内容撰写和方案优化，运用 SWOT 分析等方法评估项目发展方向。同时参与设计“老年人智能手机使用数字鸿沟”调查问卷，并基于 SPSS 完成数据整理与分析，为用户画像构建、服务定位和后续方案调整提供数据支持。" },
+      { title: "项目落地与成果转化", text: "统筹团队推进项目调研、方案完善和展示材料制作，最终形成较完整的创新创业项目方案。项目获得 2022 年东北师范大学“互联网+”大学生创新创业大赛铜奖，以及第十三届“挑战杯”东北师范大学大学生创业计划竞赛三等奖，提升了项目管理、团队协作和商业方案设计能力。" },
+    ],
+    photos: [],
+  },
+  {
+    number: "05",
+    title: "优秀志愿者",
+    subtitle: "疫情防控志愿服务",
+    years: "2022.05",
+    details: [
+      { title: "疫情防控志愿服务参与", text: "参与 2022 年疫情防控志愿服务工作，积极配合学校开展疫情防控相关任务，协助完成核酸检测现场组织、人员引导、信息登记等工作，保障疫情防控流程有序开展。" },
+      { title: "现场协调与服务保障", text: "在志愿服务过程中，负责现场秩序维护、人员沟通协调和信息统计等工作，根据现场需求及时调整安排，提升了面对复杂场景时的沟通协调能力和问题处理能力。" },
+      { title: "责任意识与团队协作提升", text: "在疫情防控志愿服务期间，与团队成员密切配合，共同完成阶段性服务任务。该经历强化了服务意识、团队协作能力和责任担当，也培养了快速响应和执行落地能力。" },
+    ],
+    photos: [
+      { src: "/photos/projects/volunteer-certificate.png", alt: "东北师范大学优秀抗疫志愿者荣誉证书" },
+    ],
+  },
+  {
+    number: "06",
+    title: "东师青年报社视觉设计中心",
+    subtitle: "视觉设计中心副部长",
+    years: "2020.09 — 2022.09",
+    details: [
+      { title: "视觉内容策划", text: "担任东师青年报社视觉设计中心副部长，负责校园人物采访、专题报道和品牌宣传等内容的视觉策划与呈现。参与选题讨论、采访执行、素材整合、版式设计和内容审核，提升校园媒体内容的传播效果和视觉品质。" },
+      { title: "团队管理", text: "负责视觉设计中心日常运营，统筹团队成员招募培养、任务分配、进度管理和成果审核。协调采编、摄影、新媒体等多个部门开展协作，推动内容生产流程顺畅运行，提升团队整体执行效率。" },
+      { title: "视觉设计", text: "深度参与校园媒体平台内容建设，围绕不同传播主题完成视觉方案设计与素材优化，持续提升图文内容的呈现质量。通过长期媒体实践，积累了内容策划、视觉表达、项目协同和团队管理经验。" },
+    ],
+    photos: [],
+  },
+] as const;
+
 const notes = [
   { label: "摄影", text: "我喜欢按下快门的瞬间。照片会记住光线，也会记住当时没有说出口的心情。", cls: "note-yellow" },
   { label: "旅行", text: "去陌生的城市散步，把地图折起来，偶尔迷路，往往会遇到当天最惊喜的风景。", cls: "note-orange" },
@@ -158,6 +242,7 @@ export default function Home() {
   const [experienceSwitching, setExperienceSwitching] = useState(false);
   const [educationIndex, setEducationIndex] = useState(0);
   const [internshipIndex, setInternshipIndex] = useState(0);
+  const [projectIndex, setProjectIndex] = useState(0);
   const [showThoughts, setShowThoughts] = useState(false);
   const [thoughtsClosing, setThoughtsClosing] = useState(false);
   const [thoughtsContext, setThoughtsContext] = useState<"education" | "internship">("education");
@@ -262,6 +347,7 @@ export default function Home() {
 
   const education = educationHistory[educationIndex];
   const internship = internshipHistory[internshipIndex];
+  const project = projectHistory[projectIndex];
   const thoughts = thoughtsContext === "education" ? educationThoughts[educationIndex] : internshipThoughts[internshipIndex];
 
   return (
@@ -346,7 +432,7 @@ export default function Home() {
           <p>01 / MY JOURNEY</p>
           <h2>个人经历</h2>
         </div>
-        <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : ""} ${experienceSwitching ? "is-leaving" : ""}`}>
+        <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"} ${experienceSwitching ? "is-leaving" : ""}`}>
           <div className="tab-row">
             {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
           </div>
@@ -442,15 +528,53 @@ export default function Home() {
               </div>
             </article>
           ) : (
-            <>
-              <div className={`card-copy ${experience[exp].color}`} key={`copy-${exp}`}>
-                <span>{experience[exp].years}</span>
-                <h3>{experience[exp].title}</h3>
-                <p>{experience[exp].text}</p>
-                <button onClick={() => switchExperience((exp + 1) % experience.length)}>下一段故事</button>
+            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"}`} key={project.number}>
+              <div className="project-copy">
+                <div className="project-heading">
+                  <span>{project.number}</span>
+                  <h3>{project.title}</h3>
+                  <time>{project.years}</time>
+                </div>
+                <div className="project-meta">
+                  <b>项目经历</b>
+                  <p>{project.subtitle}</p>
+                </div>
+                <section className="project-work">
+                  <h4>具体内容</h4>
+                  <ul>
+                    {project.details.map((item) => (
+                      <li key={item.title}>
+                        <h5>{item.title}</h5>
+                        <p>{item.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               </div>
-              <div className="card-photo" key={`photo-${exp}`}><img src={experience[exp].image} style={{ objectPosition: experience[exp].pos }} alt={`${experience[exp].title}的复古热带风景`} /></div>
-            </>
+
+              {project.photos.length ? (
+                <div className={`project-photos count-${project.photos.length}`} aria-label={`${project.title}项目影像`}>
+                  {project.photos.map((photo) => (
+                    <figure key={photo.src}>
+                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
+                        <img src={photo.src} alt={photo.alt} />
+                      </button>
+                    </figure>
+                  ))}
+                </div>
+              ) : (
+                <div className="project-placeholder" aria-label={`${project.title}项目档案`}>
+                  <span>{project.number}</span>
+                  <p>PROJECT ARCHIVE</p>
+                </div>
+              )}
+
+              <div className="project-actions">
+                <button className="education-action" onClick={() => setProjectIndex((projectIndex + 1) % projectHistory.length)}>
+                  {projectIndex === projectHistory.length - 1 ? "返回 01 项目经历" : "下一段项目经历"}
+                </button>
+              </div>
+            </article>
           )}
         </div>
         <button className="scenic-button" onClick={() => go("interests")}>继续向下逛</button>
