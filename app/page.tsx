@@ -528,7 +528,7 @@ export default function Home() {
               </div>
             </article>
           ) : (
-            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"} ${project.number === "04" ? "no-photo-space" : ""}`} key={project.number}>
+            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"} ${project.number === "04" || project.number === "06" ? "no-photo-space" : ""}`} key={project.number}>
               <div className="project-copy">
                 <div className="project-heading">
                   <span>{project.number}</span>
@@ -562,7 +562,7 @@ export default function Home() {
                     </figure>
                   ))}
                 </div>
-              ) : project.number !== "04" ? (
+              ) : project.number !== "04" && project.number !== "06" ? (
                 <div className="project-placeholder" aria-label={`${project.title}项目档案`}>
                   <span>{project.number}</span>
                   <p>PROJECT ARCHIVE</p>
