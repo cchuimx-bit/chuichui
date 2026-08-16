@@ -237,7 +237,7 @@ export default function Home() {
   const educationRailRef = useRef<HTMLDivElement>(null);
   const internshipRailRef = useRef<HTMLDivElement>(null);
   const projectRailRef = useRef<HTMLDivElement>(null);
-  const railDragRef = useRef({ element: null as HTMLDivElement | null, pointerId: -1, startX: 0, scrollLeft: 0, moved: false });
+  const railDragRef = useRef({ element: null as HTMLDivElement | null, pointerId: -1, startX: 0, scrollLeft: 0, lastX: 0, lastTime: 0, velocity: 0, moved: false });
   const experienceTimerRef = useRef<number | null>(null);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
@@ -321,9 +321,18 @@ export default function Home() {
   };
 
   const beginRailDrag = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
     const element = event.currentTarget;
-    railDragRef.current = { element, pointerId: event.pointerId, startX: event.clientX, scrollLeft: element.scrollLeft, moved: false };
+    railDragRef.current = {
+      element,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      scrollLeft: element.scrollLeft,
+      lastX: event.clientX,
+      lastTime: performance.now(),
+      velocity: 0,
+      moved: false,
+    };
     element.setPointerCapture(event.pointerId);
     element.classList.add("is-dragging");
   };
@@ -333,7 +342,14 @@ export default function Home() {
     if (drag.element !== event.currentTarget || drag.pointerId !== event.pointerId) return;
     const distance = event.clientX - drag.startX;
     if (Math.abs(distance) > 5) drag.moved = true;
-    if (drag.moved) drag.element.scrollLeft = drag.scrollLeft - distance;
+    if (!drag.moved) return;
+    event.preventDefault();
+    const now = performance.now();
+    const elapsed = Math.max(1, now - drag.lastTime);
+    drag.velocity = -(event.clientX - drag.lastX) / elapsed;
+    drag.lastX = event.clientX;
+    drag.lastTime = now;
+    drag.element.scrollLeft = drag.scrollLeft - distance;
   };
 
   const endRailDrag = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -341,9 +357,17 @@ export default function Home() {
     if (drag.element !== event.currentTarget || drag.pointerId !== event.pointerId) return;
     drag.element.classList.remove("is-dragging");
     if (drag.element.hasPointerCapture(event.pointerId)) drag.element.releasePointerCapture(event.pointerId);
-    const page = Math.round(drag.element.scrollLeft / drag.element.clientWidth);
+    const width = drag.element.clientWidth;
+    const rawPage = drag.element.scrollLeft / width;
+    let page = Math.round(rawPage);
+    if (Math.abs(drag.velocity) > .35) page = drag.velocity > 0 ? Math.ceil(rawPage + .02) : Math.floor(rawPage - .02);
+    page = Math.max(0, Math.min(drag.element.childElementCount - 1, page));
     drag.element.scrollTo({ left: page * drag.element.clientWidth, behavior: "smooth" });
-    window.setTimeout(() => { railDragRef.current.moved = false; }, 0);
+    window.setTimeout(() => {
+      railDragRef.current.moved = false;
+      railDragRef.current.element = null;
+      railDragRef.current.pointerId = -1;
+    }, 0);
   };
 
   const stopDraggedClick = (event: React.MouseEvent<HTMLDivElement>) => {
