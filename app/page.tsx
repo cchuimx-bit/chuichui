@@ -234,6 +234,10 @@ const lowerReelPhotos = [
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const educationRailRef = useRef<HTMLDivElement>(null);
+  const internshipRailRef = useRef<HTMLDivElement>(null);
+  const projectRailRef = useRef<HTMLDivElement>(null);
+  const railDragRef = useRef({ element: null as HTMLDivElement | null, pointerId: -1, startX: 0, scrollLeft: 0, moved: false });
   const experienceTimerRef = useRef<number | null>(null);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
@@ -298,10 +302,54 @@ export default function Home() {
     }, 220);
   };
 
-  const openThoughts = (context: "education" | "internship") => {
+  const openThoughts = (context: "education" | "internship", index: number) => {
+    if (context === "education") setEducationIndex(index);
+    else setInternshipIndex(index);
     setThoughtsContext(context);
     setThoughtsClosing(false);
     setShowThoughts(true);
+  };
+
+  const updateRailIndex = (element: HTMLDivElement, count: number, setter: (index: number) => void) => {
+    if (!element.clientWidth) return;
+    setter(Math.max(0, Math.min(count - 1, Math.round(element.scrollLeft / element.clientWidth))));
+  };
+
+  const slideRail = (rail: HTMLDivElement | null, index: number) => {
+    if (!rail) return;
+    rail.scrollTo({ left: index * rail.clientWidth, behavior: "smooth" });
+  };
+
+  const beginRailDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    const element = event.currentTarget;
+    railDragRef.current = { element, pointerId: event.pointerId, startX: event.clientX, scrollLeft: element.scrollLeft, moved: false };
+    element.setPointerCapture(event.pointerId);
+    element.classList.add("is-dragging");
+  };
+
+  const moveRailDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = railDragRef.current;
+    if (drag.element !== event.currentTarget || drag.pointerId !== event.pointerId) return;
+    const distance = event.clientX - drag.startX;
+    if (Math.abs(distance) > 5) drag.moved = true;
+    if (drag.moved) drag.element.scrollLeft = drag.scrollLeft - distance;
+  };
+
+  const endRailDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = railDragRef.current;
+    if (drag.element !== event.currentTarget || drag.pointerId !== event.pointerId) return;
+    drag.element.classList.remove("is-dragging");
+    if (drag.element.hasPointerCapture(event.pointerId)) drag.element.releasePointerCapture(event.pointerId);
+    const page = Math.round(drag.element.scrollLeft / drag.element.clientWidth);
+    drag.element.scrollTo({ left: page * drag.element.clientWidth, behavior: "smooth" });
+    window.setTimeout(() => { railDragRef.current.moved = false; }, 0);
+  };
+
+  const stopDraggedClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!railDragRef.current.moved) return;
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   const closeThoughts = () => {
@@ -345,9 +393,6 @@ export default function Home() {
     }
   };
 
-  const education = educationHistory[educationIndex];
-  const internship = internshipHistory[internshipIndex];
-  const project = projectHistory[projectIndex];
   const thoughts = thoughtsContext === "education" ? educationThoughts[educationIndex] : internshipThoughts[internshipIndex];
 
   return (
@@ -437,144 +482,124 @@ export default function Home() {
             {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
           </div>
           {exp === 0 ? (
-            <article className={`education-panel ${education.photos.length ? "" : "is-placeholder"}`} key={education.number}>
-              <div className="education-copy">
-                <div className="education-heading">
-                  <span>{education.number}</span>
-                  <h3>{education.school}</h3>
-                  <time>{education.years}</time>
-                </div>
-                <div className="education-programme">
-                  <p>{education.programme}</p>
-                  <b>{education.degree}</b>
-                </div>
-                <div className="education-details">
-                  <section>
-                    <h4>主修课程</h4>
-                    <p>{education.courses}</p>
-                  </section>
-                </div>
+            <div className="experience-viewport">
+              <div
+                ref={educationRailRef}
+                className="experience-rail"
+                aria-label="教育经历，左右滑动查看"
+                tabIndex={0}
+                onScroll={(event) => updateRailIndex(event.currentTarget, educationHistory.length, setEducationIndex)}
+                onPointerDown={beginRailDrag}
+                onPointerMove={moveRailDrag}
+                onPointerUp={endRailDrag}
+                onPointerCancel={endRailDrag}
+                onClickCapture={stopDraggedClick}
+                onKeyDown={(event) => {
+                  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+                  event.preventDefault();
+                  const next = event.key === "ArrowRight" ? Math.min(educationHistory.length - 1, educationIndex + 1) : Math.max(0, educationIndex - 1);
+                  slideRail(educationRailRef.current, next);
+                }}
+              >
+                {educationHistory.map((item, index) => (
+                  <div className="experience-slide" key={item.number}>
+                    <article className={`education-panel ${item.photos.length ? "" : "is-placeholder"}`}>
+                      <div className="education-copy">
+                        <div className="education-heading"><span>{item.number}</span><h3>{item.school}</h3><time>{item.years}</time></div>
+                        <div className="education-programme"><p>{item.programme}</p><b>{item.degree}</b></div>
+                        <div className="education-details"><section><h4>主修课程</h4><p>{item.courses}</p></section></div>
+                      </div>
+                      <div className="education-photos" aria-label={`${item.school}校园风光`}>
+                        {item.photos.map((photo) => <figure key={photo.src}><button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}><img src={photo.src} alt={photo.alt} /></button></figure>)}
+                      </div>
+                      <div className="education-actions">
+                        <button className="education-action" onClick={() => openThoughts("education", index)}>吹吹的碎碎念</button>
+                        <button className="education-action swipe-cue" onClick={() => slideRail(educationRailRef.current, (index + 1) % educationHistory.length)}>滑动查看下一段经历 <span aria-hidden="true">→</span></button>
+                      </div>
+                    </article>
+                  </div>
+                ))}
               </div>
-
-              {education.photos.length ? (
-                <div className="education-photos" aria-label={`${education.school}校园风光`}>
-                  {education.photos.map((photo) => (
-                    <figure key={photo.src}>
-                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
-                        <img src={photo.src} alt={photo.alt} />
-                      </button>
-                    </figure>
-                  ))}
-                </div>
-              ) : (
-                <div className="education-placeholder" aria-label="第二段教育经历内容待补充">
-                  <span>02</span>
-                  <p>等待你的下一段故事</p>
-                </div>
-              )}
-
-              <div className="education-actions">
-                <button className="education-action" onClick={() => openThoughts("education")}>吹吹的碎碎念</button>
-                <button className="education-action" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
-                  {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
-                </button>
-              </div>
-            </article>
+            </div>
           ) : exp === 1 ? (
-            <article className={`internship-panel ${internship.photos.length ? "" : "is-placeholder"}`} key={internship.number}>
-              <div className="internship-copy">
-                <div className="internship-heading">
-                  <span>{internship.number}</span>
-                  <h3>{internship.company}</h3>
-                  <time>{internship.years}</time>
-                </div>
-                <div className="internship-role">
-                  <b>{internship.business}</b>
-                  <p>{internship.role}</p>
-                </div>
-                <section className="internship-work">
-                  <h4>工作内容</h4>
-                  <ul>
-                    {internship.highlights.map((item) => (
-                      <li key={item.title}>
-                        <h5>{item.title}</h5>
-                        <p>{item.text}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+            <div className="experience-viewport">
+              <div
+                ref={internshipRailRef}
+                className="experience-rail"
+                aria-label="实习经历，左右滑动查看"
+                tabIndex={0}
+                onScroll={(event) => updateRailIndex(event.currentTarget, internshipHistory.length, setInternshipIndex)}
+                onPointerDown={beginRailDrag}
+                onPointerMove={moveRailDrag}
+                onPointerUp={endRailDrag}
+                onPointerCancel={endRailDrag}
+                onClickCapture={stopDraggedClick}
+                onKeyDown={(event) => {
+                  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+                  event.preventDefault();
+                  const next = event.key === "ArrowRight" ? Math.min(internshipHistory.length - 1, internshipIndex + 1) : Math.max(0, internshipIndex - 1);
+                  slideRail(internshipRailRef.current, next);
+                }}
+              >
+                {internshipHistory.map((item, index) => (
+                  <div className="experience-slide" key={item.number}>
+                    <article className={`internship-panel ${item.photos.length ? "" : "is-placeholder"}`}>
+                      <div className="internship-copy">
+                        <div className="internship-heading"><span>{item.number}</span><h3>{item.company}</h3><time>{item.years}</time></div>
+                        <div className="internship-role"><b>{item.business}</b><p>{item.role}</p></div>
+                        <section className="internship-work"><h4>工作内容</h4><ul>{item.highlights.map((highlight) => <li key={highlight.title}><h5>{highlight.title}</h5><p>{highlight.text}</p></li>)}</ul></section>
+                      </div>
+                      <div className="internship-photos" aria-label={`${item.company}实习影像`}>
+                        {item.photos.map((photo) => <figure key={photo.src}><button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}><img src={photo.src} alt={photo.alt} /></button></figure>)}
+                      </div>
+                      <div className="internship-actions">
+                        <button className="education-action" onClick={() => openThoughts("internship", index)}>吹吹的碎碎念</button>
+                        <button className="education-action swipe-cue" onClick={() => slideRail(internshipRailRef.current, (index + 1) % internshipHistory.length)}>滑动查看下一段经历 <span aria-hidden="true">→</span></button>
+                      </div>
+                    </article>
+                  </div>
+                ))}
               </div>
-
-              {internship.photos.length ? (
-                <div className="internship-photos" aria-label={`${internship.company}实习影像`}>
-                  {internship.photos.map((photo) => (
-                    <figure key={photo.src}>
-                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
-                        <img src={photo.src} alt={photo.alt} />
-                      </button>
-                    </figure>
-                  ))}
-                </div>
-              ) : (
-                <div className="internship-placeholder" aria-label={`${internship.company}内容待补充`}>
-                  <span>{internship.number}</span>
-                  <p>等待下一段职场故事</p>
-                </div>
-              )}
-
-              <div className="internship-actions">
-                <button className="education-action" onClick={() => openThoughts("internship")}>吹吹的碎碎念</button>
-                <button className="education-action" onClick={() => setInternshipIndex((internshipIndex + 1) % internshipHistory.length)}>下一段实习经历</button>
-              </div>
-            </article>
+            </div>
           ) : (
-            <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"} ${project.number === "04" || project.number === "06" ? "no-photo-space" : ""}`} key={project.number}>
-              <div className="project-copy">
-                <div className="project-heading">
-                  <span>{project.number}</span>
-                  <h3>{project.title}</h3>
-                  <time>{project.years}</time>
-                </div>
-                <div className="project-meta">
-                  <b>项目经历</b>
-                  <p>{project.subtitle}</p>
-                </div>
-                <section className="project-work">
-                  <h4>具体内容</h4>
-                  <ul>
-                    {project.details.map((item) => (
-                      <li key={item.title}>
-                        <h5>{item.title}</h5>
-                        <p>{item.text}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+            <div className="experience-viewport">
+              <div
+                ref={projectRailRef}
+                className="experience-rail"
+                aria-label="项目经历，左右滑动查看"
+                tabIndex={0}
+                onScroll={(event) => updateRailIndex(event.currentTarget, projectHistory.length, setProjectIndex)}
+                onPointerDown={beginRailDrag}
+                onPointerMove={moveRailDrag}
+                onPointerUp={endRailDrag}
+                onPointerCancel={endRailDrag}
+                onClickCapture={stopDraggedClick}
+                onKeyDown={(event) => {
+                  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+                  event.preventDefault();
+                  const next = event.key === "ArrowRight" ? Math.min(projectHistory.length - 1, projectIndex + 1) : Math.max(0, projectIndex - 1);
+                  slideRail(projectRailRef.current, next);
+                }}
+              >
+                {projectHistory.map((item, index) => (
+                  <div className="experience-slide" key={item.number}>
+                    <article className={`project-panel ${item.photos.length ? "" : "is-placeholder"} ${item.number === "04" || item.number === "06" ? "no-photo-space" : ""}`}>
+                      <div className="project-copy">
+                        <div className="project-heading"><span>{item.number}</span><h3>{item.title}</h3><time>{item.years}</time></div>
+                        <div className="project-meta"><b>项目经历</b><p>{item.subtitle}</p></div>
+                        <section className="project-work"><h4>具体内容</h4><ul>{item.details.map((detail) => <li key={detail.title}><h5>{detail.title}</h5><p>{detail.text}</p></li>)}</ul></section>
+                      </div>
+                      {item.photos.length ? (
+                        <div className={`project-photos count-${item.photos.length} ${item.number === "01" || item.number === "03" ? "compact-photo" : ""}`} aria-label={`${item.title}项目影像`}>
+                          {item.photos.map((photo) => <figure key={photo.src}><button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}><img src={photo.src} alt={photo.alt} /></button></figure>)}
+                        </div>
+                      ) : null}
+                      <div className="project-actions"><button className="education-action swipe-cue" onClick={() => slideRail(projectRailRef.current, (index + 1) % projectHistory.length)}>滑动查看下一段经历 <span aria-hidden="true">→</span></button></div>
+                    </article>
+                  </div>
+                ))}
               </div>
-
-              {project.photos.length ? (
-                <div className={`project-photos count-${project.photos.length} ${project.number === "01" || project.number === "03" ? "compact-photo" : ""}`} aria-label={`${project.title}项目影像`}>
-                  {project.photos.map((photo) => (
-                    <figure key={photo.src}>
-                      <button className="zoomable-photo" onClick={() => setZoomedPhoto(photo)} aria-label={`放大查看：${photo.alt}`}>
-                        <img src={photo.src} alt={photo.alt} />
-                      </button>
-                    </figure>
-                  ))}
-                </div>
-              ) : project.number !== "04" && project.number !== "06" ? (
-                <div className="project-placeholder" aria-label={`${project.title}项目档案`}>
-                  <span>{project.number}</span>
-                  <p>PROJECT ARCHIVE</p>
-                </div>
-              ) : null}
-
-              <div className="project-actions">
-                <button className="education-action" onClick={() => setProjectIndex((projectIndex + 1) % projectHistory.length)}>
-                  {projectIndex === projectHistory.length - 1 ? "返回 01 项目经历" : "下一段项目经历"}
-                </button>
-              </div>
-            </article>
+            </div>
           )}
         </div>
         <button className="scenic-button" onClick={() => go("interests")}>继续向下逛</button>
