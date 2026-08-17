@@ -207,15 +207,87 @@ const projectHistory = [
 ] as const;
 
 const portfolioItems = [
-  { title: "十九河道", category: "个人账号运营", src: "/photos/projects/xiaohongshu-account.png", shape: "portrait", fit: "contain", description: "独立运营小红书游戏内容账号，从选题、文案到封面与排版完成全流程创作；累计获得 30 万以上浏览量与 1.9 万以上赞藏。" },
-  { title: "影像联合创作", category: "项目策划与制片", src: "/photos/projects/film-team.jpg", shape: "wide", fit: "cover", description: "参与校园影视项目策划与制作，承担组长、制片与后期工作，推动作品从创意构思、资源协调到拍摄交付完整落地。" },
-  { title: "拍摄现场", category: "影像制作", src: "/photos/projects/film-shoot.jpg", shape: "wide", fit: "cover", description: "深度参与脚本完善、现场拍摄与成片优化，在真实制作流程中持续打磨影像表达、团队协作和项目执行能力。" },
-  { title: "东师传媒", category: "公众号运营", src: "/photos/projects/dongshi-media.jpg", shape: "portrait", fit: "contain", description: "参与学院官方微信公众号的选题策划、采访撰稿与图文编辑，累计输出原创内容 10 余篇，总阅读量超过 1 万。" },
-  { title: "优秀志愿者", category: "校园服务", src: "/photos/projects/volunteer-certificate.png", shape: "portrait", fit: "contain", description: "参与校园疫情防控志愿服务，负责现场组织、人员引导与信息登记，在高强度协作中培养责任意识与快速响应能力。" },
-  { title: "用户内容运营", category: "蔚来", src: "/photos/internship/nio-office.jpg", shape: "wide", fit: "cover", description: "围绕用户购车全生命周期策划内容与线上活动，联动 App、社交媒体及社群，持续优化内容分发与用户转化。" },
-  { title: "内容营销策划", category: "阳狮", src: "/photos/internship/publicis-event.jpg", shape: "wide", fit: "cover", description: "洞察影视与短剧营销趋势，参与内容策略、品牌联名与投放复盘，为客户提供结构化的内容营销方案。" },
-  { title: "618 大促运营", category: "抖音电商", src: "/photos/internship/bytedance-618-team.jpg", shape: "wide", fit: "cover", description: "参与部门 618 全周期运营，跟进重点直播、作者资源与经营数据，协助推动核心指标达成。" },
-  { title: "视觉设计与校园媒体", category: "东师青年报社", src: "/photos/education/northeast-normal-campus.jpg", shape: "wide", fit: "cover", description: "围绕校园人物、专题报道与品牌宣传完成视觉策划和版式设计，并统筹团队协作与内容审核。" },
+  {
+    number: "01",
+    title: "《繁花》招商与广告植入案例分析",
+    category: "案例分析",
+    cover: "/portfolio/covers/blossom-case.jpg",
+    src: "/portfolio/blossom-case.jpg",
+    background: "2024年，《繁花》热播并引发大量讨论，剧中的品牌植入也成为影视营销案例。本案例以剧中合作品牌为研究对象，结合播放表现、广告投放、品牌曝光和社交平台热度，分析影视内容与品牌传播之间的结合方式。",
+    content: "案例整理《繁花》的招商情况和品牌合作信息，通过数据图表梳理广告投放规模、合作品牌数量及传播表现。同时选取百事可乐、光明乳业、雅诗兰黛等品牌植入片段，分析产品如何融入人物关系、剧情发展和时代背景，并结合热搜话题、短视频讨论等内容，观察剧集热度如何带动品牌关注。",
+  },
+  {
+    number: "02",
+    title: "短剧内容植入与投后数据复盘分析",
+    category: "投后复盘",
+    cover: "/portfolio/covers/short-drama-postbuy.jpg",
+    src: "/portfolio/short-drama-postbuy.jpg",
+    background: "短剧凭借节奏快、传播范围广等特点，逐渐成为美妆品牌进行内容营销的重要渠道。本案例以欧莱雅集团产品在抖音短剧中的植入项目为对象，选取《逆旅》《重生后我平等的创飞每个人》《本命少女合租日记》三部短剧，分析内容特点与品牌传播效果。",
+    content: "案例从项目介绍、剧情特点、产品植入和用户分析四个方面展开。通过整理短剧账号数据、播放表现和产品露出方式，分析品牌在剧情中的呈现效果；同时结合观众年龄、性别、地域以及点赞、评论、分享等互动数据，判断短剧用户与品牌目标人群的匹配程度，为后续内容投放提供参考。",
+  },
+  {
+    number: "03",
+    title: "2024年1—3月短剧市场规模与趋势分析",
+    category: "行业研究",
+    cover: "/portfolio/covers/short-drama-market-q1.jpg",
+    src: "/portfolio/short-drama-market-q1.jpg",
+    background: "2024年初，短剧市场继续保持增长，平台竞争、内容类型和商业模式不断变化。本报告结合市场数据、平台表现和代表项目，对短剧行业的发展情况进行梳理。",
+    content: "报告首先整理短剧市场规模、用户付费情况、平台竞争情况和热门项目表现，通过数据分析行业整体发展状态；随后从题材变化、用户需求、平台布局、内容出海和商业投放等方面总结市场趋势。报告呈现了短剧行业的发展特点，为内容策划、项目判断和市场分析提供参考。",
+  },
+  {
+    number: "04",
+    title: "华伦天奴 Spike Lipstick 内容合作项目提案",
+    category: "内容提案",
+    cover: "/portfolio/covers/valentino-spike-proposal.jpg",
+    src: "/portfolio/valentino-spike-proposal.jpg",
+    background: "本策划案针对华伦天奴 Spike Lipstick 新品上市需求，希望通过内容合作提升产品关注度，并吸引年轻消费者。结合口红产品特点、品牌风格和目标用户兴趣，寻找适合品牌传播的音乐、潮流和综艺资源。",
+    content: "方案从产品卖点、传播目标和合作方向进行分析，提出适合新品推广的内容选择标准。项目推荐部分重点研究TMEA腾讯音乐娱乐盛典、说唱节目、乐队综艺等资源，从节目影响力、用户特点、传播场景和品牌契合度等方面进行比较，为品牌选择合作项目提供决策依据。",
+  },
+  {
+    number: "05",
+    title: "Haircare品牌综艺内容合作项目推荐",
+    category: "项目推荐",
+    cover: "/portfolio/covers/haircare-variety-recommendation.jpg",
+    src: "/portfolio/haircare-variety-recommendation.jpg",
+    background: "2024年综艺市场持续变化，品牌在选择合作节目时更加关注内容特点与用户需求是否匹配。本策划案围绕Haircare品类营销需求，结合年度综艺趋势和平台热门项目，筛选适合品牌推广的内容资源。",
+    content: "方案梳理2024年综艺市场变化，分析不同平台的热门节目和内容方向，并重点评估《一起露营吧》《毛雪汪》《令人心动的offer》《种地吧2》《怦然心动20岁》等项目。分析内容包括节目定位、嘉宾特点、观众画像、植入空间等，为品牌后续综艺合作选择提供参考。",
+  },
+  {
+    number: "06",
+    title: "巴欧2024 Content Annual Plan",
+    category: "年度规划",
+    cover: "/portfolio/covers/bao-content-annual-plan.jpg",
+    src: "/portfolio/bao-content-annual-plan.jpg",
+    background: "随着内容营销竞争加剧，品牌在选择剧综合作资源时，需要综合考虑平台影响力、节目特点和用户匹配程度。本策划案针对巴欧年度内容合作需求，对主要视频平台的重点项目进行分析。",
+    content: "方案比较腾讯视频、爱奇艺、优酷、芒果等平台的内容资源和合作方式，筛选适合品牌传播的剧集和综艺项目。通过分析项目类型、内容风格、嘉宾阵容、用户特点和品牌植入方式，对不同项目的合作价值进行评估，为年度内容投放规划提供参考。",
+  },
+  {
+    number: "07",
+    title: "巴黎欧莱雅2024内容合作趋势分析与项目推荐",
+    category: "趋势分析",
+    cover: "/portfolio/covers/loreal-content-trends.jpg",
+    src: "/portfolio/loreal-content-trends.jpg",
+    background: "2024年，剧集和综艺依然是品牌内容营销的重要渠道，各平台持续推出不同类型的热门项目。本策划案结合巴黎欧莱雅的传播需求，分析内容市场变化，并筛选适合品牌合作的项目资源。",
+    content: "方案梳理户外体验、音乐竞演、都市爱情、女性题材等热门内容方向，并分析《奔赴！万人现场》《怦然心动20岁4》《半熟男女》《春色寄情人》《玫瑰故事》《我的阿勒泰》等项目。从平台资源、节目特点、上线时间、合作方式和品牌植入空间等方面进行评估，同时参考竞品案例，总结不同品牌在节目露出和社交传播中的应用方式。",
+  },
+  {
+    number: "08",
+    title: "兰蔻×NBA 2024情人节合作结案报告",
+    category: "结案报告",
+    cover: "/portfolio/covers/lancome-nba-report.jpg",
+    src: "/portfolio/lancome-nba-report.jpg",
+    background: "该项目结合兰蔻情人节营销需求，通过NBA赛事内容与节日消费场景，提升品牌关注度和产品认知。本报告对项目执行效果进行整理和分析，复盘品牌合作表现。",
+    content: "报告整理项目曝光数据、互动情况、平台传播效果和用户反馈，分析不同传播渠道和内容形式的表现差异。同时结合达人内容、赛事场景和节日营销素材，梳理品牌如何借助NBA合作扩大影响力，并提升消费者对产品的关注。",
+  },
+  {
+    number: "09",
+    title: "巴黎欧莱雅×快手短剧营销共建案",
+    category: "营销共建",
+    cover: "/portfolio/covers/kuaishou-short-drama.jpg",
+    src: "/portfolio/kuaishou-short-drama.jpg",
+    background: "2024年短剧内容持续受到用户关注，凭借强情节和高互动特点，成为品牌探索内容营销的新场景。本方案结合巴黎欧莱雅品牌需求，对快手短剧合作机会进行分析。",
+    content: "方案首先分析快手短剧的内容特点、用户基础和商业化优势，进一步研究美妆品牌进入短剧场景的适合方式。方案提出明星定制剧、星芒S+短剧、剧场冠名等合作形式，并结合剧情植入、互动玩法和社交传播方式，探索品牌如何借助短剧内容提升用户关注和产品认知。",
+  },
 ] as const;
 
 const portfolioColumns = [
@@ -652,32 +724,65 @@ export default function Home() {
           }}
         >
           <section role="dialog" aria-modal="true" aria-labelledby="portfolio-dialog-title">
-            <button
-              className="portfolio-close"
-              onClick={() => {
-                setPortfolioOpen(null);
-                setPortfolioFlipped(false);
-              }}
-              aria-label="关闭作品大图"
-            >×</button>
-            <p className="portfolio-flip-hint">点击作品翻面查看介绍</p>
-            <button
-              className={`portfolio-flip-card ${portfolioFlipped ? "is-flipped" : ""}`}
-              onClick={() => setPortfolioFlipped((current) => !current)}
-              aria-label={portfolioFlipped ? "翻回作品图片" : "翻转查看作品介绍"}
-            >
-              <span className="portfolio-flip-inner">
-                <figure className="portfolio-flip-front">
-                  <img src={portfolioItem.src} alt={portfolioItem.title} />
+            <header className="portfolio-reader-header">
+              <div>
+                <small>{portfolioItem.number} / {portfolioItem.category}</small>
+                <h3 id="portfolio-dialog-title">{portfolioItem.title}</h3>
+              </div>
+              <div className="portfolio-reader-actions">
+                <button
+                  className="portfolio-flip-action"
+                  onClick={() => setPortfolioFlipped((current) => !current)}
+                >
+                  {portfolioFlipped ? "查看作品长图" : "查看作品介绍"}
+                </button>
+                <button
+                  className="portfolio-close"
+                  onClick={() => {
+                    setPortfolioOpen(null);
+                    setPortfolioFlipped(false);
+                  }}
+                  aria-label="关闭作品大图"
+                >×</button>
+              </div>
+            </header>
+            <p className="portfolio-flip-hint">
+              {portfolioFlipped ? "阅读作品背景与内容介绍" : "向下滚动查看完整作品 · 点击作品即可翻转"}
+            </p>
+            <div className={`portfolio-reader ${portfolioFlipped ? "is-flipped" : ""}`}>
+              <div className="portfolio-reader-inner">
+                <figure className="portfolio-reader-front">
+                  <img
+                    src={portfolioItem.src}
+                    alt={portfolioItem.title}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setPortfolioFlipped(true)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setPortfolioFlipped(true);
+                      }
+                    }}
+                  />
                 </figure>
-                <article className="portfolio-flip-back">
-                  <small>{portfolioItem.category}</small>
-                  <h3 id="portfolio-dialog-title">{portfolioItem.title}</h3>
-                  <p>{portfolioItem.description}</p>
-                  <span>再次点击返回作品图片</span>
+                <article className="portfolio-reader-back">
+                  <small>{portfolioItem.number} / {portfolioItem.category}</small>
+                  <h3>{portfolioItem.title}</h3>
+                  <div className="portfolio-copy-block">
+                    <span>作品背景</span>
+                    <p>{portfolioItem.background}</p>
+                  </div>
+                  <div className="portfolio-copy-block">
+                    <span>作品内容</span>
+                    <p>{portfolioItem.content}</p>
+                  </div>
+                  <button className="portfolio-back-button" onClick={() => setPortfolioFlipped(false)}>
+                    返回作品长图
+                  </button>
                 </article>
-              </span>
-            </button>
+              </div>
+            </div>
           </section>
         </div>
       )}
@@ -697,7 +802,7 @@ export default function Home() {
                       const item = portfolioItems[itemIndex];
                       return (
                         <button
-                          className={`portfolio-card ${item.shape}`}
+                          className="portfolio-card"
                           onClick={() => {
                             setPortfolioFlipped(false);
                             setPortfolioOpen(itemIndex);
@@ -706,8 +811,16 @@ export default function Home() {
                           tabIndex={copyIndex === 1 ? -1 : 0}
                           key={`${item.title}-${copyIndex}`}
                         >
-                          <img className={`fit-${item.fit}`} src={item.src} alt={copyIndex === 0 ? item.title : ""} />
-                          <span><small>{item.category}</small>{item.title}</span>
+                          <img
+                            src={item.cover}
+                            alt={copyIndex === 0 ? item.title : ""}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <span>
+                            <small>{item.number} / {item.category}</small>
+                            <strong>{item.title}</strong>
+                          </span>
                         </button>
                       );
                     })}
