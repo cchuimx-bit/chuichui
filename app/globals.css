@@ -220,7 +220,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tab-card.is-leaving > .internship-panel,
 .tab-card.is-leaving > .card-copy,
 .tab-card.is-leaving > .card-photo { opacity: 0; transform: translateX(-28px); }
-.interest-section { padding: 110px clamp(28px,3.8vw,78px) 0; background: #f3e7d0; overflow: hidden; }
+.interest-section { padding: 110px clamp(56px,7.6vw,156px) 0 clamp(28px,3.8vw,78px); background: #f3e7d0; overflow: hidden; }
 .interest-section .portfolio-heading { width: fit-content; max-width: 100%; margin: 0 auto 64px; display: grid; justify-items: center; gap: 15px; color: var(--brown); }
 .interest-section .portfolio-heading p { margin: 0; display: flex; align-items: center; gap: 14px; font: 400 clamp(13px,1.25vw,17px)/1 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: .16em; }
 .interest-section .portfolio-heading p::before,
@@ -404,7 +404,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .thoughts-copy p { font-size: 13px; line-height: 1.75; }
   .card-copy { min-height: 380px; border-radius: 24px 24px 0 0; padding: 75px 30px 40px; }
   .card-photo { height: 390px; border-radius: 0 0 24px 24px; }
-  .interest-section { padding: 90px 8px 0; }
+  .interest-section { padding: 90px 16px 0 8px; }
   .interest-section .portfolio-heading { margin-bottom: 45px; }
   .portfolio-mosaic { width: 100%; height: auto; display: block; padding: 10px; -webkit-mask-image: none; mask-image: none; }
   .portfolio-column { overflow: visible; }
