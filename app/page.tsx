@@ -813,7 +813,7 @@ export default function Home() {
           >
             <header className="portfolio-reader-header">
               <div>
-                <small>{portfolioItem.number} / {portfolioItem.category}</small>
+                <small><b>{portfolioItem.number}</b><span> / {portfolioItem.category}</span></small>
                 <h3 id="portfolio-dialog-title">{portfolioItem.title}</h3>
               </div>
               <div className="portfolio-reader-actions">
@@ -887,7 +887,7 @@ export default function Home() {
                       rel="noreferrer"
                       onClick={(event) => event.stopPropagation()}
                     >
-                      查看原活动 ↗
+                      点击跳转至原活动 ↗
                     </a>
                   )}
                   <button className="portfolio-back-button" onClick={() => setPortfolioFlipped(false)}>

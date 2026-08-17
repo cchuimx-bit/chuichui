@@ -251,7 +251,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .portfolio-lightbox > section.is-mobile-work { width: min(800px,92vw); }
 .portfolio-reader-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 8px 10px 2px; color: #fffaf0; }
 .portfolio-reader-header > div:first-child { min-width: 0; }
-.portfolio-reader-header small { display: block; margin-bottom: 3px; color: #ffcb1f; font: 700 10px/1.3 var(--body); letter-spacing: .15em; }
+.portfolio-reader-header small { display: flex; align-items: baseline; gap: 2px; margin-bottom: 4px; color: #ffcb1f; font: 700 10px/1.3 var(--body); letter-spacing: .15em; }
+.portfolio-reader-header small b { font: 800 15px/1 var(--display); letter-spacing: .05em; }
 .portfolio-reader-header h3 { overflow: hidden; margin: 0; font: 800 clamp(17px,2vw,28px)/1.15 var(--display); letter-spacing: -.02em; text-overflow: ellipsis; white-space: nowrap; }
 .portfolio-reader-actions { flex: none; display: flex; align-items: center; gap: 10px; }
 .portfolio-flip-action { min-height: 40px; padding: 10px 17px; border: 1px solid rgba(255,250,240,.42); border-radius: 999px; color: #fffaf0; background: rgba(255,250,240,.12); font: 700 11px/1 var(--body); letter-spacing: .06em; transition: color .2s ease, background .2s ease, transform .2s ease; }
