@@ -513,12 +513,44 @@ const portfolioItems = [
     content: xiaohongshuGameContent,
     readerFormat: "h5",
   },
+  {
+    number: "30",
+    title: "拼豆图纸——晚风小农场",
+    category: "拼豆图纸",
+    cover: "/portfolio/covers/perler-wind-farm.jpg",
+    background: "原创拼豆图纸系列",
+    content: "晚风小农场主题图纸，共收录第一辑至第五辑的系列封面。",
+    readerFormat: "gallery",
+    gallery: [
+      { src: "/portfolio/perler-bead/wind-farm/series-01.png", alt: "晚风小农场原创拼豆图纸第一辑" },
+      { src: "/portfolio/perler-bead/wind-farm/series-02.png", alt: "晚风小农场原创拼豆图纸第二辑" },
+      { src: "/portfolio/perler-bead/wind-farm/series-03.png", alt: "晚风小农场原创拼豆图纸第三辑" },
+      { src: "/portfolio/perler-bead/wind-farm/series-04.png", alt: "晚风小农场原创拼豆图纸第四辑" },
+      { src: "/portfolio/perler-bead/wind-farm/series-05.png", alt: "晚风小农场原创拼豆图纸第五辑" },
+    ],
+  },
+  {
+    number: "31",
+    title: "拼豆图纸——宝可梦",
+    category: "拼豆图纸",
+    cover: "/portfolio/covers/perler-pokemon.jpg",
+    background: "宝可梦主题拼豆图纸系列",
+    content: "非官方粉丝创作，共收录第一辑至第五辑的系列封面。",
+    readerFormat: "gallery",
+    gallery: [
+      { src: "/portfolio/perler-bead/pokemon/series-01.png", alt: "宝可梦拼豆图纸第一辑初见伙伴" },
+      { src: "/portfolio/perler-bead/pokemon/series-02.png", alt: "宝可梦拼豆图纸第二辑花田居民" },
+      { src: "/portfolio/perler-bead/pokemon/series-03.png", alt: "宝可梦拼豆图纸第三辑夜色与水边" },
+      { src: "/portfolio/perler-bead/pokemon/series-04.png", alt: "宝可梦拼豆图纸第四辑工坊伙伴" },
+      { src: "/portfolio/perler-bead/pokemon/series-05.png", alt: "宝可梦拼豆图纸第五辑大型伙伴" },
+    ],
+  },
 ] as const;
 
 const portfolioColumns = [
-  [0, 3, 6, 9, 12, 15, 18, 21, 24, 27],
+  [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
   [1, 4, 7, 10, 13, 16, 19, 22, 25, 28],
-  [2, 5, 8, 11, 14, 17, 20, 23, 26],
+  [2, 5, 8, 11, 14, 17, 20, 23, 26, 29],
 ] as const;
 
 const photos = [
@@ -1020,7 +1052,7 @@ export default function Home() {
                   {"gallery" in portfolioItem ? (
                     <div
                       className={`portfolio-design-gallery gallery-count-${Math.min(portfolioItem.gallery.length, 3)}`}
-                      aria-label="蔚来线上活动图片及海报作品画廊"
+                      aria-label={`${portfolioItem.title}作品画廊`}
                     >
                       {portfolioItem.gallery.map((image, index) => (
                         <button
@@ -1093,6 +1125,9 @@ export default function Home() {
                   </button>
                 </article>
               </div>
+              <span className="portfolio-reader-index" aria-hidden="true">
+                作品{portfolioItem.number}
+              </span>
             </div>
           </section>
         </div>
