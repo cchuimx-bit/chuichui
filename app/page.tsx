@@ -209,6 +209,8 @@ const projectHistory = [
 const nioCampaignDesignTitle = "蔚来线上活动图片及海报设计";
 const nioCampaignDesignBackground = "围绕蔚来粉丝专属试驾活动与夏日营销主题，为活动传播提供统一、清晰且具有出行氛围的视觉内容。";
 const nioCampaignDesignContent = "完成车型场景图、盲盒主视觉、社交媒体方图及竖版活动海报等多尺寸视觉设计，将试驾福利、新疆旅行和夏日盲盒等核心信息转化为适配不同传播场景的图片素材。";
+const xiaohongshuGameBackground = "小红书个人账号运营——游戏攻略类";
+const xiaohongshuGameContent = "账号ID：十九河道（409317373）";
 
 const portfolioItems = [
   {
@@ -411,12 +413,112 @@ const portfolioItems = [
       { src: "/portfolio/nio-campaign-design/poster-10.jpg", alt: "试驾抽好礼新疆之旅竖版海报" },
     ],
   },
+  {
+    number: "20",
+    title: "灵魂摆渡人全食谱攻略",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-01.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-01.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "21",
+    title: "Wallpaper｜超好看的壁纸推荐",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-02.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-02.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "22",
+    title: "TOEM摄影冒险游戏攻略（二）",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-03.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-03.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "23",
+    title: "The Big Con保姆级全攻略（一）",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-04.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-04.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "24",
+    title: "潜水员戴夫｜全成就通关攻略",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-05.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-05.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "25",
+    title: "熊与早餐｜全地图全成就攻略",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-06.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-06.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "26",
+    title: "火山的女儿｜技巧攻略",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-07.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-07.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "27",
+    title: "鲁特里一家死了｜攻略家族树图鉴",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-08.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-08.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "28",
+    title: "煤炭镇的小白｜通关攻略与体验分享",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-09.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-09.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
+  {
+    number: "29",
+    title: "多重人生｜攻略与体验感悟",
+    category: "游戏攻略",
+    cover: "/portfolio/covers/xiaohongshu-guide-10.jpg",
+    src: "/portfolio/xiaohongshu-game-guides/guide-10.webp",
+    background: xiaohongshuGameBackground,
+    content: xiaohongshuGameContent,
+    readerFormat: "h5",
+  },
 ] as const;
 
 const portfolioColumns = [
-  [0, 3, 6, 9, 12, 15, 18],
-  [1, 4, 7, 10, 13, 16],
-  [2, 5, 8, 11, 14, 17],
+  [0, 3, 6, 9, 12, 15, 18, 21, 24, 27],
+  [1, 4, 7, 10, 13, 16, 19, 22, 25, 28],
+  [2, 5, 8, 11, 14, 17, 20, 23, 26],
 ] as const;
 
 const photos = [
