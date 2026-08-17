@@ -206,12 +206,23 @@ const projectHistory = [
   },
 ] as const;
 
-const notes = [
-  { label: "摄影", text: "我喜欢按下快门的瞬间。照片会记住光线，也会记住当时没有说出口的心情。", cls: "note-yellow" },
-  { label: "旅行", text: "去陌生的城市散步，把地图折起来，偶尔迷路，往往会遇到当天最惊喜的风景。", cls: "note-orange" },
-  { label: "阅读", text: "在别人的故事里生活一会儿。读小说、随笔，也收集一切古怪又可爱的句子。", cls: "note-teal" },
-  { label: "音乐", text: "我的日常背景音。从独立音乐到老唱片，一首歌常常就是一段时间的入口。", cls: "note-green" },
-];
+const portfolioItems = [
+  { title: "十九河道", category: "个人账号运营", src: "/photos/projects/xiaohongshu-account.png", shape: "portrait", fit: "contain", description: "独立运营小红书游戏内容账号，从选题、文案到封面与排版完成全流程创作；累计获得 30 万以上浏览量与 1.9 万以上赞藏。" },
+  { title: "影像联合创作", category: "项目策划与制片", src: "/photos/projects/film-team.jpg", shape: "wide", fit: "cover", description: "参与校园影视项目策划与制作，承担组长、制片与后期工作，推动作品从创意构思、资源协调到拍摄交付完整落地。" },
+  { title: "拍摄现场", category: "影像制作", src: "/photos/projects/film-shoot.jpg", shape: "wide", fit: "cover", description: "深度参与脚本完善、现场拍摄与成片优化，在真实制作流程中持续打磨影像表达、团队协作和项目执行能力。" },
+  { title: "东师传媒", category: "公众号运营", src: "/photos/projects/dongshi-media.jpg", shape: "portrait", fit: "contain", description: "参与学院官方微信公众号的选题策划、采访撰稿与图文编辑，累计输出原创内容 10 余篇，总阅读量超过 1 万。" },
+  { title: "优秀志愿者", category: "校园服务", src: "/photos/projects/volunteer-certificate.png", shape: "portrait", fit: "contain", description: "参与校园疫情防控志愿服务，负责现场组织、人员引导与信息登记，在高强度协作中培养责任意识与快速响应能力。" },
+  { title: "用户内容运营", category: "蔚来", src: "/photos/internship/nio-office.jpg", shape: "wide", fit: "cover", description: "围绕用户购车全生命周期策划内容与线上活动，联动 App、社交媒体及社群，持续优化内容分发与用户转化。" },
+  { title: "内容营销策划", category: "阳狮", src: "/photos/internship/publicis-event.jpg", shape: "wide", fit: "cover", description: "洞察影视与短剧营销趋势，参与内容策略、品牌联名与投放复盘，为客户提供结构化的内容营销方案。" },
+  { title: "618 大促运营", category: "抖音电商", src: "/photos/internship/bytedance-618-team.jpg", shape: "wide", fit: "cover", description: "参与部门 618 全周期运营，跟进重点直播、作者资源与经营数据，协助推动核心指标达成。" },
+  { title: "视觉设计与校园媒体", category: "东师青年报社", src: "/photos/education/northeast-normal-campus.jpg", shape: "wide", fit: "cover", description: "围绕校园人物、专题报道与品牌宣传完成视觉策划和版式设计，并统筹团队协作与内容审核。" },
+] as const;
+
+const portfolioColumns = [
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+] as const;
 
 const photos = [
   ["coast-a", "海边的午后"],
@@ -258,7 +269,8 @@ export default function Home() {
   const [thoughtsClosing, setThoughtsClosing] = useState(false);
   const [thoughtsContext, setThoughtsContext] = useState<"education" | "internship">("education");
   const [zoomedPhoto, setZoomedPhoto] = useState<{ src: string; alt: string } | null>(null);
-  const [note, setNote] = useState(1);
+  const [portfolioOpen, setPortfolioOpen] = useState<number | null>(null);
+  const [portfolioFlipped, setPortfolioFlipped] = useState(false);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(true);
@@ -325,12 +337,15 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!showThoughts && !zoomedPhoto) return;
+    if (!showThoughts && !zoomedPhoto && portfolioOpen === null) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      if (zoomedPhoto) setZoomedPhoto(null);
+      if (portfolioOpen !== null) {
+        setPortfolioOpen(null);
+        setPortfolioFlipped(false);
+      } else if (zoomedPhoto) setZoomedPhoto(null);
       else closeThoughts();
     };
     window.addEventListener("keydown", onKeyDown);
@@ -338,7 +353,7 @@ export default function Home() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [showThoughts, zoomedPhoto]);
+  }, [showThoughts, zoomedPhoto, portfolioOpen]);
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
@@ -360,6 +375,7 @@ export default function Home() {
   const internship = internshipHistory[internshipIndex];
   const project = projectHistory[projectIndex];
   const thoughts = thoughtsContext === "education" ? educationThoughts[educationIndex] : internshipThoughts[internshipIndex];
+  const portfolioItem = portfolioOpen === null ? null : portfolioItems[portfolioOpen];
 
   return (
     <main>
@@ -625,18 +641,80 @@ export default function Home() {
         </div>
       )}
 
+      {portfolioItem && (
+        <div
+          className="portfolio-lightbox"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target !== event.currentTarget) return;
+            setPortfolioOpen(null);
+            setPortfolioFlipped(false);
+          }}
+        >
+          <section role="dialog" aria-modal="true" aria-labelledby="portfolio-dialog-title">
+            <button
+              className="portfolio-close"
+              onClick={() => {
+                setPortfolioOpen(null);
+                setPortfolioFlipped(false);
+              }}
+              aria-label="关闭作品大图"
+            >×</button>
+            <p className="portfolio-flip-hint">点击作品翻面查看介绍</p>
+            <button
+              className={`portfolio-flip-card ${portfolioFlipped ? "is-flipped" : ""}`}
+              onClick={() => setPortfolioFlipped((current) => !current)}
+              aria-label={portfolioFlipped ? "翻回作品图片" : "翻转查看作品介绍"}
+            >
+              <span className="portfolio-flip-inner">
+                <figure className="portfolio-flip-front">
+                  <img src={portfolioItem.src} alt={portfolioItem.title} />
+                </figure>
+                <article className="portfolio-flip-back">
+                  <small>{portfolioItem.category}</small>
+                  <h3 id="portfolio-dialog-title">{portfolioItem.title}</h3>
+                  <p>{portfolioItem.description}</p>
+                  <span>再次点击返回作品图片</span>
+                </article>
+              </span>
+            </button>
+          </section>
+        </div>
+      )}
+
       <section className="interest-section" id="interests">
         <div className="section-heading portfolio-heading">
           <p>02 / MY PORTFOLIO</p>
           <h2>作品集</h2>
         </div>
-        <div className="notes-stack">
-          {notes.map((item, index) => (
-            <button key={item.label} className={`paper-note ${item.cls} ${note === index ? "top" : ""}`} style={{ "--i": index } as React.CSSProperties} onClick={() => setNote(index)}>
-              <small>{item.label} · NOTE 0{index + 1}</small>
-              <p>{item.text}</p>
-              <b>{note === index ? "正在翻阅" : "点我看看"}</b>
-            </button>
+        <div className="portfolio-mosaic" aria-label="作品集图片墙">
+          {portfolioColumns.map((column, columnIndex) => (
+            <div className={`portfolio-column portfolio-column-${columnIndex + 1}`} key={columnIndex}>
+              <div className="portfolio-track">
+                {[0, 1].map((copyIndex) => (
+                  <div className="portfolio-loop-set" aria-hidden={copyIndex === 1} key={copyIndex}>
+                    {column.map((itemIndex) => {
+                      const item = portfolioItems[itemIndex];
+                      return (
+                        <button
+                          className={`portfolio-card ${item.shape}`}
+                          onClick={() => {
+                            setPortfolioFlipped(false);
+                            setPortfolioOpen(itemIndex);
+                          }}
+                          aria-label={`放大查看作品：${item.title}`}
+                          tabIndex={copyIndex === 1 ? -1 : 0}
+                          key={`${item.title}-${copyIndex}`}
+                        >
+                          <img className={`fit-${item.fit}`} src={item.src} alt={copyIndex === 0 ? item.title : ""} />
+                          <span><small>{item.category}</small>{item.title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
