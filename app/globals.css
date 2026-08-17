@@ -273,6 +273,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .portfolio-copy-block { display: grid; grid-template-columns: minmax(84px,110px) minmax(0,1fr); gap: clamp(18px,3vw,44px); max-width: 1120px; padding: clamp(16px,2vw,24px) 0; border-top: 1px solid rgba(62,39,8,.22); }
 .portfolio-copy-block span { color: #a75545; font: 800 clamp(15px,1.5vw,19px)/1.5 var(--display); }
 .portfolio-copy-block p { margin: 0; font-size: clamp(14px,1.4vw,18px); font-weight: 400; line-height: 1.85; }
+.portfolio-external-link { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin-top: 2px; padding: 12px 22px; border-radius: 999px; color: var(--yellow); background: var(--brown); font: 700 12px/1 var(--body); letter-spacing: .04em; transition: color .2s ease, background .2s ease, transform .2s ease; }
+.portfolio-external-link:hover { color: var(--brown); background: var(--yellow); transform: translateY(-2px); }
+.portfolio-external-link:focus-visible { outline: 3px solid #a75545; outline-offset: 3px; }
 .portfolio-back-button { justify-self: start; margin-top: 8px; padding: 12px 24px; border: 2px solid var(--brown); border-radius: 999px; color: var(--brown); background: transparent; font: 700 12px/1 var(--body); transition: color .2s ease, background .2s ease, transform .2s ease; }
 .portfolio-back-button:hover { color: var(--yellow); background: var(--brown); transform: translateY(-2px); }
 

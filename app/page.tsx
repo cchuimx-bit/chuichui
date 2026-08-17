@@ -288,12 +288,71 @@ const portfolioItems = [
     background: "2024年短剧内容持续受到用户关注，凭借强情节和高互动特点，成为品牌探索内容营销的新场景。本方案结合巴黎欧莱雅品牌需求，对快手短剧合作机会进行分析。",
     content: "方案首先分析快手短剧的内容特点、用户基础和商业化优势，进一步研究美妆品牌进入短剧场景的适合方式。方案提出明星定制剧、星芒S+短剧、剧场冠名等合作形式，并结合剧情植入、互动玩法和社交传播方式，探索品牌如何借助短剧内容提升用户关注和产品认知。",
   },
+  {
+    number: "10",
+    title: "粉丝专属｜试驾得盲盒，赢9天8晚新疆之旅",
+    category: "线上活动",
+    cover: "/portfolio/covers/nio-xinjiang-article.jpg",
+    src: "/portfolio/nio-xinjiang-article.jpg",
+    background: "为提升用户试驾体验和品牌互动，蔚来面向粉丝用户推出专属试驾活动。活动结合夏日出行场景，通过试驾体验、福利奖励和旅行主题玩法，吸引用户参与并增强品牌好感。",
+    content: "围绕用户参与规则、试驾流程、福利设置和传播内容进行设计。用户完成首次试驾预约后，可获得盲盒抽奖机会，奖品涵盖新疆深度旅行、露营装备、品牌周边等，将车辆体验与生活场景结合。",
+    externalUrl: "https://l.nio.cn/JtJILod",
+  },
+  {
+    number: "11",
+    title: "粉丝专属｜试驾得盲盒，赢9天8晚新疆之旅｜活动规则",
+    category: "活动规则",
+    cover: "/portfolio/covers/nio-xinjiang-rules.jpg",
+    src: "/portfolio/nio-xinjiang-rules.jpg",
+    background: "作为同主题线上活动的独立规则页面，本作品承接主活动传播内容，帮助用户集中了解参与条件、活动时间、奖励机制与注意事项。",
+    content: "将试驾预约、盲盒抽奖、新疆旅行大奖及其他福利的参与方式拆解为清晰规则，并补充兑奖说明和活动须知，让用户在进入活动后能够快速确认流程与权益。",
+    externalUrl: "https://l.nio.cn/KiAJoz9",
+  },
+  {
+    number: "12",
+    title: "夏日打卡，赢ET7 30天使用权",
+    category: "线上活动",
+    cover: "/portfolio/covers/nio-et7-checkin.jpg",
+    src: "/portfolio/nio-et7-checkin.jpg",
+    background: "针对夏季用户出行需求，蔚来推出线上打卡活动，通过任务互动和福利奖励吸引用户参与，提升用户对 ET7 车型和品牌服务的关注。",
+    content: "设置每日打卡任务，引导用户完成指定操作并获得抽奖机会；奖品包括 ET7 使用权、品牌周边、线下体验券等。",
+    externalUrl: "https://l.nio.cn/eRCfHFf",
+  },
+  {
+    number: "13",
+    title: "粉丝专属｜试驾有礼，夏日新启",
+    category: "线上活动",
+    cover: "/portfolio/covers/nio-summer-testdrive.jpg",
+    src: "/portfolio/nio-summer-testdrive.jpg",
+    background: "面向蔚来粉丝用户，通过试驾体验和福利活动提升参与积极性。",
+    content: "围绕试驾预约、福利领取和用户互动展开；首次试驾后可获得夏日主题礼品，包括露营装备、品牌周边和线下体验权益。",
+    externalUrl: "https://l.nio.cn/yHjCU4s",
+  },
+  {
+    number: "14",
+    title: "6月新朋友礼遇，限时领取中",
+    category: "线上活动",
+    cover: "/portfolio/covers/nio-new-user-june.jpg",
+    src: "/portfolio/nio-new-user-june.jpg",
+    background: "针对新注册用户推出专属欢迎活动，通过任务引导和福利激励，提高新用户对品牌和车型的了解。",
+    content: "任务包括浏览车型信息、查看车辆配置、了解金融方案、咨询服务顾问和预约试驾等；完成后获得活动奖励。",
+    externalUrl: "https://l.nio.cn/JqwB9Sg",
+  },
+  {
+    number: "15",
+    title: "解锁夏日盲盒，赢ET7使用权",
+    category: "玩法页面",
+    cover: "/portfolio/covers/nio-et7-blindbox.jpg",
+    src: "/portfolio/nio-et7-blindbox.jpg",
+    background: "结合夏日营销节点，通过盲盒玩法提升用户参与兴趣，并借助车辆使用权益吸引用户进一步了解蔚来产品。",
+    content: "设置浏览文章、完成车型配置、分享活动等任务，完成后获得盲盒抽奖机会；奖品包括 ET7 30天使用权、品牌周边、线下体验券等。",
+  },
 ] as const;
 
 const portfolioColumns = [
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
+  [0, 3, 6, 9, 12],
+  [1, 4, 7, 10, 13],
+  [2, 5, 8, 11, 14],
 ] as const;
 
 const photos = [
@@ -809,6 +868,17 @@ export default function Home() {
                     <span>作品内容</span>
                     <p>{portfolioItem.content}</p>
                   </div>
+                  {"externalUrl" in portfolioItem && (
+                    <a
+                      className="portfolio-external-link"
+                      href={portfolioItem.externalUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      查看原活动 ↗
+                    </a>
+                  )}
                   <button className="portfolio-back-button" onClick={() => setPortfolioFlipped(false)}>
                     返回作品长图
                   </button>
