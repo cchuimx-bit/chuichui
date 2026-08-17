@@ -328,6 +328,7 @@ const lowerReelPhotos = [
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const portfolioScrollRef = useRef<HTMLElement>(null);
   const experienceTimerRef = useRef<number | null>(null);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
@@ -426,6 +427,22 @@ export default function Home() {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [showThoughts, zoomedPhoto, portfolioOpen]);
+
+  useEffect(() => {
+    const scroller = portfolioScrollRef.current;
+    if (!scroller || portfolioOpen === null) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
+      if (maxScroll <= 0) return;
+      event.preventDefault();
+      event.stopPropagation();
+      scroller.scrollTop = Math.max(0, Math.min(maxScroll, scroller.scrollTop + event.deltaY));
+    };
+
+    scroller.addEventListener("wheel", handleWheel, { passive: false });
+    return () => scroller.removeEventListener("wheel", handleWheel);
+  }, [portfolioOpen]);
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
@@ -747,11 +764,14 @@ export default function Home() {
               </div>
             </header>
             <p className="portfolio-flip-hint">
-              {portfolioFlipped ? "阅读作品背景与内容介绍" : "向下滚动查看完整作品 · 点击作品即可翻转"}
+              {portfolioFlipped ? "点击作品介绍即可翻转返回长图" : "向下滚动查看完整作品 · 点击作品即可翻转"}
             </p>
             <div className={`portfolio-reader ${portfolioFlipped ? "is-flipped" : ""}`}>
               <div className="portfolio-reader-inner">
-                <figure className="portfolio-reader-front">
+                <figure
+                  ref={portfolioScrollRef}
+                  className="portfolio-reader-front"
+                >
                   <img
                     src={portfolioItem.src}
                     alt={portfolioItem.title}
@@ -766,7 +786,19 @@ export default function Home() {
                     }}
                   />
                 </figure>
-                <article className="portfolio-reader-back">
+                <article
+                  className="portfolio-reader-back"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="翻转返回作品长图"
+                  onClick={() => setPortfolioFlipped(false)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setPortfolioFlipped(false);
+                    }
+                  }}
+                >
                   <small>{portfolioItem.number} / {portfolioItem.category}</small>
                   <h3>{portfolioItem.title}</h3>
                   <div className="portfolio-copy-block">
