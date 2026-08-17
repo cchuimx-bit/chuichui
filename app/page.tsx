@@ -206,6 +206,10 @@ const projectHistory = [
   },
 ] as const;
 
+const nioCampaignDesignTitle = "蔚来线上活动图片及海报设计";
+const nioCampaignDesignBackground = "围绕蔚来粉丝专属试驾活动与夏日营销主题，为活动传播提供统一、清晰且具有出行氛围的视觉内容。";
+const nioCampaignDesignContent = "完成车型场景图、盲盒主视觉、社交媒体方图及竖版活动海报等多尺寸视觉设计，将试驾福利、新疆旅行和夏日盲盒等核心信息转化为适配不同传播场景的图片素材。";
+
 const portfolioItems = [
   {
     number: "01",
@@ -355,31 +359,64 @@ const portfolioItems = [
   },
   {
     number: "16",
-    title: "蔚来线上活动图片及海报设计",
+    title: nioCampaignDesignTitle,
     category: "视觉设计",
     cover: "/portfolio/nio-campaign-design/poster-01.jpg",
-    background: "围绕蔚来粉丝专属试驾活动与夏日营销主题，为活动传播提供统一、清晰且具有出行氛围的视觉内容。",
-    content: "完成车型场景图、盲盒主视觉、社交媒体方图及竖版活动海报等多尺寸视觉设计，将试驾福利、新疆旅行和夏日盲盒等核心信息转化为适配不同传播场景的图片素材。",
+    background: nioCampaignDesignBackground,
+    content: nioCampaignDesignContent,
     readerFormat: "gallery",
     gallery: [
       { src: "/portfolio/nio-campaign-design/poster-01.jpg", alt: "粉色蔚来车型试驾盲盒活动方图" },
       { src: "/portfolio/nio-campaign-design/poster-02.jpg", alt: "灰色蔚来车型试驾盲盒活动方图" },
-      { src: "/portfolio/nio-campaign-design/poster-03.jpg", alt: "夏日探趣盲盒产品主视觉" },
       { src: "/portfolio/nio-campaign-design/poster-04.webp", alt: "新疆山景试驾盲盒活动缩略图" },
-      { src: "/portfolio/nio-campaign-design/poster-05.png", alt: "夏日探趣盲盒竖版活动海报" },
       { src: "/portfolio/nio-campaign-design/poster-06.jpg", alt: "雪山背景蔚来车型试驾活动方图" },
-      { src: "/portfolio/nio-campaign-design/poster-07.png", alt: "夏日车生活体验盲盒竖版海报" },
-      { src: "/portfolio/nio-campaign-design/poster-08.png", alt: "夏日车生活体验盲盒方形主视觉" },
       { src: "/portfolio/nio-campaign-design/poster-09.jpg", alt: "城市道路背景蔚来车型试驾活动方图" },
+    ],
+  },
+  {
+    number: "17",
+    title: nioCampaignDesignTitle,
+    category: "视觉设计",
+    cover: "/portfolio/nio-campaign-design/poster-03.jpg",
+    background: nioCampaignDesignBackground,
+    content: nioCampaignDesignContent,
+    readerFormat: "gallery",
+    gallery: [
+      { src: "/portfolio/nio-campaign-design/poster-03.jpg", alt: "夏日探趣盲盒产品主视觉" },
+      { src: "/portfolio/nio-campaign-design/poster-08.png", alt: "夏日车生活体验盲盒方形主视觉" },
+    ],
+  },
+  {
+    number: "18",
+    title: nioCampaignDesignTitle,
+    category: "视觉设计",
+    cover: "/portfolio/nio-campaign-design/poster-05.png",
+    background: nioCampaignDesignBackground,
+    content: nioCampaignDesignContent,
+    readerFormat: "gallery",
+    gallery: [
+      { src: "/portfolio/nio-campaign-design/poster-05.png", alt: "夏日探趣盲盒竖版活动海报" },
+      { src: "/portfolio/nio-campaign-design/poster-07.png", alt: "夏日车生活体验盲盒竖版海报" },
+    ],
+  },
+  {
+    number: "19",
+    title: nioCampaignDesignTitle,
+    category: "视觉设计",
+    cover: "/portfolio/nio-campaign-design/poster-10.jpg",
+    background: nioCampaignDesignBackground,
+    content: nioCampaignDesignContent,
+    readerFormat: "gallery",
+    gallery: [
       { src: "/portfolio/nio-campaign-design/poster-10.jpg", alt: "试驾抽好礼新疆之旅竖版海报" },
     ],
   },
 ] as const;
 
 const portfolioColumns = [
-  [0, 3, 6, 9, 12, 15],
-  [1, 4, 7, 10, 13],
-  [2, 5, 8, 11, 14],
+  [0, 3, 6, 9, 12, 15, 18],
+  [1, 4, 7, 10, 13, 16],
+  [2, 5, 8, 11, 14, 17],
 ] as const;
 
 const photos = [
@@ -874,7 +911,10 @@ export default function Home() {
                   className="portfolio-reader-front"
                 >
                   {"gallery" in portfolioItem ? (
-                    <div className="portfolio-design-gallery" aria-label="蔚来线上活动图片及海报作品画廊">
+                    <div
+                      className={`portfolio-design-gallery gallery-count-${Math.min(portfolioItem.gallery.length, 3)}`}
+                      aria-label="蔚来线上活动图片及海报作品画廊"
+                    >
                       {portfolioItem.gallery.map((image, index) => (
                         <button
                           type="button"
@@ -971,9 +1011,9 @@ export default function Home() {
                             setPortfolioFlipped(false);
                             setPortfolioOpen(itemIndex);
                           }}
-                          aria-label={`放大查看作品：${item.title}`}
+                          aria-label={`放大查看作品 ${item.number}：${item.title}`}
                           tabIndex={copyIndex === 1 ? -1 : 0}
-                          key={`${item.title}-${copyIndex}`}
+                          key={`${item.number}-${copyIndex}`}
                         >
                           <img
                             src={item.cover}
