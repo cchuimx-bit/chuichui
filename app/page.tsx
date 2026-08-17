@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type WheelEvent as ReactWheelEvent } from "react";
 
 const nav = [
   ["home", "首页"],
@@ -642,6 +642,21 @@ export default function Home() {
     setPortfolioOpen(index);
   };
 
+  const handlePortfolioWallWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
+    const column = event.currentTarget;
+    const loopHeight = column.scrollHeight / 2;
+    if (loopHeight <= column.clientHeight) return;
+
+    event.preventDefault();
+    const deltaUnit = event.deltaMode === 1
+      ? 18
+      : event.deltaMode === 2
+        ? column.clientHeight
+        : 1;
+    const nextScroll = column.scrollTop + event.deltaY * deltaUnit * 1.35;
+    column.scrollTop = ((nextScroll % loopHeight) + loopHeight) % loopHeight;
+  };
+
   const switchExperience = (index: number) => {
     if (index === selectedExp) return;
     setShowThoughts(false);
@@ -1137,10 +1152,17 @@ export default function Home() {
         <div className="section-heading portfolio-heading">
           <p>02 / MY PORTFOLIO</p>
           <h2>作品集</h2>
+          <span className="portfolio-heading-note">
+            点击图片进入作品详情，向下滚动浏览完整内容；悬停作品墙时可使用滚轮快速查看
+          </span>
         </div>
         <div className="portfolio-mosaic" aria-label="作品集图片墙">
           {portfolioColumns.map((column, columnIndex) => (
-            <div className={`portfolio-column portfolio-column-${columnIndex + 1}`} key={columnIndex}>
+            <div
+              className={`portfolio-column portfolio-column-${columnIndex + 1}`}
+              onWheel={handlePortfolioWallWheel}
+              key={columnIndex}
+            >
               <div className="portfolio-track">
                 {[0, 1].map((copyIndex) => (
                   <div className="portfolio-loop-set" aria-hidden={copyIndex === 1} key={copyIndex}>
