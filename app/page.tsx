@@ -11,12 +11,6 @@ const nav = [
   ["contact", "联系我"],
 ] as const;
 
-const experience = [
-  { tab: "教育经历", years: "2021 — 2022", title: "新闻与传播", text: "在文字、影像与采访中练习观察世界。开始相信，好的表达应该真诚、清楚，也保留温度。", image: "/photos/tropical-coast.png", color: "cream", pos: "left center" },
-  { tab: "实习经历", years: "2023 — 2024", title: "内容与实践", text: "参与校园媒体与项目实践，从策划、拍摄到落地，把脑海中的想法一步步变成真实作品。", image: "/photos/tropical-coast.png", color: "wine", pos: "right center" },
-  { tab: "项目经历", years: "2025 — 至今", title: "新的旅程", text: "继续学习，继续出发。希望遇见不同的人和地方，也期待把兴趣发展成更长久的方向。", image: "/photos/tropical-coast.png", color: "teal", pos: "center bottom" },
-];
-
 const educationHistory = [
   {
     number: "01",
@@ -641,13 +635,10 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const portfolioScrollRef = useRef<HTMLElement>(null);
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
-  const experienceTimerRef = useRef<number | null>(null);
   const experienceDirectionRef = useRef(1);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
-  const [selectedExp, setSelectedExp] = useState(0);
-  const [experienceSwitching, setExperienceSwitching] = useState(false);
   const [educationIndex, setEducationIndex] = useState(0);
   const [internshipIndex, setInternshipIndex] = useState(0);
   const [projectIndex, setProjectIndex] = useState(0);
@@ -681,7 +672,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => () => {
-    if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
     if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
   }, []);
 
@@ -765,9 +755,7 @@ export default function Home() {
     const categoryIndex = card.category === "education" ? 0 : card.category === "internship" ? 1 : 2;
 
     setExperienceFocus(index);
-    setSelectedExp(categoryIndex);
     setExp(categoryIndex);
-    setExperienceSwitching(false);
     setShowThoughts(false);
     setZoomedPhoto(null);
 
@@ -781,20 +769,6 @@ export default function Home() {
   const moveExperienceFocus = (direction: number) => {
     experienceDirectionRef.current = direction;
     setExperienceFocus((current) => (current + direction + experienceCards.length) % experienceCards.length);
-  };
-
-  const switchExperience = (index: number) => {
-    if (index === selectedExp) return;
-    setShowThoughts(false);
-    setThoughtsClosing(false);
-    setZoomedPhoto(null);
-    setSelectedExp(index);
-    setExperienceSwitching(true);
-    if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
-    experienceTimerRef.current = window.setTimeout(() => {
-      setExp(index);
-      setExperienceSwitching(false);
-    }, 220);
   };
 
   const openThoughts = (context: "education" | "internship") => {
@@ -1050,10 +1024,12 @@ export default function Home() {
               <button onClick={() => setExperienceDetailOpen(false)} aria-label="关闭个人经历详情">×</button>
             </header>
             <div className="experience-detail-scroll">
-              <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"} ${experienceSwitching ? "is-leaving" : ""}`}>
-          <div className="tab-row">
-            {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
-          </div>
+              <div className="experience-detail-marker">
+                <small>EXPERIENCE {String(experienceFocus + 1).padStart(2, "0")} / {String(experienceCards.length).padStart(2, "0")}</small>
+                <strong>第 {String(experienceFocus + 1).padStart(2, "0")} 段经历</strong>
+                <span>{experienceCards[experienceFocus].categoryLabel}</span>
+              </div>
+              <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"}`}>
           {exp === 0 ? (
             <article className={`education-panel ${education.photos.length ? "" : "is-placeholder"}`} key={education.number}>
               <div className="education-copy">
@@ -1093,9 +1069,6 @@ export default function Home() {
 
               <div className="education-actions">
                 <button className="education-action" onClick={() => openThoughts("education")}>吹吹的碎碎念</button>
-                <button className="education-action" onClick={() => setEducationIndex(educationIndex === 0 ? 1 : 0)}>
-                  {educationIndex === 0 ? "下一段教育经历" : "返回 01 教育经历"}
-                </button>
               </div>
             </article>
           ) : exp === 1 ? (
@@ -1142,7 +1115,6 @@ export default function Home() {
 
               <div className="internship-actions">
                 <button className="education-action" onClick={() => openThoughts("internship")}>吹吹的碎碎念</button>
-                <button className="education-action" onClick={() => setInternshipIndex((internshipIndex + 1) % internshipHistory.length)}>下一段实习经历</button>
               </div>
             </article>
           ) : (
@@ -1187,11 +1159,6 @@ export default function Home() {
                 </div>
               ) : null}
 
-              <div className="project-actions">
-                <button className="education-action" onClick={() => setProjectIndex((projectIndex + 1) % projectHistory.length)}>
-                  {projectIndex === projectHistory.length - 1 ? "返回 01 项目经历" : "下一段项目经历"}
-                </button>
-              </div>
             </article>
           )}
               </div>

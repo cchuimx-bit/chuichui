@@ -103,7 +103,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .profile-note b { font: 800 17px/1.2 var(--display); letter-spacing: .03em; }
 .profile-note p { margin: 7px 0 0; font: 500 12px/1.6 var(--body); }
 
-.experience-section { min-height: 1080px; position: relative; isolation: isolate; padding: 110px 8vw 160px; background: linear-gradient(rgba(37,79,104,.56),rgba(15,58,88,.7)), url("/photos/tropical-coast.png") center / cover fixed; background-color: #254f68; }
+.experience-section { min-height: 1080px; position: relative; isolation: isolate; overflow: hidden; padding: 110px 8vw 160px; background: linear-gradient(rgba(37,79,104,.56),rgba(15,58,88,.7)), url("/photos/tropical-coast.png") center / cover fixed; background-color: #254f68; }
 .experience-section::after { z-index: 1; background: linear-gradient(to bottom,rgba(35,79,111,.22),rgba(17,55,83,.34)), radial-gradient(circle at 30% 30%,transparent 0 15%,rgba(22,53,76,.2) 72%); }
 .section-heading { position: relative; z-index: 3; text-align: center; margin-bottom: 55px; }
 .section-heading h2 { margin: 2px 0; font: 900 clamp(58px,8vw,104px)/1 var(--display); letter-spacing: -.08em; }
@@ -113,7 +113,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-section .section-heading p::before,
 .experience-section .section-heading p::after { content: ""; width: clamp(24px,4vw,52px); height: 2px; background: currentColor; box-shadow: 1px 1px var(--brown); }
 .experience-section .section-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
-.experience-accordion { position: relative; z-index: 4; width: min(1400px,96vw); height: min(650px,72svh); min-height: 540px; margin: 0 auto; display: flex; gap: 8px; }
+.experience-accordion { position: relative; z-index: 4; width: min(1400px,100%); height: min(650px,72svh); min-height: 540px; margin: 0 auto; display: flex; gap: 8px; }
 .experience-slide { position: relative; isolation: isolate; min-width: 0; flex: 1 1 0; overflow: hidden; border: 2px solid rgba(255,255,255,.17); border-radius: 22px; background: #152e3b; color: #fff8e9; box-shadow: 0 9px 20px rgba(5,24,35,.24); cursor: pointer; transition: flex .72s cubic-bezier(.2,.78,.2,1), border-color .35s ease, filter .35s ease, transform .35s ease; }
 .experience-slide.is-active { flex: 6.2 1 0; border-color: rgba(243,201,50,.88); box-shadow: 0 11px 30px rgba(5,24,35,.35), 0 0 0 2px rgba(243,201,50,.16); }
 .experience-slide:focus-visible { outline: 3px solid #f3c932; outline-offset: 3px; }
@@ -127,11 +127,11 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-slide.is-active .experience-slide-rail { opacity: 0; }
 .experience-slide-copy { position: absolute; z-index: 1; left: clamp(22px,3vw,46px); right: clamp(22px,3vw,46px); bottom: clamp(25px,4.6vw,58px); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px 20px; opacity: 0; transform: translateY(18px); pointer-events: none; transition: opacity .32s ease .18s, transform .55s cubic-bezier(.2,.8,.2,1) .12s; }
 .experience-slide.is-active .experience-slide-copy { opacity: 1; transform: translateY(0); }
-.experience-slide-copy small { color: #f3c932; font: 700 10px/1 var(--body); letter-spacing: .14em; }
-.experience-slide-copy time { justify-self: end; color: rgba(255,248,233,.8); font: 600 11px/1 var(--body); letter-spacing: .08em; }
+.experience-slide-copy small { justify-self: start; color: #f3c932; font: 700 10px/1 var(--body); letter-spacing: .14em; text-align: left; }
+.experience-slide-copy time { justify-self: end; color: rgba(255,248,233,.8); font: 600 11px/1 var(--body); letter-spacing: .08em; text-align: right; }
 .experience-slide-copy strong { grid-column: 1 / -1; max-width: 720px; font: 800 clamp(32px,4.8vw,66px)/1.02 var(--display); letter-spacing: -.055em; text-align: left; }
 .experience-slide-copy em { grid-column: 1 / -1; color: rgba(255,248,233,.82); font: 500 clamp(12px,1.2vw,15px)/1.55 var(--body); font-style: normal; text-align: left; }
-.experience-slide-copy > i { grid-column: 1 / -1; width: fit-content; margin-top: 6px; padding: 8px 12px; border: 1px solid rgba(255,248,233,.42); border-radius: 999px; color: #fff8e9; font: 700 9px/1 var(--body); font-style: normal; letter-spacing: .08em; }
+.experience-slide-copy > i { grid-column: 1 / -1; width: fit-content; margin-top: 6px; padding: 9px 14px; border: 1px solid rgba(255,248,233,.42); border-radius: 999px; color: #fff8e9; font: 700 11px/1 var(--body); font-style: normal; letter-spacing: .08em; }
 .experience-accordion-controls { position: relative; z-index: 4; width: fit-content; margin: 24px auto 0; display: flex; align-items: center; gap: 14px; color: #f3c932; }
 .experience-accordion-controls button { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(243,201,50,.7); border-radius: 50%; background: rgba(18,48,66,.58); color: #f3c932; font: 600 18px/1 var(--body); transition: background .22s ease, transform .22s ease; }
 .experience-accordion-controls button:hover { background: #f3c932; color: var(--brown); transform: translateY(-2px); }
@@ -146,9 +146,13 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-detail-header > button { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: #f3c932; color: var(--brown); font: 400 28px/1 var(--body); transition: transform .22s ease; }
 .experience-detail-header > button:hover { transform: rotate(8deg) scale(1.05); }
 .experience-detail-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 24px 48px; scrollbar-color: rgba(243,201,50,.65) transparent; scrollbar-width: thin; }
+.experience-detail-marker { width: min(1180px,100%); margin: 0 auto 14px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 7px 18px; padding: 20px 24px; border: 1px solid rgba(243,201,50,.5); border-radius: 16px; background: rgba(9,34,48,.72); color: #f8edd9; }
+.experience-detail-marker small { grid-column: 1 / -1; color: #f3c932; font: 700 9px/1 var(--body); letter-spacing: .17em; }
+.experience-detail-marker strong { font: 800 clamp(22px,2.8vw,36px)/1 var(--display); letter-spacing: -.035em; }
+.experience-detail-marker span { justify-self: end; padding: 8px 12px; border-radius: 999px; background: #f3c932; color: var(--brown); font: 800 10px/1 var(--body); letter-spacing: .08em; }
 .experience-detail-scroll .tab-card,
 .experience-detail-scroll .tab-card.internship-mode,
-.experience-detail-scroll .tab-card.project-mode { width: min(1180px,100%); }
+.experience-detail-scroll .tab-card.project-mode { width: min(1180px,100%); padding-top: 0; }
 .tab-card { position: relative; z-index: 4; margin: 0 auto; width: min(930px,94vw); min-height: 430px; display: grid; grid-template-columns: 1fr 1fr; padding-top: 42px; font-family: var(--body); }
 .tab-row { position: absolute; z-index: 3; top: 0; left: 4%; right: 4%; display: grid; grid-template-columns: repeat(3,1fr); }
 .tab-row button { margin: 0 3px; padding: 12px 15px 19px; border-radius: 15px 15px 0 0; background: #432a0c; color: #f3c932; font: 800 13px var(--display); transform: translateY(9px); transition: transform .38s cubic-bezier(.2,.8,.2,1), background .32s ease, color .32s ease; }
