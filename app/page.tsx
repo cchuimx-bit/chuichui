@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type WheelEvent as ReactWheelEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const nav = [
   ["home", "首页"],
@@ -547,11 +547,23 @@ const portfolioItems = [
   },
 ] as const;
 
-const portfolioColumns = [
-  [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
-  [1, 4, 7, 10, 13, 16, 19, 22, 25, 28],
-  [2, 5, 8, 11, 14, 17, 20, 23, 26, 29],
-] as const;
+const mixPortfolioItems = (length: number, seed: number) => {
+  const mixed = Array.from({ length }, (_, index) => index);
+  let state = seed >>> 0;
+
+  for (let index = mixed.length - 1; index > 0; index -= 1) {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    const swapIndex = state % (index + 1);
+    [mixed[index], mixed[swapIndex]] = [mixed[swapIndex], mixed[index]];
+  }
+
+  return mixed;
+};
+
+const portfolioMixedOrder = mixPortfolioItems(portfolioItems.length, 20260817);
+const portfolioColumns = Array.from({ length: 3 }, (_, columnIndex) =>
+  portfolioMixedOrder.filter((_, orderIndex) => orderIndex % 3 === columnIndex),
+);
 
 const photos = [
   ["coast-a", "海边的午后"],
@@ -586,6 +598,7 @@ const lowerReelPhotos = [
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const portfolioScrollRef = useRef<HTMLElement>(null);
+  const portfolioMosaicRef = useRef<HTMLDivElement>(null);
   const experienceTimerRef = useRef<number | null>(null);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
@@ -626,6 +639,45 @@ export default function Home() {
     if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
   }, []);
 
+  useEffect(() => {
+    const mosaic = portfolioMosaicRef.current;
+    if (!mosaic) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      const supportsHoverScroll = window.matchMedia("(min-width: 821px) and (hover: hover) and (pointer: fine)").matches;
+      if (!supportsHoverScroll) return;
+
+      const columns = Array.from(mosaic.querySelectorAll<HTMLElement>(".portfolio-column"));
+      if (!columns.length) return;
+
+      const hoveredColumn = (event.target as Element | null)?.closest<HTMLElement>(".portfolio-column");
+      const column = hoveredColumn ?? columns.reduce((nearest, candidate) => {
+        const nearestRect = nearest.getBoundingClientRect();
+        const candidateRect = candidate.getBoundingClientRect();
+        const nearestDistance = Math.abs(event.clientX - (nearestRect.left + nearestRect.width / 2));
+        const candidateDistance = Math.abs(event.clientX - (candidateRect.left + candidateRect.width / 2));
+        return candidateDistance < nearestDistance ? candidate : nearest;
+      });
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const loopHeight = column.scrollHeight / 2;
+      if (loopHeight <= column.clientHeight) return;
+
+      const deltaUnit = event.deltaMode === 1
+        ? 18
+        : event.deltaMode === 2
+          ? column.clientHeight
+          : 1;
+      const nextScroll = column.scrollTop + event.deltaY * deltaUnit * 1.35;
+      column.scrollTop = ((nextScroll % loopHeight) + loopHeight) % loopHeight;
+    };
+
+    mosaic.addEventListener("wheel", handleWheel, { passive: false });
+    return () => mosaic.removeEventListener("wheel", handleWheel);
+  }, []);
+
   const go = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenu(false);
@@ -640,21 +692,6 @@ export default function Home() {
   const openPortfolioItem = (index: number) => {
     setPortfolioFlipped(false);
     setPortfolioOpen(index);
-  };
-
-  const handlePortfolioWallWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    const column = event.currentTarget;
-    const loopHeight = column.scrollHeight / 2;
-    if (loopHeight <= column.clientHeight) return;
-
-    event.preventDefault();
-    const deltaUnit = event.deltaMode === 1
-      ? 18
-      : event.deltaMode === 2
-        ? column.clientHeight
-        : 1;
-    const nextScroll = column.scrollTop + event.deltaY * deltaUnit * 1.35;
-    column.scrollTop = ((nextScroll % loopHeight) + loopHeight) % loopHeight;
   };
 
   const switchExperience = (index: number) => {
@@ -1156,11 +1193,10 @@ export default function Home() {
             点击图片进入作品详情，向下滚动浏览完整内容；悬停作品墙时可使用滚轮快速查看
           </span>
         </div>
-        <div className="portfolio-mosaic" aria-label="作品集图片墙">
+        <div className="portfolio-mosaic" aria-label="作品集图片墙" ref={portfolioMosaicRef}>
           {portfolioColumns.map((column, columnIndex) => (
             <div
               className={`portfolio-column portfolio-column-${columnIndex + 1}`}
-              onWheel={handlePortfolioWallWheel}
               key={columnIndex}
             >
               <div className="portfolio-track">
