@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const nav = [
   ["home", "首页"],
+  ["profile", "基础信息"],
   ["experience", "个人经历"],
   ["interests", "作品集"],
   ["gallery", "兴趣爱好"],
@@ -595,11 +596,53 @@ const lowerReelPhotos = [
   { src: "/photos/reel-bottom/urban-palms.jpg", alt: "城市中的棕榈树", shape: "portrait" },
 ] as const;
 
+const experienceCardBackgrounds = [
+  "/photos/reel-bottom/sunlit-riverside.jpg",
+  "/photos/reel-bottom/tropical-sunset.jpg",
+  "/photos/reel-bottom/golden-city-road.jpg",
+  "/photos/reel-bottom/palm-sunset.jpg",
+  "/photos/reel-bottom/rainy-willow-path.jpg",
+  "/photos/reel-bottom/lakeside-tree-walk.jpg",
+  "/photos/reel-bottom/sunlit-riverbank.jpg",
+  "/photos/reel-bottom/rainbow-palms.jpg",
+  "/photos/reel-bottom/city-lake.jpg",
+  "/photos/reel-bottom/urban-palms.jpg",
+  "/photos/reel/clear-water.jpg",
+] as const;
+
+const experienceCards = [
+  ...educationHistory.map((item, categoryIndex) => ({
+    category: "education" as const,
+    categoryLabel: "教育经历",
+    categoryIndex,
+    title: item.school,
+    subtitle: `${item.programme} · ${item.degree}`,
+    years: item.years,
+  })),
+  ...internshipHistory.map((item, categoryIndex) => ({
+    category: "internship" as const,
+    categoryLabel: "实习经历",
+    categoryIndex,
+    title: item.company,
+    subtitle: `${item.business} · ${item.role}`,
+    years: item.years,
+  })),
+  ...projectHistory.map((item, categoryIndex) => ({
+    category: "project" as const,
+    categoryLabel: "项目经历",
+    categoryIndex,
+    title: item.title,
+    subtitle: item.subtitle,
+    years: item.years,
+  })),
+].map((item, index) => ({ ...item, image: experienceCardBackgrounds[index] }));
+
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const portfolioScrollRef = useRef<HTMLElement>(null);
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
   const experienceTimerRef = useRef<number | null>(null);
+  const experienceDirectionRef = useRef(1);
   const thoughtsTimerRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
@@ -617,6 +660,9 @@ export default function Home() {
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(true);
+  const [experienceFocus, setExperienceFocus] = useState(0);
+  const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
+  const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -638,6 +684,26 @@ export default function Home() {
     if (experienceTimerRef.current) window.clearTimeout(experienceTimerRef.current);
     if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
   }, []);
+
+  useEffect(() => {
+    if (experienceDeckHovered || experienceDetailOpen) return;
+
+    const interval = window.setInterval(() => {
+      setExperienceFocus((current) => {
+        let next = current + experienceDirectionRef.current;
+        if (next >= experienceCards.length) {
+          experienceDirectionRef.current = -1;
+          next = experienceCards.length - 2;
+        } else if (next < 0) {
+          experienceDirectionRef.current = 1;
+          next = 1;
+        }
+        return next;
+      });
+    }, 3200);
+
+    return () => window.clearInterval(interval);
+  }, [experienceDeckHovered, experienceDetailOpen]);
 
   useEffect(() => {
     const mosaic = portfolioMosaicRef.current;
@@ -694,6 +760,29 @@ export default function Home() {
     setPortfolioOpen(index);
   };
 
+  const openExperienceCard = (index: number) => {
+    const card = experienceCards[index];
+    const categoryIndex = card.category === "education" ? 0 : card.category === "internship" ? 1 : 2;
+
+    setExperienceFocus(index);
+    setSelectedExp(categoryIndex);
+    setExp(categoryIndex);
+    setExperienceSwitching(false);
+    setShowThoughts(false);
+    setZoomedPhoto(null);
+
+    if (card.category === "education") setEducationIndex(card.categoryIndex);
+    else if (card.category === "internship") setInternshipIndex(card.categoryIndex);
+    else setProjectIndex(card.categoryIndex);
+
+    setExperienceDetailOpen(true);
+  };
+
+  const moveExperienceFocus = (direction: number) => {
+    experienceDirectionRef.current = direction;
+    setExperienceFocus((current) => (current + direction + experienceCards.length) % experienceCards.length);
+  };
+
   const switchExperience = (index: number) => {
     if (index === selectedExp) return;
     setShowThoughts(false);
@@ -724,7 +813,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!showThoughts && !zoomedPhoto && portfolioOpen === null) return;
+    if (!showThoughts && !zoomedPhoto && portfolioOpen === null && !experienceDetailOpen) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
@@ -733,14 +822,15 @@ export default function Home() {
         setPortfolioOpen(null);
         setPortfolioFlipped(false);
       } else if (zoomedPhoto) setZoomedPhoto(null);
-      else closeThoughts();
+      else if (showThoughts) closeThoughts();
+      else setExperienceDetailOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [showThoughts, zoomedPhoto, portfolioOpen]);
+  }, [showThoughts, zoomedPhoto, portfolioOpen, experienceDetailOpen]);
 
   useEffect(() => {
     const scroller = portfolioScrollRef.current;
@@ -857,12 +947,110 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="profile-section" id="profile">
+        <div className="section-heading profile-heading">
+          <p>01 / BASIC PROFILE</p>
+          <h2>基础信息</h2>
+        </div>
+        <div className="profile-board">
+          <article className="profile-statement">
+            <small>HELLO, I&apos;M CHUICUI</small>
+            <h3>用内容记录观察，<br />用创意连接真实世界。</h3>
+            <p>新闻传播与广播电视编导背景，持续在内容运营、活动策划、视觉表达和数据分析中积累经验。期待把每一次灵感，都变成可以被看见、被理解的作品。</p>
+            <div className="profile-keywords" aria-label="个人关键词">
+              <span>内容运营</span>
+              <span>活动策划</span>
+              <span>视觉设计</span>
+              <span>数据分析</span>
+            </div>
+          </article>
+          <div className="profile-facts">
+            <article>
+              <span>01</span>
+              <small>CURRENT</small>
+              <h4>上海大学</h4>
+              <p>新闻传播学院 · 新闻传播学硕士</p>
+            </article>
+            <article>
+              <span>02</span>
+              <small>BACKGROUND</small>
+              <h4>东北师范大学</h4>
+              <p>传媒科学学院 · 广播电视编导本科</p>
+            </article>
+            <article>
+              <span>03</span>
+              <small>FOCUS</small>
+              <h4>内容 × 运营 × 视觉</h4>
+              <p>在策划、表达与执行之间建立完整连接</p>
+            </article>
+          </div>
+          <aside className="profile-note">
+            <b>真诚 · 清楚 · 有温度</b>
+            <p>这是我对表达的期待，也是我不断练习的方向。</p>
+          </aside>
+        </div>
+      </section>
+
       <section className="experience-section scenic" id="experience">
         <div className="section-heading">
-          <p>01 / MY JOURNEY</p>
+          <p>02 / MY JOURNEY</p>
           <h2>个人经历</h2>
         </div>
-        <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"} ${experienceSwitching ? "is-leaving" : ""}`}>
+        <div
+          className="experience-accordion"
+          onMouseEnter={() => setExperienceDeckHovered(true)}
+          onMouseLeave={() => setExperienceDeckHovered(false)}
+          aria-label="个人经历卡片浏览"
+        >
+          {experienceCards.map((card, index) => (
+            <button
+              className={`experience-slide category-${card.category} ${experienceFocus === index ? "is-active" : ""}`}
+              onMouseEnter={() => setExperienceFocus(index)}
+              onFocus={() => setExperienceFocus(index)}
+              onClick={() => openExperienceCard(index)}
+              aria-label={`查看${card.categoryLabel}：${card.title}`}
+              aria-current={experienceFocus === index ? "true" : undefined}
+              key={`${card.category}-${card.categoryIndex}`}
+            >
+              <img src={card.image} alt="" />
+              <span className="experience-slide-shade" aria-hidden="true" />
+              <span className="experience-slide-rail" aria-hidden="true">
+                <b>{String(index + 1).padStart(2, "0")}</b>
+                <i>{card.categoryLabel}</i>
+              </span>
+              <span className="experience-slide-copy">
+                <small>{card.categoryLabel} · {String(index + 1).padStart(2, "0")}</small>
+                <time>{card.years}</time>
+                <strong>{card.title}</strong>
+                <em>{card.subtitle}</em>
+                <i>点击查看完整经历</i>
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="experience-accordion-controls">
+          <button onClick={() => moveExperienceFocus(-1)} aria-label="查看上一段经历">←</button>
+          <span><b>{String(experienceFocus + 1).padStart(2, "0")}</b> / {String(experienceCards.length).padStart(2, "0")}</span>
+          <button onClick={() => moveExperienceFocus(1)} aria-label="查看下一段经历">→</button>
+        </div>
+      </section>
+
+      {experienceDetailOpen && (
+        <div
+          className="experience-detail-backdrop"
+          role="presentation"
+          onMouseDown={(event) => event.target === event.currentTarget && setExperienceDetailOpen(false)}
+        >
+          <section className="experience-detail-shell" role="dialog" aria-modal="true" aria-label="个人经历详情">
+            <header className="experience-detail-header">
+              <div>
+                <small>02 / MY JOURNEY</small>
+                <strong>{exp === 0 ? "教育经历" : exp === 1 ? "实习经历" : "项目经历"}</strong>
+              </div>
+              <button onClick={() => setExperienceDetailOpen(false)} aria-label="关闭个人经历详情">×</button>
+            </header>
+            <div className="experience-detail-scroll">
+              <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"} ${experienceSwitching ? "is-leaving" : ""}`}>
           <div className="tab-row">
             {experience.map((item, index) => <button key={item.tab} className={`${selectedExp === index ? "selected " : ""}tab-${index}`} onClick={() => switchExperience(index)}>{item.tab}</button>)}
           </div>
@@ -1006,8 +1194,11 @@ export default function Home() {
               </div>
             </article>
           )}
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
+      )}
 
       {showThoughts && (
         <div
@@ -1187,7 +1378,7 @@ export default function Home() {
 
       <section className="interest-section" id="interests">
         <div className="section-heading portfolio-heading">
-          <p>02 / MY PORTFOLIO</p>
+          <p>03 / MY PORTFOLIO</p>
           <h2>作品集</h2>
           <span className="portfolio-heading-note">
             点击图片进入作品详情，向下滚动浏览完整内容；悬停作品墙时可使用滚轮快速查看
