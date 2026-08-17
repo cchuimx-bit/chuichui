@@ -588,7 +588,6 @@ export default function Home() {
             </article>
           )}
         </div>
-        <button className="scenic-button" onClick={() => go("interests")}>继续向下逛</button>
       </section>
 
       {showThoughts && (
@@ -627,10 +626,9 @@ export default function Home() {
       )}
 
       <section className="interest-section" id="interests">
-        <div className="section-heading dark-heading">
-          <p>02 / THINGS I LOVE</p>
-          <h2>兴趣爱好</h2>
-          <span>这些事，让普通日子变得发亮</span>
+        <div className="section-heading portfolio-heading">
+          <p>02 / MY PORTFOLIO</p>
+          <h2>作品集</h2>
         </div>
         <div className="notes-stack">
           {notes.map((item, index) => (

@@ -51,8 +51,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .hero-building-frame { position: relative; width: min(560px, 58vw); aspect-ratio: 1711 / 632; margin-top: 18px; overflow: hidden; flex: none; filter: drop-shadow(0 2px 0 var(--teal)); }
 .hero-building { position: absolute; width: 104.7%; height: auto; left: -2.1%; top: -16.5%; object-fit: contain; }
 .hero-sub { position: relative; z-index: 2; margin: 12px 0 0; color: var(--yellow); font-size: clamp(12px,1.12vw,16px); font-weight: 700; letter-spacing: .12em; text-shadow: 1px 1px var(--teal); }
-.scenic-button { margin-top: 16px; background: var(--brown); color: var(--yellow); border-radius: 28px; padding: 13px 24px; font: 700 14px var(--display); box-shadow: 0 3px 0 rgba(255,205,24,.45); transition: transform .25s; }
-.scenic-button:hover { transform: translateY(-3px) rotate(-1deg); }
 .address-mark { position: absolute; z-index: 4; bottom: 28px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--yellow); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-shadow: 1px 1px var(--brown); }
 .intro-strip { height: min(780px, 88svh); min-height: 620px; background: var(--paper); display: grid; grid-template-columns: clamp(190px, 22vw, 320px) 1fr; grid-template-rows: 100%; overflow: hidden; border-top: 4px solid var(--brown); border-bottom: 4px solid var(--brown); }
 .music-deck { position: relative; z-index: 5; align-self: stretch; min-width: 0; min-height: 0; overflow: hidden; background: var(--paper); border-right: 3px solid var(--brown); box-shadow: 12px 0 0 rgba(62,39,8,.08); }
@@ -221,10 +219,12 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tab-card.is-leaving > .internship-panel,
 .tab-card.is-leaving > .card-copy,
 .tab-card.is-leaving > .card-photo { opacity: 0; transform: translateX(-28px); }
-.scenic-button { position: relative; z-index: 4; display: block; margin: 60px auto 0; }
-
-.interest-section { padding: 100px 20px 140px; background: var(--paper); overflow: hidden; }
-.dark-heading { color: var(--brown); }
+.interest-section { padding: 110px 20px 140px; background: linear-gradient(145deg,#264f68 0%,#315f75 46%,#1e4963 100%); overflow: hidden; }
+.interest-section .portfolio-heading { width: fit-content; max-width: 100%; margin: 0 auto 64px; display: grid; justify-items: center; gap: 15px; color: var(--yellow); text-shadow: 1px 1px var(--brown); }
+.interest-section .portfolio-heading p { margin: 0; display: flex; align-items: center; gap: 14px; font: 400 clamp(13px,1.25vw,17px)/1 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: .16em; }
+.interest-section .portfolio-heading p::before,
+.interest-section .portfolio-heading p::after { content: ""; width: clamp(24px,4vw,52px); height: 2px; background: currentColor; box-shadow: 1px 1px var(--brown); }
+.interest-section .portfolio-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
 .notes-stack { position: relative; width: min(740px,90vw); height: 540px; margin: 0 auto; }
 .paper-note { --i: 0; position: absolute; inset: 0; width: 100%; min-height: 400px; padding: 48px 55px; border: 2px solid rgba(62,39,8,.08); text-align: left; transform: translate(calc((var(--i) - 1.5) * 16px), calc(var(--i) * 25px)) rotate(calc((var(--i) - 1.5) * 1.5deg)); transition: .45s cubic-bezier(.2,.8,.2,1); box-shadow: 0 6px 12px rgba(62,39,8,.12); }
 .paper-note.top { z-index: 10; transform: translateY(0) rotate(-1deg); }
