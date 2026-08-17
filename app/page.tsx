@@ -503,6 +503,11 @@ export default function Home() {
     window.setTimeout(() => setCopied(false), 1600);
   };
 
+  const openPortfolioItem = (index: number) => {
+    setPortfolioFlipped(false);
+    setPortfolioOpen(index);
+  };
+
   const switchExperience = (index: number) => {
     if (index === selectedExp) return;
     setShowThoughts(false);
@@ -1007,10 +1012,8 @@ export default function Home() {
                       return (
                         <button
                           className="portfolio-card"
-                          onClick={() => {
-                            setPortfolioFlipped(false);
-                            setPortfolioOpen(itemIndex);
-                          }}
+                          onMouseDown={(event) => event.button === 0 && openPortfolioItem(itemIndex)}
+                          onClick={() => openPortfolioItem(itemIndex)}
                           aria-label={`放大查看作品 ${item.number}：${item.title}`}
                           tabIndex={copyIndex === 1 ? -1 : 0}
                           key={`${item.number}-${copyIndex}`}
