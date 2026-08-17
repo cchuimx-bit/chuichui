@@ -220,13 +220,13 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tab-card.is-leaving > .internship-panel,
 .tab-card.is-leaving > .card-copy,
 .tab-card.is-leaving > .card-photo { opacity: 0; transform: translateX(-28px); }
-.interest-section { padding: 110px 20px 140px; background: #f3e7d0; overflow: hidden; }
+.interest-section { padding: 110px 0 0; background: #f3e7d0; overflow: hidden; }
 .interest-section .portfolio-heading { width: fit-content; max-width: 100%; margin: 0 auto 64px; display: grid; justify-items: center; gap: 15px; color: var(--brown); }
 .interest-section .portfolio-heading p { margin: 0; display: flex; align-items: center; gap: 14px; font: 400 clamp(13px,1.25vw,17px)/1 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: .16em; }
 .interest-section .portfolio-heading p::before,
 .interest-section .portfolio-heading p::after { content: ""; width: clamp(24px,4vw,52px); height: 2px; background: currentColor; }
 .interest-section .portfolio-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
-.portfolio-mosaic { width: min(1120px,94vw); height: 670px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; overflow: hidden; padding: 18px; border: 2px solid rgba(62,39,8,.14); border-radius: 28px; background: #ead7ba; box-shadow: 0 12px 0 rgba(62,39,8,.12); -webkit-mask-image: linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent); mask-image: linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent); }
+.portfolio-mosaic { width: 100%; height: 100svh; margin: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(12px,1.1vw,22px); overflow: hidden; padding: clamp(12px,1.1vw,22px); border-top: 2px solid rgba(62,39,8,.14); border-bottom: 2px solid rgba(62,39,8,.14); background: #ead7ba; -webkit-mask-image: linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent); mask-image: linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent); }
 .portfolio-column { min-width: 0; overflow: hidden; }
 .portfolio-track { display: flex; flex-direction: column; will-change: transform; animation: portfolio-flow-up 31s linear infinite; }
 .portfolio-column-2 .portfolio-track { animation-direction: reverse; animation-duration: 35s; animation-delay: -9s; }
@@ -394,9 +394,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .thoughts-copy p { font-size: 13px; line-height: 1.75; }
   .card-copy { min-height: 380px; border-radius: 24px 24px 0 0; padding: 75px 30px 40px; }
   .card-photo { height: 390px; border-radius: 0 0 24px 24px; }
-  .interest-section { padding: 90px 10px 100px; }
+  .interest-section { padding: 90px 0 0; }
   .interest-section .portfolio-heading { margin-bottom: 45px; }
-  .portfolio-mosaic { width: calc(100vw - 20px); height: auto; display: block; padding: 10px; -webkit-mask-image: none; mask-image: none; }
+  .portfolio-mosaic { width: 100%; height: auto; display: block; padding: 10px; -webkit-mask-image: none; mask-image: none; }
   .portfolio-column { overflow: visible; }
   .portfolio-column + .portfolio-column { margin-top: 10px; }
   .portfolio-track { animation: none; }
