@@ -666,6 +666,10 @@ export default function Home() {
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
   const experienceDirectionRef = useRef(1);
   const thoughtsTimerRef = useRef<number | null>(null);
+  const profileStageRef = useRef<HTMLDivElement>(null);
+  const profileLookTargetRef = useRef({ x: 0, y: 0 });
+  const profileLookCurrentRef = useRef({ x: 0, y: 0 });
+  const profileLookFrameRef = useRef<number | null>(null);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
   const [educationIndex, setEducationIndex] = useState(0);
@@ -703,6 +707,41 @@ export default function Home() {
 
   useEffect(() => () => {
     if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    let previousTime = performance.now();
+
+    const animatePortrait = (time: number) => {
+      const stage = profileStageRef.current;
+      const target = profileLookTargetRef.current;
+      const current = profileLookCurrentRef.current;
+      const elapsed = Math.min((time - previousTime) / 1000, .05);
+      const easing = 1 - Math.exp(-10.5 * elapsed);
+      previousTime = time;
+
+      current.x += (target.x - current.x) * easing;
+      current.y += (target.y - current.y) * easing;
+
+      if (stage) {
+        stage.style.setProperty("--look-x", `${current.x * 18}deg`);
+        stage.style.setProperty("--look-y", `${current.y * -10}deg`);
+        stage.style.setProperty("--look-z", `${current.x * -1.4}deg`);
+        stage.style.setProperty("--look-shift-x", `${current.x * 22}px`);
+        stage.style.setProperty("--look-shift-y", `${current.y * 10}px`);
+        stage.style.setProperty("--look-glint-x", `${50 + current.x * 24}%`);
+        stage.style.setProperty("--look-glint-y", `${30 + current.y * 18}%`);
+      }
+
+      profileLookFrameRef.current = window.requestAnimationFrame(animatePortrait);
+    };
+
+    profileLookFrameRef.current = window.requestAnimationFrame(animatePortrait);
+    return () => {
+      if (profileLookFrameRef.current !== null) {
+        window.cancelAnimationFrame(profileLookFrameRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -957,27 +996,24 @@ export default function Home() {
           <h2>基础信息</h2>
         </div>
         <div
+          ref={profileStageRef}
           className="profile-stage"
           onPointerMove={(event) => {
-            const rect = event.currentTarget.getBoundingClientRect();
             const portrait = event.currentTarget.querySelector<HTMLElement>(".profile-portrait");
-            const portraitWidth = portrait?.offsetWidth ?? rect.width * .48;
-            const faceCenterX = rect.left + rect.width / 2;
-            const faceCenterY = rect.bottom - portraitWidth * .62;
-            const rawX = Math.max(-1, Math.min(1, (event.clientX - faceCenterX) / (portraitWidth * .5)));
-            const rawY = Math.max(-1, Math.min(1, (event.clientY - faceCenterY) / (portraitWidth * .42)));
-            const x = Math.sign(rawX) * Math.pow(Math.abs(rawX), .72);
-            const y = Math.sign(rawY) * Math.pow(Math.abs(rawY), .82);
-            event.currentTarget.style.setProperty("--look-x", `${x * 24}deg`);
-            event.currentTarget.style.setProperty("--look-y", `${y * -14}deg`);
-            event.currentTarget.style.setProperty("--look-shift-x", `${x * 30}px`);
-            event.currentTarget.style.setProperty("--look-shift-y", `${y * 14}px`);
+            const stageRect = event.currentTarget.getBoundingClientRect();
+            const portraitRect = portrait?.getBoundingClientRect();
+            const portraitWidth = portraitRect?.width ?? stageRect.width * .48;
+            const portraitHeight = portraitRect?.height ?? portraitWidth;
+            const faceCenterX = portraitRect ? portraitRect.left + portraitWidth * .5 : stageRect.left + stageRect.width * .5;
+            const faceCenterY = portraitRect ? portraitRect.top + portraitHeight * .37 : stageRect.bottom - portraitWidth * .63;
+            const rawX = Math.max(-1, Math.min(1, (event.clientX - faceCenterX) / (portraitWidth * .58)));
+            const rawY = Math.max(-1, Math.min(1, (event.clientY - faceCenterY) / (portraitHeight * .46)));
+            profileLookTargetRef.current.x = Math.sign(rawX) * Math.pow(Math.abs(rawX), .84);
+            profileLookTargetRef.current.y = Math.sign(rawY) * Math.pow(Math.abs(rawY), .9);
           }}
-          onPointerLeave={(event) => {
-            event.currentTarget.style.setProperty("--look-x", "0deg");
-            event.currentTarget.style.setProperty("--look-y", "0deg");
-            event.currentTarget.style.setProperty("--look-shift-x", "0px");
-            event.currentTarget.style.setProperty("--look-shift-y", "0px");
+          onPointerLeave={() => {
+            profileLookTargetRef.current.x = 0;
+            profileLookTargetRef.current.y = 0;
           }}
           aria-label="互动式个人标签"
         >
@@ -995,8 +1031,8 @@ export default function Home() {
             ))}
           </div>
 
-          <figure className="profile-portrait" aria-label="吹吹的手绘人物形象，会轻轻跟随鼠标方向转动">
-            <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
+          <figure className="profile-portrait" aria-label="吹吹的 3D 人物形象，会顺滑跟随鼠标方向转动">
+            <img src="/profile/chuichui-portrait-3d.png" alt="戴圆框眼镜、穿蓝白条纹衣服的 3D 人物形象" />
           </figure>
 
           {profileBubbleOpen && (
