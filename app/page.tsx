@@ -56,6 +56,51 @@ const profileBubbles = [
   "羽毛球",
 ] as const;
 
+const profileBubbleNotes = [
+  "感性和想象力，常常比我先到达现场。",
+  "习惯先理解别人，再慢慢表达自己。",
+  "独处时安静充电，也会在人群里突然满格。",
+  "曾经和凌晨很熟，现在正在努力早睡。",
+  "快乐有时很简单，比如一份麦门套餐。",
+  "阳光一出来，心情就会自动回暖。",
+  "脑洞不一定都有用，但一定都很有趣。",
+  "把小日子存下来，是我对时间的温柔抵抗。",
+  "喜欢用镜头收藏那些稍纵即逝的瞬间。",
+  "在不同世界里探索，也在规则中寻找乐趣。",
+  "出生于千禧年后的第二个春天。",
+  "认真生活、友善待人，偶尔也非常靠谱。",
+  "常年网上冲浪，对流行、热梗和新鲜事保持敏感。",
+  "能享受热闹，也更喜欢安静地待一会儿。",
+  "低落会来，但我总能慢慢把自己捞回来。",
+  "愿意先把话听完，再给出真诚的回应。",
+  "很容易被细小的真诚和温柔打动。",
+  "尊重不同答案，也珍惜彼此的共同点。",
+  "会认真期待，也懂得珍惜已经拥有的。",
+  "事情再绕，我也习惯往明亮的方向想。",
+  "把说不清的情绪，慢慢写成看得见的句子。",
+  "答应的事会放在心上，也努力做到有始有终。",
+  "茶和咖啡轮流值班，陪我度过清醒时刻。",
+  "吃饭时，总要配点好看或好笑的内容。",
+  "喜欢拆解好内容，也喜欢寻找新的表达方式。",
+  "关注平台、用户和热点之间微妙的变化。",
+  "好奇的东西很多，快乐也因此很多。",
+  "看到新鲜事，总忍不住多问一句为什么。",
+  "对毛茸茸几乎没有任何抵抗力。",
+  "正在学习用旋律和舞台读懂更多故事。",
+  "把零散素材重新组织成有节奏的故事。",
+  "会用画面修补细节，也让创意更完整。",
+  "让镜头在时间线上找到最合适的位置。",
+  "灵感来得快时，用它迅速把想法变成视频。",
+  "擅长把图文排得清楚，也排得好看。",
+  "把脑海里的版式，快速变成能分享的视觉。",
+  "我的新搭档，让想法更快变成真正的作品。",
+  "表格、文档和演示，都是认真工作的基本功。",
+  "习惯用协作工具把事情理顺、落地并跟进。",
+  "喜欢球拍击中甜区时，那一下干脆的声音。",
+  "享受专注、判断与快速出手的瞬间。",
+  "轻松上手，认真打起来也绝不含糊。",
+] as const;
+
 const profileBubbleLayout = [
   [58, 36.8, 1.42, 64.3, 22.8], [16.4, 78.8, .72, 71, 30.5], [77.1, 46.2, 1.08, 54, 8.4],
   [64.6, 30.2, .64, 11.1, 20.9], [75.1, 68.2, 1.34, 28, 19.7], [7, 79, .82, 86.5, 53.3],
@@ -738,6 +783,7 @@ export default function Home() {
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
+  const [activeProfileBubble, setActiveProfileBubble] = useState<number | null>(null);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -1068,23 +1114,40 @@ export default function Home() {
           <div className="profile-bubbles">
             {profileBubbles.map((label, index) => {
               const [x, y, scale, mobileX, mobileY] = profileBubbleLayout[index];
+              const bubbleOpen = activeProfileBubble === index;
               return (
-                <span
-                  className={`profile-bubble bubble-tone-${index % 6}`}
+                <button
+                  type="button"
+                  className={`profile-bubble bubble-tone-${index % 6} ${bubbleOpen ? "is-open" : ""}`}
                   style={{
                     "--bubble-x": `${x}%`,
                     "--bubble-y": `${y}%`,
                     "--bubble-scale": scale,
+                    "--bubble-note-scale": 1 / scale,
+                    "--bubble-note-shift-x": `${x < 16 ? 72 : x > 84 ? -72 : 0}px`,
                     "--bubble-mobile-scale": scale * .78,
+                    "--bubble-mobile-note-scale": 1 / (scale * .78),
                     "--bubble-mobile-x": `${mobileX}%`,
                     "--bubble-mobile-y": `${mobileY}%`,
+                    "--bubble-mobile-note-shift-x": `${mobileX < 18 ? 58 : mobileX > 82 ? -58 : 0}px`,
                     "--bubble-delay": `${-(index % 9) * .43}s`,
                     "--bubble-duration": `${4.1 + (index % 5) * .38}s`,
                   } as CSSProperties}
+                  aria-expanded={bubbleOpen}
+                  aria-controls={`profile-bubble-note-${index}`}
+                  aria-label={`点击查看关于“${label}”的一句话`}
+                  onClick={() => setActiveProfileBubble(bubbleOpen ? null : index)}
                   key={label}
                 >
-                  {label}
-                </span>
+                  <span className="profile-bubble-label">{label}</span>
+                  <span
+                    id={`profile-bubble-note-${index}`}
+                    className="profile-bubble-note"
+                    aria-hidden={!bubbleOpen}
+                  >
+                    {profileBubbleNotes[index]}
+                  </span>
+                </button>
               );
             })}
           </div>
