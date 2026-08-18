@@ -1599,7 +1599,7 @@ export default function Home() {
       <section className="contact-section" id="contact">
         <div className="contact-landscape">
           <div className="contact-card">
-            <h2>想和我聊聊天吗？</h2>
+            <h2>最后，你想和我聊聊天吗</h2>
             <p>Would you like to have a chat with me?</p>
             <div className="contact-methods">
               {contactMethods.map((method) => (
