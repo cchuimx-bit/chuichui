@@ -89,15 +89,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .profile-portrait { position: absolute; z-index: 2; width: clamp(390px,45vw,570px); aspect-ratio: 1; left: 50%; bottom: -4px; margin: 0; padding: 0; transform-origin: 50% 34%; transform-style: preserve-3d; transform: translate3d(calc(-50% + var(--look-shift-x)),var(--look-shift-y),0) rotateX(var(--look-y)) rotateY(var(--look-x)) rotateZ(var(--look-z)); will-change: transform; touch-action: manipulation; }
 .profile-portrait img { object-fit: contain; background: transparent; pointer-events: none; transform: translateZ(8px); filter: drop-shadow(0 18px 18px rgba(67,42,12,.12)); transition: transform .28s ease, filter .28s ease; }
 .profile-portrait:hover img { transform: translateZ(8px) scale(1.018); filter: drop-shadow(0 20px 20px rgba(67,42,12,.16)); }
-.profile-portrait:focus-visible { outline: 3px dashed #9a5d4e; outline-offset: -28px; border-radius: 48%; }
-.profile-identity-prompt { position: absolute; z-index: 4; left: 50%; bottom: calc(clamp(390px,45vw,570px) - 14px); width: min(420px,70vw); color: var(--brown); text-align: center; pointer-events: none; transform: translateX(-50%); }
-.profile-identity-prompt strong { display: block; font-family: "Kaiti SC", "STKaiti", "KaiTi", "DFKai-SB", cursive; font-size: clamp(58px,7vw,90px); font-weight: 900; line-height: .9; letter-spacing: -.08em; -webkit-text-stroke: .45px var(--brown); text-shadow: 2px 3px 0 #fff5df, 5px 6px 0 rgba(119,183,216,.58); transform: rotate(-2deg); }
-.profile-identity-prompt small { position: relative; display: inline-block; margin-top: 13px; font-family: "Kaiti SC", "STKaiti", "KaiTi", "DFKai-SB", cursive; font-size: clamp(15px,1.45vw,19px); font-weight: 900; line-height: 1; letter-spacing: .08em; text-shadow: 1px 1px 0 #fff5df; transform: rotate(1.5deg); }
-.profile-identity-prompt small::after { content: ""; position: absolute; width: 106%; height: 8px; left: -3%; bottom: -10px; border-top: 3px solid rgba(62,39,8,.72); border-radius: 50%; transform: rotate(-2deg); }
-.profile-intro-card { position: absolute; z-index: 7; width: min(520px,88vw); left: 50%; top: 44%; padding: 46px 58px; border: 2px solid var(--brown); border-radius: 30px; background: var(--profile-bg); color: var(--brown); box-shadow: 12px 13px 0 rgba(67,42,12,.17), 0 28px 60px rgba(67,42,12,.2); transform: translate(-50%,-50%); animation: profile-intro-in .38s cubic-bezier(.16,.82,.25,1) both; }
-.profile-intro-card > p { margin: 0; font: 900 clamp(26px,3.2vw,40px)/1.45 var(--display); letter-spacing: -.035em; text-align: center; }
-.profile-intro-card > button { position: absolute; width: 36px; height: 36px; right: 14px; top: 14px; display: grid; place-items: center; border-radius: 50%; background: var(--brown); color: var(--profile-bg); font: 400 23px/1 var(--body); transition: transform .2s ease, background .2s ease; }
-.profile-intro-card > button:hover { background: #9a5d4e; transform: rotate(8deg); }
 .profile-bubbles { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
 .profile-bubble { position: absolute; pointer-events: auto; min-width: 88px; padding: 13px 18px; border: 1px solid rgba(67,42,12,.42); border-radius: 999px; background: rgba(255,249,237,.88); color: var(--brown); box-shadow: 0 9px 0 rgba(67,42,12,.12), 0 12px 28px rgba(67,42,12,.1), inset 0 1px rgba(255,255,255,.9); font: 800 12px/1 var(--body); letter-spacing: .04em; text-align: center; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: profile-bubble-float 4.4s ease-in-out infinite; transition: background .22s ease, color .22s ease, box-shadow .22s ease; }
 .profile-bubble::after { content: ""; position: absolute; width: 10px; height: 10px; left: 12px; top: 8px; border-radius: 50%; background: rgba(255,255,255,.72); }
@@ -432,7 +423,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @keyframes reel-left { to { transform: translateX(-50%); } }
 @keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @keyframes profile-bubble-float { 0%,100% { transform: translateY(0) rotate(-.4deg); } 50% { transform: translateY(-8px) rotate(.5deg); } }
-@keyframes profile-intro-in { from { opacity: 0; transform: translate(-50%,-45%) scale(.92) rotate(-1deg); } to { opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(0); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .profile-stage { height: 700px; }
@@ -472,11 +462,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .profile-section .profile-heading { margin-bottom: 10px; }
   .profile-stage { height: 700px; }
   .profile-portrait { width: min(440px,108vw); bottom: -2px; }
-  .profile-identity-prompt { top: auto; bottom: calc(min(440px,108vw) - 8px); width: 82vw; }
-  .profile-identity-prompt strong { font-size: clamp(54px,17vw,72px); }
-  .profile-identity-prompt small { margin-top: 10px; font-size: 15px; }
-  .profile-intro-card { width: calc(100% - 24px); top: 42%; padding: 40px 34px; border-radius: 25px; }
-  .profile-intro-card > p { font-size: clamp(24px,7.5vw,31px); line-height: 1.5; }
   .profile-bubble { min-width: 74px; padding: 11px 13px; font-size: 10px; }
   .profile-bubble.bubble-1 { left: 1%; top: 12%; }
   .profile-bubble.bubble-2 { left: 4%; top: 34%; }

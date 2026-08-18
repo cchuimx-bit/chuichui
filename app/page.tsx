@@ -688,7 +688,6 @@ export default function Home() {
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
   const [profileBubbleOpen, setProfileBubbleOpen] = useState<string | null>(null);
-  const [profileIntroOpen, setProfileIntroOpen] = useState(false);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -1021,7 +1020,6 @@ export default function Home() {
               <button
                 className={`profile-bubble bubble-${index + 1} ${profileBubbleOpen === label ? "is-selected" : ""}`}
                 onClick={() => {
-                  setProfileIntroOpen(false);
                   setProfileBubbleOpen((current) => current === label ? null : label);
                 }}
                 aria-expanded={profileBubbleOpen === label}
@@ -1033,31 +1031,9 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="profile-identity-prompt" aria-hidden="true">
-            <strong>我是谁</strong>
-            <small>点击图片查看</small>
-          </div>
-
-          <button
-            type="button"
-            className="profile-portrait"
-            onClick={() => {
-              setProfileBubbleOpen(null);
-              setProfileIntroOpen((current) => !current);
-            }}
-            aria-label={profileIntroOpen ? "收起吹吹的个人介绍" : "点击查看吹吹的个人介绍"}
-            aria-expanded={profileIntroOpen}
-            aria-controls="profile-intro-card"
-          >
+          <div className="profile-portrait" aria-hidden="true">
             <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
-          </button>
-
-          {profileIntroOpen && (
-            <aside className="profile-intro-card" id="profile-intro-card" aria-live="polite">
-              <p>哈喽～我叫崔铭笑，你可以叫我吹吹或者Mio！</p>
-              <button type="button" onClick={() => setProfileIntroOpen(false)} aria-label="关闭个人介绍">×</button>
-            </aside>
-          )}
+          </div>
 
           {profileBubbleOpen && (
             <aside className="profile-bubble-card" id="profile-bubble-card" aria-live="polite">
