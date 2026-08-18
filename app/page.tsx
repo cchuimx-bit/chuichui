@@ -11,6 +11,17 @@ const nav = [
   ["contact", "联系我"],
 ] as const;
 
+const profileBubbles = [
+  "好奇心",
+  "真诚表达",
+  "内容创作",
+  "游戏玩家",
+  "视觉设计",
+  "行动力",
+  "观察生活",
+  "长期主义",
+] as const;
+
 const educationHistory = [
   {
     number: "01",
@@ -654,6 +665,7 @@ export default function Home() {
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
+  const [profileBubbleOpen, setProfileBubbleOpen] = useState<string | null>(null);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -926,42 +938,51 @@ export default function Home() {
           <p>01 / BASIC PROFILE</p>
           <h2>基础信息</h2>
         </div>
-        <div className="profile-board">
-          <article className="profile-statement">
-            <small>HELLO, I&apos;M CHUICUI</small>
-            <h3>用内容记录观察，<br />用创意连接真实世界。</h3>
-            <p>新闻传播与广播电视编导背景，持续在内容运营、活动策划、视觉表达和数据分析中积累经验。期待把每一次灵感，都变成可以被看见、被理解的作品。</p>
-            <div className="profile-keywords" aria-label="个人关键词">
-              <span>内容运营</span>
-              <span>活动策划</span>
-              <span>视觉设计</span>
-              <span>数据分析</span>
-            </div>
-          </article>
-          <div className="profile-facts">
-            <article>
-              <span>01</span>
-              <small>CURRENT</small>
-              <h4>上海大学</h4>
-              <p>新闻传播学院 · 新闻传播学硕士</p>
-            </article>
-            <article>
-              <span>02</span>
-              <small>BACKGROUND</small>
-              <h4>东北师范大学</h4>
-              <p>传媒科学学院 · 广播电视编导本科</p>
-            </article>
-            <article>
-              <span>03</span>
-              <small>FOCUS</small>
-              <h4>内容 × 运营 × 视觉</h4>
-              <p>在策划、表达与执行之间建立完整连接</p>
-            </article>
+        <div
+          className="profile-stage"
+          onPointerMove={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
+            const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
+            event.currentTarget.style.setProperty("--look-x", `${x * 7}deg`);
+            event.currentTarget.style.setProperty("--look-y", `${y * -5}deg`);
+            event.currentTarget.style.setProperty("--look-shift-x", `${x * 9}px`);
+            event.currentTarget.style.setProperty("--look-shift-y", `${y * 5}px`);
+          }}
+          onPointerLeave={(event) => {
+            event.currentTarget.style.setProperty("--look-x", "0deg");
+            event.currentTarget.style.setProperty("--look-y", "0deg");
+            event.currentTarget.style.setProperty("--look-shift-x", "0px");
+            event.currentTarget.style.setProperty("--look-shift-y", "0px");
+          }}
+          aria-label="互动式个人标签"
+        >
+          <div className="profile-bubbles">
+            {profileBubbles.map((label, index) => (
+              <button
+                className={`profile-bubble bubble-${index + 1} ${profileBubbleOpen === label ? "is-selected" : ""}`}
+                onClick={() => setProfileBubbleOpen((current) => current === label ? null : label)}
+                aria-expanded={profileBubbleOpen === label}
+                aria-controls="profile-bubble-card"
+                key={label}
+              >
+                {label}
+              </button>
+            ))}
           </div>
-          <aside className="profile-note">
-            <b>真诚 · 清楚 · 有温度</b>
-            <p>这是我对表达的期待，也是我不断练习的方向。</p>
-          </aside>
+
+          <figure className="profile-portrait" aria-label="吹吹的手绘人物形象，会轻轻跟随鼠标方向转动">
+            <img src="/profile/chuichui-portrait.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
+          </figure>
+
+          {profileBubbleOpen && (
+            <aside className="profile-bubble-card" id="profile-bubble-card" aria-live="polite">
+              <small>PERSONAL TAG</small>
+              <strong>{profileBubbleOpen}</strong>
+              <p>关于这个标签的具体介绍将在这里补充。</p>
+              <button onClick={() => setProfileBubbleOpen(null)} aria-label="关闭个人标签介绍">×</button>
+            </aside>
+          )}
         </div>
       </section>
 
