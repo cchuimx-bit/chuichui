@@ -972,7 +972,7 @@ export default function Home() {
           </div>
 
           <figure className="profile-portrait" aria-label="吹吹的手绘人物形象，会轻轻跟随鼠标方向转动">
-            <img src="/profile/chuichui-portrait.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
+            <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
           </figure>
 
           {profileBubbleOpen && (
