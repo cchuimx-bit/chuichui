@@ -944,10 +944,10 @@ export default function Home() {
             const rect = event.currentTarget.getBoundingClientRect();
             const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
             const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
-            event.currentTarget.style.setProperty("--look-x", `${x * 7}deg`);
-            event.currentTarget.style.setProperty("--look-y", `${y * -5}deg`);
-            event.currentTarget.style.setProperty("--look-shift-x", `${x * 9}px`);
-            event.currentTarget.style.setProperty("--look-shift-y", `${y * 5}px`);
+            event.currentTarget.style.setProperty("--look-x", `${x * 14}deg`);
+            event.currentTarget.style.setProperty("--look-y", `${y * -10}deg`);
+            event.currentTarget.style.setProperty("--look-shift-x", `${x * 18}px`);
+            event.currentTarget.style.setProperty("--look-shift-y", `${y * 10}px`);
           }}
           onPointerLeave={(event) => {
             event.currentTarget.style.setProperty("--look-x", "0deg");
