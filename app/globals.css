@@ -385,16 +385,13 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .contact-method button:hover { color: var(--yellow); background: var(--brown); transform: translateY(-1px); }
 .contact-method button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 
-.site-footer { min-height: 470px; padding: 80px 5vw 50px; background: var(--paper); display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; position: relative; border-top: 5px solid var(--brown); }
-.site-footer nav { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
-.site-footer nav button { font: 700 13px var(--display); }
-.site-footer nav button:hover { text-decoration: underline; }
-.footer-logo { text-align: center; }
-.footer-logo h2 { margin: 0; font: 900 clamp(55px,7vw,95px)/.9 var(--display); letter-spacing: -.08em; transform: rotate(-2deg); }
-.footer-logo span { display: block; font-size: 48px; }
-.footer-logo p, .footer-note { font-size: 10px; line-height: 1.55; }
-.footer-note { text-align: right; }
-.back-top { position: absolute; right: 5vw; bottom: 45px; background: var(--brown); color: var(--yellow); border-radius: 22px; padding: 10px 17px; font: 700 12px var(--display); }
+.site-footer { min-height: 248px; padding: 18px clamp(88px,10vw,160px) 20px; background: var(--paper); display: flex; align-items: center; justify-content: center; position: relative; border-top: 3px solid var(--brown); overflow: hidden; }
+.footer-goodbye { width: min(760px, 74vw); display: grid; justify-items: center; gap: 1px; text-align: center; color: var(--brown); }
+.footer-goodbye h2 { margin: 0; font: 400 clamp(40px,4.7vw,64px)/.88 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: -.055em; }
+.footer-illustration { width: min(300px, 34vw); height: 78px; overflow: hidden; position: relative; margin: -1px 0 0; mix-blend-mode: multiply; }
+.footer-illustration img { position: absolute; width: 100%; height: auto; left: 0; top: 0; transform: translateY(-45.5%); pointer-events: none; }
+.footer-goodbye p { max-width: 660px; margin: 2px 0 0; font: 600 11px/1.45 var(--display); letter-spacing: .03em; }
+.back-top { position: absolute; right: 4vw; bottom: 22px; background: var(--brown); color: var(--yellow); border-radius: 22px; padding: 10px 17px; font: 700 12px var(--display); }
 
 @keyframes photo-in { from { opacity: 0; transform: scale(1.05); } }
 @keyframes card-switch-in { from { opacity: 0; transform: translateX(34px); } to { opacity: 1; transform: translateX(0); } }
@@ -561,10 +558,12 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .contact-method { padding: 11px 12px; }
   .contact-method-copy b { font-size: 12px; }
   .contact-method-copy strong { font-size: 11px; }
-  .site-footer { grid-template-columns: 1fr; gap: 50px; text-align: center; padding-bottom: 100px; }
-  .site-footer nav { align-items: center; }
-  .footer-note { text-align: center; }
-  .back-top { right: 50%; transform: translateX(50%); }
+  .site-footer { min-height: 274px; padding: 20px 20px 68px; }
+  .footer-goodbye { width: 100%; }
+  .footer-goodbye h2 { font-size: clamp(33px, 11vw, 46px); }
+  .footer-illustration { width: min(270px, 78vw); height: 72px; }
+  .footer-goodbye p { max-width: 320px; font-size: 10px; }
+  .back-top { right: 50%; bottom: 15px; transform: translateX(50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {

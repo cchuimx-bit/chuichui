@@ -1623,9 +1623,13 @@ export default function Home() {
       </section>
 
       <footer className="site-footer">
-        <nav>{nav.map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}</nav>
-        <div className="footer-logo"><h2>林知远</h2><span>☼</span><p>把日子过成喜欢的样子</p></div>
-        <div className="footer-note">谢谢你来到这里。<br />愿我们都能保留好奇，认真感受，<br />并在自己的路上慢慢发光。</div>
+        <div className="footer-goodbye">
+          <h2>Until Next Time</h2>
+          <div className="footer-illustration" aria-hidden="true">
+            <img src="/photos/footer-goodbye-reference.png" alt="" />
+          </div>
+          <p>谢谢你来到这里，愿我们都能保持好奇，认真感受，并在自己的路上慢慢发光</p>
+        </div>
         <button className="back-top" onClick={() => go("home")}>回到顶部 ↑</button>
       </footer>
     </main>
