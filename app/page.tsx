@@ -729,8 +729,6 @@ export default function Home() {
         stage.style.setProperty("--look-z", `${current.x * -1.4}deg`);
         stage.style.setProperty("--look-shift-x", `${current.x * 22}px`);
         stage.style.setProperty("--look-shift-y", `${current.y * 10}px`);
-        stage.style.setProperty("--look-glint-x", `${50 + current.x * 24}%`);
-        stage.style.setProperty("--look-glint-y", `${30 + current.y * 18}%`);
       }
 
       profileLookFrameRef.current = window.requestAnimationFrame(animatePortrait);
@@ -1031,8 +1029,8 @@ export default function Home() {
             ))}
           </div>
 
-          <figure className="profile-portrait" aria-label="吹吹的 3D 人物形象，会顺滑跟随鼠标方向转动">
-            <img src="/profile/chuichui-portrait-3d.png" alt="戴圆框眼镜、穿蓝白条纹衣服的 3D 人物形象" />
+          <figure className="profile-portrait" aria-label="吹吹的手绘人物形象，会顺滑跟随鼠标方向转动">
+            <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
           </figure>
 
           {profileBubbleOpen && (
