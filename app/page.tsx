@@ -770,7 +770,6 @@ export default function Home() {
   const [portfolioOpen, setPortfolioOpen] = useState<number | null>(null);
   const [portfolioFlipped, setPortfolioFlipped] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(true);
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
@@ -892,12 +891,6 @@ export default function Home() {
   const go = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenu(false);
-  };
-
-  const copy = async () => {
-    await navigator.clipboard.writeText("hello@yourname.com");
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
   };
 
   const openPortfolioItem = (index: number) => {
@@ -1579,19 +1572,10 @@ export default function Home() {
       </section>
 
       <section className="contact-section" id="contact">
-        <div className="contact-card">
-          <div>
-            <span>DROP ME A LINE</span>
-            <h2>想和我<br />聊聊天？</h2>
-            <p>可以分享一个想法、一首歌、一段旅程，或只是一句简单的“你好”。</p>
-            <button onClick={copy}>{copied ? "邮箱已复制 ✓" : "复制我的邮箱"}</button>
-          </div>
-          <div className="postcard">
-            <p>TO: <b>新的朋友</b></p>
-            <i />
-            <h3>hello@yourname.com</h3>
-            <span>期待收到你的来信。</span>
-            <div className="stamp">✺<small>CHINA<br />2026</small></div>
+        <div className="contact-landscape">
+          <div className="contact-card">
+            <h2>想和我聊聊天吗？</h2>
+            <p>Would you like to have a chat with me?</p>
           </div>
         </div>
       </section>
