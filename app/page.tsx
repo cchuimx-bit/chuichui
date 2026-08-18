@@ -1030,13 +1030,14 @@ export default function Home() {
               <span className="experience-slide-rail" aria-hidden="true">
                 <b>{String(index + 1).padStart(2, "0")}</b>
                 <em>{card.categoryLabel}</em>
+                <span>—</span>
                 <i>{card.railTitle}</i>
               </span>
               <span className="experience-slide-cta">点击查看完整经历</span>
               <span className="experience-slide-copy">
                 <small>{card.categoryLabel} · {String(index + 1).padStart(2, "0")}</small>
                 <time>{card.years}</time>
-                <strong>{card.title}</strong>
+                <strong className={card.title.startsWith("“快通”") ? "is-compact-title" : undefined}>{card.title}</strong>
                 <em>{card.subtitle}</em>
               </span>
             </button>
