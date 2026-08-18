@@ -1018,23 +1018,17 @@ export default function Home() {
           <section className="experience-detail-shell" role="dialog" aria-modal="true" aria-label="个人经历详情">
             <header className="experience-detail-header">
               <div>
-                <small>02 / MY JOURNEY</small>
+                <small>MY JOURNEY</small>
                 <strong>{exp === 0 ? "教育经历" : exp === 1 ? "实习经历" : "项目经历"}</strong>
               </div>
               <button onClick={() => setExperienceDetailOpen(false)} aria-label="关闭个人经历详情">×</button>
             </header>
             <div className="experience-detail-scroll">
-              <div className="experience-detail-marker">
-                <small>EXPERIENCE {String(experienceFocus + 1).padStart(2, "0")} / {String(experienceCards.length).padStart(2, "0")}</small>
-                <strong>第 {String(experienceFocus + 1).padStart(2, "0")} 段经历</strong>
-                <span>{experienceCards[experienceFocus].categoryLabel}</span>
-              </div>
               <div className={`tab-card ${exp === 0 ? "education-mode" : exp === 1 ? "internship-mode" : "project-mode"}`}>
           {exp === 0 ? (
             <article className={`education-panel ${education.photos.length ? "" : "is-placeholder"}`} key={education.number}>
               <div className="education-copy">
                 <div className="education-heading">
-                  <span>{education.number}</span>
                   <h3>{education.school}</h3>
                   <time>{education.years}</time>
                 </div>
@@ -1062,7 +1056,6 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="education-placeholder" aria-label="第二段教育经历内容待补充">
-                  <span>02</span>
                   <p>等待你的下一段故事</p>
                 </div>
               )}
@@ -1075,7 +1068,6 @@ export default function Home() {
             <article className={`internship-panel ${internship.photos.length ? "" : "is-placeholder"}`} key={internship.number}>
               <div className="internship-copy">
                 <div className="internship-heading">
-                  <span>{internship.number}</span>
                   <h3>{internship.company}</h3>
                   <time>{internship.years}</time>
                 </div>
@@ -1108,7 +1100,6 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="internship-placeholder" aria-label={`${internship.company}内容待补充`}>
-                  <span>{internship.number}</span>
                   <p>等待下一段职场故事</p>
                 </div>
               )}
@@ -1121,7 +1112,6 @@ export default function Home() {
             <article className={`project-panel ${project.photos.length ? "" : "is-placeholder"} ${project.number === "04" || project.number === "06" ? "no-photo-space" : ""}`} key={project.number}>
               <div className="project-copy">
                 <div className="project-heading">
-                  <span>{project.number}</span>
                   <h3>{project.title}</h3>
                   <time>{project.years}</time>
                 </div>
@@ -1154,7 +1144,6 @@ export default function Home() {
                 </div>
               ) : project.number !== "04" && project.number !== "06" ? (
                 <div className="project-placeholder" aria-label={`${project.title}项目档案`}>
-                  <span>{project.number}</span>
                   <p>PROJECT ARCHIVE</p>
                 </div>
               ) : null}

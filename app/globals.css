@@ -138,18 +138,14 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .experience-accordion-controls span { min-width: 78px; font: 600 11px/1 var(--body); letter-spacing: .1em; text-align: center; }
 .experience-accordion-controls b { font-size: 18px; }
 .experience-detail-backdrop { position: fixed; z-index: 140; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(9,29,40,.82); -webkit-backdrop-filter: blur(8px) saturate(.72); backdrop-filter: blur(8px) saturate(.72); animation: thoughts-backdrop-in .28s ease both; }
-.experience-detail-shell { width: min(1260px,96vw); height: min(930px,94dvh); overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr); border: 2px solid rgba(243,201,50,.65); border-radius: 24px; background: #173b50; box-shadow: 0 22px 70px rgba(0,0,0,.45); animation: thoughts-card-in .38s cubic-bezier(.2,.82,.2,1) both; }
-.experience-detail-header { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 18px 13px 25px; border-bottom: 1px solid rgba(243,201,50,.25); color: #f3c932; }
+.experience-detail-shell { width: min(1260px,96vw); height: min(930px,94dvh); overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr); border: 2px solid rgba(124,92,43,.42); border-radius: 24px; background: #efe4cf; box-shadow: 0 22px 70px rgba(0,0,0,.45); animation: thoughts-card-in .38s cubic-bezier(.2,.82,.2,1) both; }
+.experience-detail-header { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 18px 15px 28px; border-bottom: 1px solid rgba(67,42,12,.22); color: var(--brown); }
 .experience-detail-header > div { display: grid; gap: 5px; }
-.experience-detail-header small { font: 600 9px/1 var(--body); letter-spacing: .16em; }
-.experience-detail-header strong { font: 800 20px/1 var(--display); letter-spacing: -.02em; }
+.experience-detail-header small { color: #9a6a23; font: 700 11px/1 var(--body); letter-spacing: .18em; }
+.experience-detail-header strong { font: 800 28px/1 var(--display); letter-spacing: -.025em; }
 .experience-detail-header > button { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: #f3c932; color: var(--brown); font: 400 28px/1 var(--body); transition: transform .22s ease; }
 .experience-detail-header > button:hover { transform: rotate(8deg) scale(1.05); }
-.experience-detail-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 24px 48px; scrollbar-color: rgba(243,201,50,.65) transparent; scrollbar-width: thin; }
-.experience-detail-marker { width: min(1180px,100%); margin: 0 auto 14px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 7px 18px; padding: 20px 24px; border: 1px solid rgba(243,201,50,.5); border-radius: 16px; background: rgba(9,34,48,.72); color: #f8edd9; }
-.experience-detail-marker small { grid-column: 1 / -1; color: #f3c932; font: 700 9px/1 var(--body); letter-spacing: .17em; }
-.experience-detail-marker strong { font: 800 clamp(22px,2.8vw,36px)/1 var(--display); letter-spacing: -.035em; }
-.experience-detail-marker span { justify-self: end; padding: 8px 12px; border-radius: 999px; background: #f3c932; color: var(--brown); font: 800 10px/1 var(--body); letter-spacing: .08em; }
+.experience-detail-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 24px 48px; scrollbar-color: rgba(124,92,43,.48) transparent; scrollbar-width: thin; }
 .experience-detail-scroll .tab-card,
 .experience-detail-scroll .tab-card.internship-mode,
 .experience-detail-scroll .tab-card.project-mode { width: min(1180px,100%); padding-top: 0; }
@@ -178,8 +174,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tab-card.project-mode { width: min(1180px,96vw); min-height: 0; display: block; }
 .education-panel { position: relative; min-height: 555px; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-rows: auto 206px auto; gap: 0; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--body); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .education-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 42px 16px; }
-.education-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
-.education-heading > span { color: #a75545; font-size: 32px; font-weight: 800; line-height: 1; }
+.education-heading { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
 .education-heading h3 { margin: 0; font-size: 32px; font-weight: 800; line-height: 1; letter-spacing: -.045em; }
 .education-heading time { padding: 0; font-size: 12px; font-style: normal; letter-spacing: .1em; white-space: nowrap; }
 .education-programme { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
@@ -201,8 +196,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .education-action:hover { transform: translateY(-2px); background: #f3c932; }
 .internship-panel { position: relative; min-height: 560px; overflow: hidden; display: grid; grid-template-columns: minmax(0,1.42fr) minmax(340px,.78fr); grid-template-rows: minmax(0,1fr) auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--display); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .internship-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 30px 18px 42px; }
-.internship-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
-.internship-heading > span { color: #a75545; font: 800 32px/1 var(--display); }
+.internship-heading { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
 .internship-heading h3 { margin: 0; font: 800 32px/1 var(--display); letter-spacing: -.045em; }
 .internship-heading time { padding: 0; font: 400 12px var(--body); font-style: normal; letter-spacing: .1em; white-space: nowrap; }
 .internship-role { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
@@ -226,8 +220,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .internship-actions .education-action { font-family: var(--display); }
 .project-panel { position: relative; min-height: 640px; overflow: hidden; display: grid; grid-template-columns: minmax(0,1.52fr) minmax(340px,.78fr); grid-template-rows: minmax(0,1fr) auto; border-radius: 24px; background: #efe4cf; color: var(--brown); box-shadow: 0 7px 0 rgba(41,73,65,.3); font-family: var(--display); transition: opacity .22s ease, transform .22s ease; animation: card-switch-in .48s cubic-bezier(.2,.8,.2,1) both; }
 .project-copy { min-width: 0; grid-column: 1; grid-row: 1; padding: 54px 30px 18px 42px; }
-.project-heading { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: start; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
-.project-heading > span { color: #a75545; font-size: 30px; font-weight: 800; line-height: 1.1; }
+.project-heading { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid rgba(62,39,8,.26); }
 .project-heading h3 { margin: 0; font-size: clamp(24px,2.35vw,31px); font-weight: 800; line-height: 1.16; letter-spacing: -.035em; }
 .project-heading time { padding-top: 6px; font: 400 12px var(--body); font-style: normal; letter-spacing: .09em; white-space: nowrap; }
 .project-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
@@ -484,8 +477,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .tab-row button { font-size: 11px; padding: 12px 4px 17px; }
   .education-panel { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
   .education-copy { grid-column: 1; grid-row: 1; padding: 54px 22px 24px; }
-  .education-heading { grid-template-columns: auto 1fr; gap: 10px; }
-  .education-heading > span, .education-heading h3 { font-size: 30px; }
+  .education-heading { grid-template-columns: 1fr; gap: 10px; }
+  .education-heading h3 { font-size: 30px; }
   .education-heading time { grid-column: 1 / -1; }
   .education-programme { align-items: flex-start; flex-direction: column; }
   .education-programme p { font-size: 15px; }
@@ -497,8 +490,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .education-action { width: min(250px, 82vw); }
   .internship-panel { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
   .internship-copy { grid-column: 1; grid-row: 1; padding: 54px 22px 24px; }
-  .internship-heading { grid-template-columns: auto 1fr; gap: 10px; }
-  .internship-heading > span, .internship-heading h3 { font-size: 30px; }
+  .internship-heading { grid-template-columns: 1fr; gap: 10px; }
+  .internship-heading h3 { font-size: 30px; }
   .internship-heading time { grid-column: 1 / -1; }
   .internship-role { align-items: flex-start; flex-direction: column; }
   .internship-role p { font-size: 15px; }
@@ -510,8 +503,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .internship-actions { grid-column: 1; grid-row: 3; flex-direction: column; align-items: center; margin: 16px 18px 24px; }
   .project-panel { min-height: 0; grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
   .project-copy { grid-column: 1; grid-row: 1; padding: 54px 22px 24px; }
-  .project-heading { grid-template-columns: auto 1fr; gap: 10px; }
-  .project-heading > span { font-size: 28px; }
+  .project-heading { grid-template-columns: 1fr; gap: 10px; }
   .project-heading h3 { font-size: 27px; }
   .project-heading time { grid-column: 1 / -1; padding-top: 2px; }
   .project-meta { align-items: flex-start; flex-direction: column; }
