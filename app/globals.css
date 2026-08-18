@@ -368,23 +368,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .portfolio-back-button { justify-self: start; margin-top: 8px; padding: 12px 24px; border: 2px solid var(--brown); border-radius: 999px; color: var(--brown); background: transparent; font: 700 12px/1 var(--body); transition: color .2s ease, background .2s ease, transform .2s ease; }
 .portfolio-back-button:hover { color: var(--yellow); background: var(--brown); transform: translateY(-2px); }
 
-.gallery-section { padding: 100px 5vw 140px; background: var(--orange); }
-.photo-grid { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-.photo-grid figure { margin: 0; background: var(--paper); border: 10px solid var(--paper); box-shadow: 4px 5px 0 var(--brown); transition: transform .3s; }
-.photo-grid figure:nth-child(2), .photo-grid figure:nth-child(3) { transform: rotate(2deg); }
-.photo-grid figure:nth-child(1), .photo-grid figure:nth-child(4) { transform: rotate(-2deg); }
-.photo-grid figure:hover { transform: translateY(-8px) rotate(0); }
-.photo-grid img { aspect-ratio: 4/3; filter: saturate(.82) contrast(.96) sepia(.08); }
-.album-scene { aspect-ratio: 4/3; background-image: url("/photos/tropical-coast.png"); background-size: 150% auto; filter: saturate(.82) contrast(.96) sepia(.08); }
-.coast-a { background-position: 0% 60%; }
-.coast-b { background-position: 100% 20%; }
-.coast-c { background-position: 48% 42%; background-size: 115% auto; }
-.coast-d { background-position: 82% 85%; background-size: 175% auto; }
-.photo-grid figcaption { display: flex; gap: 18px; padding: 14px 6px 8px; }
-.photo-grid figcaption span, .photo-grid figcaption small { font-size: 9px; }
-.photo-grid figcaption p { margin: 0; font: 800 18px var(--display); }
-.photo-grid figcaption small { display: block; margin-top: 4px; font-family: var(--body); }
-
 .contact-section { padding: 120px 8vw; background: var(--teal); }
 .contact-card { width: min(1050px,100%); min-height: 550px; margin: 0 auto; background: var(--paper); border-radius: 30px; padding: 55px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 .contact-card > div:first-child > span { font-size: 10px; letter-spacing: .18em; }
@@ -566,7 +549,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .portfolio-reader-back { align-content: start; padding: 30px 20px; }
   .portfolio-reader-back > h3 { font-size: 30px; }
   .portfolio-copy-block { grid-template-columns: 1fr; gap: 8px; padding: 16px 0; }
-  .photo-grid { grid-template-columns: 1fr; }
   .contact-section { padding: 85px 16px; }
   .contact-card { grid-template-columns: 1fr; padding: 38px 24px; gap: 45px; }
   .contact-card h2 { font-size: 58px; }

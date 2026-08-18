@@ -7,7 +7,6 @@ const nav = [
   ["profile", "基础信息"],
   ["experience", "个人经历"],
   ["interests", "作品集"],
-  ["gallery", "兴趣爱好"],
   ["contact", "联系我"],
 ] as const;
 
@@ -666,13 +665,6 @@ const portfolioMixedOrder = mixPortfolioItems(portfolioItems.length, 20260817);
 const portfolioColumns = Array.from({ length: 3 }, (_, columnIndex) =>
   portfolioMixedOrder.filter((_, orderIndex) => orderIndex % 3 === columnIndex),
 );
-
-const photos = [
-  ["coast-a", "海边的午后"],
-  ["coast-b", "棕榈树的影子"],
-  ["coast-c", "远方的岛屿"],
-  ["coast-d", "落日以前"],
-] as const;
 
 const upperReelPhotos = [
   { src: "/photos/reel/sunset-coast.jpg", alt: "晚霞下的海岸与棕榈树", shape: "wide" },
@@ -1582,22 +1574,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="gallery-section" id="gallery">
-        <div className="section-heading">
-          <p>03 / PHOTO ALBUM</p>
-          <h2>个人相册</h2>
-          <span>一些被我好好保存的瞬间</span>
-        </div>
-        <div className="photo-grid">
-          {photos.map(([crop, title], index) => (
-            <figure key={crop}>
-              <div className={`album-scene ${crop}`} role="img" aria-label={`${title}的复古热带风景`} />
-              <figcaption><span>0{index + 1}</span><p>{title}<small>私人影像记录 · 2025</small></p></figcaption>
-            </figure>
           ))}
         </div>
       </section>
