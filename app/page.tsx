@@ -10,6 +10,13 @@ const nav = [
   ["contact", "联系我"],
 ] as const;
 
+const contactMethods = [
+  { icon: "📮", label: "邮箱", value: "miocui_261@163.com" },
+  { icon: "☎️", label: "电话", value: "15134499326" },
+  { icon: "💬", label: "微信", value: "MioCui-261" },
+  { icon: "🐧", label: "QQ", value: "2506251531" },
+] as const;
+
 const profileBubbles = [
   "双鱼座",
   "INFJ",
@@ -775,6 +782,7 @@ export default function Home() {
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
   const [activeProfileBubble, setActiveProfileBubble] = useState<number | null>(null);
+  const [copiedContact, setCopiedContact] = useState<string | null>(null);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -891,6 +899,23 @@ export default function Home() {
   const go = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenu(false);
+  };
+
+  const copyContact = async (label: string, value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = value;
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+    setCopiedContact(label);
+    window.setTimeout(() => setCopiedContact(null), 1600);
   };
 
   const openPortfolioItem = (index: number) => {
@@ -1576,6 +1601,23 @@ export default function Home() {
           <div className="contact-card">
             <h2>想和我聊聊天吗？</h2>
             <p>Would you like to have a chat with me?</p>
+            <div className="contact-methods">
+              {contactMethods.map((method) => (
+                <div className="contact-method" key={method.label}>
+                  <span className="contact-method-copy">
+                    <b>{method.icon} {method.label}</b>
+                    <strong>{method.value}</strong>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => copyContact(method.label, method.value)}
+                    aria-label={`复制${method.label}：${method.value}`}
+                  >
+                    {copiedContact === method.label ? "已复制 ✓" : "点击复制"}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
