@@ -385,12 +385,10 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .contact-method button:hover { color: var(--yellow); background: var(--brown); transform: translateY(-1px); }
 .contact-method button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 
-.site-footer { min-height: 248px; padding: 18px clamp(88px,10vw,160px) 20px; background: var(--paper); display: flex; align-items: center; justify-content: center; position: relative; border-top: 3px solid var(--brown); overflow: hidden; }
-.footer-goodbye { width: min(760px, 74vw); display: grid; justify-items: center; gap: 1px; text-align: center; color: var(--brown); }
-.footer-goodbye h2 { margin: 0; font: 400 clamp(40px,4.7vw,64px)/.88 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: -.055em; }
-.footer-illustration { width: min(300px, 34vw); height: 78px; overflow: hidden; position: relative; margin: -1px 0 0; mix-blend-mode: multiply; }
-.footer-illustration img { position: absolute; width: 100%; height: auto; left: 0; top: 0; transform: translateY(-45.5%); pointer-events: none; }
-.footer-goodbye p { max-width: 660px; margin: 2px 0 0; font: 600 11px/1.45 var(--display); letter-spacing: .03em; }
+.site-footer { min-height: 172px; padding: 22px clamp(88px,10vw,160px); background: var(--paper); display: flex; align-items: center; justify-content: center; position: relative; border-top: 3px solid var(--brown); overflow: hidden; }
+.footer-goodbye { width: min(760px, 74vw); display: grid; justify-items: center; gap: 8px; text-align: center; color: var(--brown); }
+.footer-goodbye h2 { margin: 0; font: 400 clamp(30px,3.5vw,46px)/.95 "Caprasimo", "Superclarendon", Georgia, serif; letter-spacing: -.045em; }
+.footer-goodbye p { max-width: 660px; margin: 0; font: 600 11px/1.45 var(--display); letter-spacing: .03em; }
 .back-top { position: absolute; right: 4vw; bottom: 22px; background: var(--brown); color: var(--yellow); border-radius: 22px; padding: 10px 17px; font: 700 12px var(--display); }
 
 @keyframes photo-in { from { opacity: 0; transform: scale(1.05); } }
@@ -558,10 +556,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .contact-method { padding: 11px 12px; }
   .contact-method-copy b { font-size: 12px; }
   .contact-method-copy strong { font-size: 11px; }
-  .site-footer { min-height: 274px; padding: 20px 20px 68px; }
+  .site-footer { min-height: 208px; padding: 22px 20px 68px; }
   .footer-goodbye { width: 100%; }
-  .footer-goodbye h2 { font-size: clamp(33px, 11vw, 46px); }
-  .footer-illustration { width: min(270px, 78vw); height: 72px; }
+  .footer-goodbye h2 { font-size: clamp(28px, 9vw, 36px); }
   .footer-goodbye p { max-width: 320px; font-size: 10px; }
   .back-top { right: 50%; bottom: 15px; transform: translateX(50%); }
 }
