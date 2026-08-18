@@ -960,12 +960,18 @@ export default function Home() {
           className="profile-stage"
           onPointerMove={(event) => {
             const rect = event.currentTarget.getBoundingClientRect();
-            const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
-            const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
-            event.currentTarget.style.setProperty("--look-x", `${x * 14}deg`);
-            event.currentTarget.style.setProperty("--look-y", `${y * -10}deg`);
-            event.currentTarget.style.setProperty("--look-shift-x", `${x * 18}px`);
-            event.currentTarget.style.setProperty("--look-shift-y", `${y * 10}px`);
+            const portrait = event.currentTarget.querySelector<HTMLElement>(".profile-portrait");
+            const portraitWidth = portrait?.offsetWidth ?? rect.width * .48;
+            const faceCenterX = rect.left + rect.width / 2;
+            const faceCenterY = rect.bottom - portraitWidth * .62;
+            const rawX = Math.max(-1, Math.min(1, (event.clientX - faceCenterX) / (portraitWidth * .5)));
+            const rawY = Math.max(-1, Math.min(1, (event.clientY - faceCenterY) / (portraitWidth * .42)));
+            const x = Math.sign(rawX) * Math.pow(Math.abs(rawX), .72);
+            const y = Math.sign(rawY) * Math.pow(Math.abs(rawY), .82);
+            event.currentTarget.style.setProperty("--look-x", `${x * 24}deg`);
+            event.currentTarget.style.setProperty("--look-y", `${y * -14}deg`);
+            event.currentTarget.style.setProperty("--look-shift-x", `${x * 30}px`);
+            event.currentTarget.style.setProperty("--look-shift-y", `${y * 14}px`);
           }}
           onPointerLeave={(event) => {
             event.currentTarget.style.setProperty("--look-x", "0deg");
