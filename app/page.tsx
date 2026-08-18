@@ -1033,6 +1033,11 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="profile-identity-prompt" aria-hidden="true">
+            <strong>我是谁</strong>
+            <small>点击图片查看</small>
+          </div>
+
           <button
             type="button"
             className="profile-portrait"
@@ -1047,44 +1052,9 @@ export default function Home() {
             <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
           </button>
 
-          <button
-            type="button"
-            className={`profile-intro-cue ${profileIntroOpen ? "is-open" : ""}`}
-            onClick={() => {
-              setProfileBubbleOpen(null);
-              setProfileIntroOpen((current) => !current);
-            }}
-            aria-expanded={profileIntroOpen}
-            aria-controls="profile-intro-card"
-          >
-            <span className="profile-intro-cue-hand" aria-hidden="true">👋</span>
-            <span>
-              <small>HELLO!</small>
-              <strong>点点小人<br />认识一下吹吹</strong>
-            </span>
-            <i aria-hidden="true">↙</i>
-          </button>
-
           {profileIntroOpen && (
             <aside className="profile-intro-card" id="profile-intro-card" aria-live="polite">
-              <div className="profile-intro-card-heading">
-                <span aria-hidden="true">✦</span>
-                <div>
-                  <small>NICE TO MEET YOU</small>
-                  <h3>你好，我是吹吹！</h3>
-                </div>
-              </div>
-              <p>
-                一名在内容运营、活动策划与视觉表达之间不断探索的新闻传播学生。
-                我喜欢把复杂的信息整理得清楚，也喜欢把脑海里的想法变成有趣、好看又能被感受到的内容。
-              </p>
-              <div className="profile-intro-tags" aria-label="个人方向">
-                <span>内容运营</span>
-                <span>活动策划</span>
-                <span>视觉表达</span>
-                <span>游戏玩家</span>
-              </div>
-              <blockquote>认真做内容，也认真生活。</blockquote>
+              <p>哈喽～我叫崔铭笑，你可以叫我吹吹或者Mio！</p>
               <button type="button" onClick={() => setProfileIntroOpen(false)} aria-label="关闭个人介绍">×</button>
             </aside>
           )}
