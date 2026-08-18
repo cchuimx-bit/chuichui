@@ -86,8 +86,32 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .profile-section .profile-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
 .profile-stage { --look-x: 0deg; --look-y: 0deg; --look-z: 0deg; --look-shift-x: 0px; --look-shift-y: 0px; position: relative; z-index: 1; width: min(1180px,100%); height: clamp(620px,62vw,760px); margin: 0 auto; perspective: 900px; }
 .profile-stage::after { content: ""; position: absolute; z-index: -1; width: min(560px,54vw); height: 74px; left: 50%; bottom: 10px; border-radius: 50%; background: rgba(67,42,12,.14); filter: blur(22px); transform: translateX(-50%); }
-.profile-portrait { position: absolute; z-index: 2; width: clamp(390px,45vw,570px); aspect-ratio: 1; left: 50%; bottom: -4px; margin: 0; transform-origin: 50% 34%; transform-style: preserve-3d; transform: translate3d(calc(-50% + var(--look-shift-x)),var(--look-shift-y),0) rotateX(var(--look-y)) rotateY(var(--look-x)) rotateZ(var(--look-z)); will-change: transform; }
-.profile-portrait img { object-fit: contain; background: transparent; pointer-events: none; transform: translateZ(8px); filter: drop-shadow(0 18px 18px rgba(67,42,12,.12)); }
+.profile-portrait { position: absolute; z-index: 2; width: clamp(390px,45vw,570px); aspect-ratio: 1; left: 50%; bottom: -4px; margin: 0; padding: 0; transform-origin: 50% 34%; transform-style: preserve-3d; transform: translate3d(calc(-50% + var(--look-shift-x)),var(--look-shift-y),0) rotateX(var(--look-y)) rotateY(var(--look-x)) rotateZ(var(--look-z)); will-change: transform; touch-action: manipulation; }
+.profile-portrait img { object-fit: contain; background: transparent; pointer-events: none; transform: translateZ(8px); filter: drop-shadow(0 18px 18px rgba(67,42,12,.12)); transition: transform .28s ease, filter .28s ease; }
+.profile-portrait:hover img { transform: translateZ(8px) scale(1.018); filter: drop-shadow(0 20px 20px rgba(67,42,12,.16)); }
+.profile-portrait:focus-visible { outline: 3px dashed #9a5d4e; outline-offset: -28px; border-radius: 48%; }
+.profile-intro-cue { position: absolute; z-index: 4; width: 184px; left: calc(50% + clamp(150px,21vw,270px)); top: 46%; display: grid; grid-template-columns: 42px 1fr; align-items: center; gap: 9px; padding: 13px 16px 13px 12px; border: 2px solid var(--brown); border-radius: 24px 24px 24px 8px; background: #fff9ed; color: var(--brown); box-shadow: 7px 8px 0 rgba(243,201,50,.82), 0 15px 30px rgba(67,42,12,.14); text-align: left; transform: rotate(2deg); animation: profile-cue-bob 2.8s ease-in-out infinite; transition: transform .22s ease, background .22s ease, box-shadow .22s ease; }
+.profile-intro-cue:hover { background: #fff1bd; transform: rotate(-1deg) translateY(-3px); box-shadow: 5px 7px 0 rgba(243,201,50,.92), 0 17px 34px rgba(67,42,12,.17); }
+.profile-intro-cue.is-open { background: #f3c932; animation: none; }
+.profile-intro-cue-hand { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: #77b7d8; font-size: 23px; box-shadow: inset 0 0 0 2px rgba(67,42,12,.16); }
+.profile-intro-cue small { display: block; margin-bottom: 4px; color: #9a5d4e; font: 800 8px/1 var(--body); letter-spacing: .16em; }
+.profile-intro-cue strong { display: block; font: 900 13px/1.35 var(--display); letter-spacing: -.02em; }
+.profile-intro-cue i { position: absolute; left: -20px; bottom: -27px; font: normal 900 30px/1 var(--body); transform: rotate(-8deg); text-shadow: 2px 2px #fff9ed; }
+.profile-intro-card { position: absolute; z-index: 7; width: min(470px,88vw); left: 50%; top: 45%; padding: 30px 34px 27px; border: 2px solid var(--brown); border-radius: 34px 34px 34px 12px; background: rgba(255,249,237,.97); color: var(--brown); box-shadow: 11px 12px 0 #f3c932, 0 28px 60px rgba(67,42,12,.22); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transform: translate(-50%,-50%); animation: profile-intro-in .42s cubic-bezier(.16,.82,.25,1) both; }
+.profile-intro-card::before { content: "✦"; position: absolute; right: 50px; top: -23px; width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid var(--brown); border-radius: 50%; background: #77b7d8; color: #fff9ed; font-size: 21px; transform: rotate(10deg); }
+.profile-intro-card-heading { display: flex; align-items: center; gap: 14px; padding-bottom: 17px; border-bottom: 1px dashed rgba(67,42,12,.35); }
+.profile-intro-card-heading > span { width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 15px; background: #f3c932; font-size: 22px; transform: rotate(-5deg); }
+.profile-intro-card-heading small { display: block; margin-bottom: 6px; color: #9a5d4e; font: 800 9px/1 var(--body); letter-spacing: .17em; }
+.profile-intro-card h3 { margin: 0; font: 900 clamp(29px,3vw,38px)/1.05 var(--display); letter-spacing: -.05em; }
+.profile-intro-card > p { margin: 19px 0 16px; color: rgba(67,42,12,.82); font: 600 13px/1.85 var(--body); }
+.profile-intro-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.profile-intro-tags span { padding: 8px 11px; border: 1px solid rgba(67,42,12,.32); border-radius: 999px; background: #f1dec2; font: 800 10px/1 var(--body); }
+.profile-intro-tags span:nth-child(2) { background: #f6d985; }
+.profile-intro-tags span:nth-child(3) { background: #b9d9e8; }
+.profile-intro-tags span:nth-child(4) { background: #d6e7aa; }
+.profile-intro-card blockquote { margin: 18px 0 0; padding: 13px 16px; border-radius: 12px; background: var(--brown); color: #fff9ed; font: 800 12px/1.45 var(--display); text-align: center; }
+.profile-intro-card > button { position: absolute; width: 34px; height: 34px; right: 15px; top: 15px; display: grid; place-items: center; border-radius: 50%; background: var(--brown); color: #f3c932; font: 400 22px/1 var(--body); transition: transform .2s ease, background .2s ease; }
+.profile-intro-card > button:hover { background: #9a5d4e; transform: rotate(8deg); }
 .profile-bubbles { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
 .profile-bubble { position: absolute; pointer-events: auto; min-width: 88px; padding: 13px 18px; border: 1px solid rgba(67,42,12,.42); border-radius: 999px; background: rgba(255,249,237,.88); color: var(--brown); box-shadow: 0 9px 0 rgba(67,42,12,.12), 0 12px 28px rgba(67,42,12,.1), inset 0 1px rgba(255,255,255,.9); font: 800 12px/1 var(--body); letter-spacing: .04em; text-align: center; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: profile-bubble-float 4.4s ease-in-out infinite; transition: background .22s ease, color .22s ease, box-shadow .22s ease; }
 .profile-bubble::after { content: ""; position: absolute; width: 10px; height: 10px; left: 12px; top: 8px; border-radius: 50%; background: rgba(255,255,255,.72); }
@@ -422,6 +446,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @keyframes reel-left { to { transform: translateX(-50%); } }
 @keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @keyframes profile-bubble-float { 0%,100% { transform: translateY(0) rotate(-.4deg); } 50% { transform: translateY(-8px) rotate(.5deg); } }
+@keyframes profile-cue-bob { 0%,100% { transform: rotate(2deg) translateY(0); } 50% { transform: rotate(-1deg) translateY(-7px); } }
+@keyframes profile-intro-in { from { opacity: 0; transform: translate(-50%,-45%) scale(.92) rotate(-1deg); } to { opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(0); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .profile-stage { height: 700px; }
@@ -461,6 +487,12 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .profile-section .profile-heading { margin-bottom: 10px; }
   .profile-stage { height: 700px; }
   .profile-portrait { width: min(440px,108vw); bottom: -2px; }
+  .profile-intro-cue { width: 145px; left: auto; right: 5px; top: 47%; grid-template-columns: 34px 1fr; gap: 7px; padding: 10px 10px 10px 8px; }
+  .profile-intro-cue-hand { width: 34px; height: 34px; font-size: 19px; }
+  .profile-intro-cue strong { font-size: 11px; }
+  .profile-intro-card { width: calc(100% - 24px); top: 43%; padding: 25px 23px 22px; border-radius: 28px 28px 28px 10px; }
+  .profile-intro-card > p { font-size: 11px; line-height: 1.75; }
+  .profile-intro-card h3 { font-size: 29px; }
   .profile-bubble { min-width: 74px; padding: 11px 13px; font-size: 10px; }
   .profile-bubble.bubble-1 { left: 1%; top: 12%; }
   .profile-bubble.bubble-2 { left: 4%; top: 34%; }

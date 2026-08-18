@@ -688,6 +688,7 @@ export default function Home() {
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
   const [profileBubbleOpen, setProfileBubbleOpen] = useState<string | null>(null);
+  const [profileIntroOpen, setProfileIntroOpen] = useState(false);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -1019,7 +1020,10 @@ export default function Home() {
             {profileBubbles.map((label, index) => (
               <button
                 className={`profile-bubble bubble-${index + 1} ${profileBubbleOpen === label ? "is-selected" : ""}`}
-                onClick={() => setProfileBubbleOpen((current) => current === label ? null : label)}
+                onClick={() => {
+                  setProfileIntroOpen(false);
+                  setProfileBubbleOpen((current) => current === label ? null : label);
+                }}
                 aria-expanded={profileBubbleOpen === label}
                 aria-controls="profile-bubble-card"
                 key={label}
@@ -1029,9 +1033,61 @@ export default function Home() {
             ))}
           </div>
 
-          <figure className="profile-portrait" aria-label="吹吹的手绘人物形象，会顺滑跟随鼠标方向转动">
+          <button
+            type="button"
+            className="profile-portrait"
+            onClick={() => {
+              setProfileBubbleOpen(null);
+              setProfileIntroOpen((current) => !current);
+            }}
+            aria-label={profileIntroOpen ? "收起吹吹的个人介绍" : "点击查看吹吹的个人介绍"}
+            aria-expanded={profileIntroOpen}
+            aria-controls="profile-intro-card"
+          >
             <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
-          </figure>
+          </button>
+
+          <button
+            type="button"
+            className={`profile-intro-cue ${profileIntroOpen ? "is-open" : ""}`}
+            onClick={() => {
+              setProfileBubbleOpen(null);
+              setProfileIntroOpen((current) => !current);
+            }}
+            aria-expanded={profileIntroOpen}
+            aria-controls="profile-intro-card"
+          >
+            <span className="profile-intro-cue-hand" aria-hidden="true">👋</span>
+            <span>
+              <small>HELLO!</small>
+              <strong>点点小人<br />认识一下吹吹</strong>
+            </span>
+            <i aria-hidden="true">↙</i>
+          </button>
+
+          {profileIntroOpen && (
+            <aside className="profile-intro-card" id="profile-intro-card" aria-live="polite">
+              <div className="profile-intro-card-heading">
+                <span aria-hidden="true">✦</span>
+                <div>
+                  <small>NICE TO MEET YOU</small>
+                  <h3>你好，我是吹吹！</h3>
+                </div>
+              </div>
+              <p>
+                一名在内容运营、活动策划与视觉表达之间不断探索的新闻传播学生。
+                我喜欢把复杂的信息整理得清楚，也喜欢把脑海里的想法变成有趣、好看又能被感受到的内容。
+              </p>
+              <div className="profile-intro-tags" aria-label="个人方向">
+                <span>内容运营</span>
+                <span>活动策划</span>
+                <span>视觉表达</span>
+                <span>游戏玩家</span>
+              </div>
+              <blockquote>认真做内容，也认真生活。</blockquote>
+              <button type="button" onClick={() => setProfileIntroOpen(false)} aria-label="关闭个人介绍">×</button>
+            </aside>
+          )}
 
           {profileBubbleOpen && (
             <aside className="profile-bubble-card" id="profile-bubble-card" aria-live="polite">
