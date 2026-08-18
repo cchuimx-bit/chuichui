@@ -615,6 +615,20 @@ const experienceCardBackgrounds = [
   "/photos/reel/clear-water.jpg",
 ] as const;
 
+const experienceRailTitles = [
+  "上海大学",
+  "东北师范大学",
+  "字节跳动",
+  "蔚来",
+  "阳狮",
+  "个人运营",
+  "联创",
+  "官号运营",
+  "创业项目",
+  "志愿经历",
+  "东青报社",
+] as const;
+
 const experienceCards = [
   ...educationHistory.map((item, categoryIndex) => ({
     category: "education" as const,
@@ -640,7 +654,11 @@ const experienceCards = [
     subtitle: item.subtitle,
     years: item.years,
   })),
-].map((item, index) => ({ ...item, image: experienceCardBackgrounds[index] }));
+].map((item, index) => ({
+  ...item,
+  image: experienceCardBackgrounds[index],
+  railTitle: experienceRailTitles[index],
+}));
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -1011,14 +1029,15 @@ export default function Home() {
               <span className="experience-slide-shade" aria-hidden="true" />
               <span className="experience-slide-rail" aria-hidden="true">
                 <b>{String(index + 1).padStart(2, "0")}</b>
-                <i>{card.categoryLabel}</i>
+                <em>{card.categoryLabel}</em>
+                <i>{card.railTitle}</i>
               </span>
+              <span className="experience-slide-cta">点击查看完整经历</span>
               <span className="experience-slide-copy">
                 <small>{card.categoryLabel} · {String(index + 1).padStart(2, "0")}</small>
                 <time>{card.years}</time>
                 <strong>{card.title}</strong>
                 <em>{card.subtitle}</em>
-                <i>点击查看完整经历</i>
               </span>
             </button>
           ))}
@@ -1034,9 +1053,18 @@ export default function Home() {
         <div
           className="experience-detail-backdrop"
           role="presentation"
-          onMouseDown={(event) => event.target === event.currentTarget && setExperienceDetailOpen(false)}
+          onClick={(event) => event.target === event.currentTarget && setExperienceDetailOpen(false)}
         >
-          <section className="experience-detail-shell" role="dialog" aria-modal="true" aria-label="个人经历详情">
+          <section
+            className="experience-detail-shell"
+            role="dialog"
+            aria-modal="true"
+            aria-label="个人经历详情；单击非按钮区域返回"
+            onClick={(event) => {
+              if ((event.target as HTMLElement).closest("button, a")) return;
+              setExperienceDetailOpen(false);
+            }}
+          >
             <header className="experience-detail-header">
               <div>
                 <small>MY JOURNEY</small>
