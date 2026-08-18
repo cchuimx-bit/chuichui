@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "林知远 — 个人主页",
-  description: "林知远的个人主页：设计、经历、兴趣与生活片段。",
+  title: "吹吹—个人主页",
+  description: "吹吹的个人主页：设计、经历、兴趣与生活片段。",
   openGraph: {
     title: "Welcome to My Little World",
     description: "你呢 你会怎样度过今天？",
