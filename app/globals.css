@@ -90,23 +90,14 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .profile-portrait img { object-fit: contain; background: transparent; pointer-events: none; transform: translateZ(8px); filter: drop-shadow(0 18px 18px rgba(67,42,12,.12)); transition: transform .28s ease, filter .28s ease; }
 .profile-portrait:hover img { transform: translateZ(8px) scale(1.018); filter: drop-shadow(0 20px 20px rgba(67,42,12,.16)); }
 .profile-bubbles { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
-.profile-bubble { position: absolute; pointer-events: auto; min-width: 88px; padding: 13px 18px; border: 1px solid rgba(67,42,12,.42); border-radius: 999px; background: rgba(255,249,237,.88); color: var(--brown); box-shadow: 0 9px 0 rgba(67,42,12,.12), 0 12px 28px rgba(67,42,12,.1), inset 0 1px rgba(255,255,255,.9); font: 800 12px/1 var(--body); letter-spacing: .04em; text-align: center; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: profile-bubble-float 4.4s ease-in-out infinite; transition: background .22s ease, color .22s ease, box-shadow .22s ease; }
-.profile-bubble::after { content: ""; position: absolute; width: 10px; height: 10px; left: 12px; top: 8px; border-radius: 50%; background: rgba(255,255,255,.72); }
-.profile-bubble:hover { background: #f3c932; box-shadow: 0 7px 0 rgba(67,42,12,.18), 0 14px 30px rgba(67,42,12,.14); }
-.profile-bubble.is-selected { animation: none; background: var(--brown); color: #f8eedc; transform: translateY(-4px) scale(1.06); }
-.profile-bubble.bubble-1 { left: 4%; top: 13%; animation-delay: -.4s; }
-.profile-bubble.bubble-2 { left: 14%; top: 39%; background: rgba(243,201,50,.72); animation-delay: -2.1s; }
-.profile-bubble.bubble-3 { left: 2%; top: 65%; animation-delay: -1.2s; }
-.profile-bubble.bubble-4 { right: 4%; top: 14%; background: rgba(119,183,216,.58); animation-delay: -3.2s; }
-.profile-bubble.bubble-5 { right: 14%; top: 39%; animation-delay: -.8s; }
-.profile-bubble.bubble-6 { right: 2%; top: 65%; background: rgba(217,170,131,.64); animation-delay: -2.6s; }
-.profile-bubble.bubble-7 { left: 28%; top: 6%; background: rgba(217,170,131,.58); animation-delay: -3.7s; }
-.profile-bubble.bubble-8 { right: 27%; top: 5%; background: rgba(243,201,50,.6); animation-delay: -1.7s; }
-.profile-bubble-card { position: absolute; z-index: 5; width: min(290px,78vw); left: 50%; top: 19%; padding: 22px 48px 22px 24px; border: 1px solid rgba(67,42,12,.28); border-radius: 18px; background: rgba(255,249,237,.94); color: var(--brown); box-shadow: 0 20px 46px rgba(67,42,12,.18), 0 5px 0 rgba(67,42,12,.12); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transform: translate(-50%,-50%); animation: thoughts-card-in .3s cubic-bezier(.2,.82,.2,1) both; }
-.profile-bubble-card small { display: block; margin-bottom: 7px; color: #9a5d4e; font: 700 9px/1 var(--body); letter-spacing: .18em; }
-.profile-bubble-card strong { display: block; font: 800 25px/1.1 var(--display); letter-spacing: -.03em; }
-.profile-bubble-card p { margin: 10px 0 0; color: rgba(67,42,12,.7); font: 500 11px/1.65 var(--body); }
-.profile-bubble-card button { position: absolute; width: 30px; height: 30px; right: 12px; top: 12px; display: grid; place-items: center; border-radius: 50%; background: var(--brown); color: #f3c932; font: 400 20px/1 var(--body); }
+.profile-bubble { position: absolute; left: var(--bubble-x); top: var(--bubble-y); min-width: 70px; padding: 13px 19px; border: 0; border-radius: 999px; color: rgba(62,39,8,.86); box-shadow: 0 10px 24px rgba(67,42,12,.08), inset 0 1px rgba(255,255,255,.48); font: 800 12px/1 var(--body); letter-spacing: .035em; text-align: center; white-space: nowrap; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); animation: profile-bubble-float var(--bubble-duration) ease-in-out var(--bubble-delay) infinite; }
+.profile-bubble::after { content: ""; position: absolute; width: 9px; height: 9px; left: 13px; top: 8px; border-radius: 50%; background: rgba(255,255,255,.42); }
+.profile-bubble.bubble-tone-0 { background: rgba(165,189,176,.56); }
+.profile-bubble.bubble-tone-1 { background: rgba(166,190,204,.52); }
+.profile-bubble.bubble-tone-2 { background: rgba(213,184,166,.52); }
+.profile-bubble.bubble-tone-3 { background: rgba(193,181,207,.5); }
+.profile-bubble.bubble-tone-4 { background: rgba(211,201,151,.52); }
+.profile-bubble.bubble-tone-5 { background: rgba(181,199,158,.5); }
 
 .experience-section { min-height: 1080px; position: relative; isolation: isolate; overflow: hidden; padding: 110px 8vw 160px; background: linear-gradient(rgba(37,79,104,.56),rgba(15,58,88,.7)), url("/photos/tropical-coast.png") center / cover fixed; background-color: #254f68; }
 .experience-section::after { z-index: 1; background: linear-gradient(to bottom,rgba(35,79,111,.22),rgba(17,55,83,.34)), radial-gradient(circle at 30% 30%,transparent 0 15%,rgba(22,53,76,.2) 72%); }
@@ -422,7 +413,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @keyframes vinyl-spin { to { transform: rotate(360deg); } }
 @keyframes reel-left { to { transform: translateX(-50%); } }
 @keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-@keyframes profile-bubble-float { 0%,100% { transform: translateY(0) rotate(-.4deg); } 50% { transform: translateY(-8px) rotate(.5deg); } }
+@keyframes profile-bubble-float { 0%,100% { transform: translate3d(-50%,0,0) scale(var(--bubble-scale)) rotate(-.6deg); } 50% { transform: translate3d(-50%,-9px,0) scale(var(--bubble-scale)) rotate(.7deg); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .profile-stage { height: 700px; }
@@ -460,18 +451,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .reel-frame.portrait { width: 190px; }
   .profile-section { min-height: 900px; padding: 90px 8px 0; }
   .profile-section .profile-heading { margin-bottom: 10px; }
-  .profile-stage { height: 700px; }
+  .profile-stage { height: 780px; }
   .profile-portrait { width: min(440px,108vw); bottom: -2px; }
-  .profile-bubble { min-width: 74px; padding: 11px 13px; font-size: 10px; }
-  .profile-bubble.bubble-1 { left: 1%; top: 12%; }
-  .profile-bubble.bubble-2 { left: 4%; top: 34%; }
-  .profile-bubble.bubble-3 { left: 1%; top: 55%; }
-  .profile-bubble.bubble-4 { right: 1%; top: 12%; }
-  .profile-bubble.bubble-5 { right: 4%; top: 34%; }
-  .profile-bubble.bubble-6 { right: 1%; top: 55%; }
-  .profile-bubble.bubble-7 { left: 23%; top: 3%; }
-  .profile-bubble.bubble-8 { right: 22%; top: 3%; }
-  .profile-bubble-card { top: 22%; }
+  .profile-bubble { left: var(--bubble-mobile-x); top: var(--bubble-mobile-y); min-width: 58px; padding: 10px 13px; font-size: 9px; }
   .experience-section { min-height: 940px; padding: 90px 15px 120px; background-attachment: scroll; }
   .section-heading h2 { font-size: 60px; }
   .experience-section .section-heading { margin-bottom: 45px; }

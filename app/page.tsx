@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 
 const nav = [
   ["home", "首页"],
@@ -12,14 +12,47 @@ const nav = [
 ] as const;
 
 const profileBubbles = [
-  "好奇心",
-  "真诚表达",
-  "内容创作",
-  "游戏玩家",
-  "视觉设计",
-  "行动力",
-  "观察生活",
-  "长期主义",
+  "双鱼座",
+  "INFJ",
+  "时I时E",
+  "退役熬夜选手",
+  "麦门信徒",
+  "喜欢晒太阳",
+  "奇思妙想业余选手",
+  "记录生活",
+  "摄影",
+  "游戏",
+  "02年",
+  "三好市民",
+  "互联网资深混混",
+  "动静比4:6",
+  "自愈能力max",
+  "倾听者",
+  "泪点低",
+  "求同存异",
+  "知足常乐",
+  "乐观",
+  "写作",
+  "责任感",
+  "茶咖爱好者",
+  "电子榨菜收藏家",
+  "内容探索者",
+  "互联网观察员",
+  "兴趣杂食主义者",
+  "好奇心过剩",
+  "猫猫狗狗狂热爱好者",
+  "音乐剧入门",
+] as const;
+
+const profileBubbleLayout = [
+  [8, 5, .92, 10, 2], [21, 13, 1.18, 29, 4], [34, 3, .86, 51, 2], [49, 12, 1.08, 78, 7],
+  [66, 4, .96, 14, 12], [84, 12, 1.16, 42, 13], [15, 23, 1.18, 70, 16], [32, 25, .92, 89, 21],
+  [76, 26, .88, 9, 22], [91, 30, 1.1, 27, 25], [6, 37, .84, 47, 23], [24, 40, 1, 72, 28],
+  [80, 40, 1.2, 35, 31], [94, 49, .91, 77, 34], [8, 54, 1.18, 25, 40], [24, 56, .92, 84, 42],
+  [78, 57, .83, 8, 49], [94, 64, 1.02, 26, 54], [5, 70, 1, 81, 51], [18, 76, .88, 94, 59],
+  [31, 72, 1.06, 7, 66], [75, 72, .96, 25, 70], [91, 78, 1.12, 82, 67], [10, 88, .86, 70, 76],
+  [29, 87, 1.15, 15, 79], [72, 86, 1.04, 31, 86], [88, 91, .91, 72, 85], [39, 18, .96, 15, 94],
+  [62, 21, 1.1, 57, 93], [52, 32, .84, 87, 95],
 ] as const;
 
 const educationHistory = [
@@ -687,7 +720,6 @@ export default function Home() {
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
-  const [profileBubbleOpen, setProfileBubbleOpen] = useState<string | null>(null);
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -1013,36 +1045,35 @@ export default function Home() {
             profileLookTargetRef.current.x = 0;
             profileLookTargetRef.current.y = 0;
           }}
-          aria-label="互动式个人标签"
+          aria-label="个人标签"
         >
           <div className="profile-bubbles">
-            {profileBubbles.map((label, index) => (
-              <button
-                className={`profile-bubble bubble-${index + 1} ${profileBubbleOpen === label ? "is-selected" : ""}`}
-                onClick={() => {
-                  setProfileBubbleOpen((current) => current === label ? null : label);
-                }}
-                aria-expanded={profileBubbleOpen === label}
-                aria-controls="profile-bubble-card"
-                key={label}
-              >
-                {label}
-              </button>
-            ))}
+            {profileBubbles.map((label, index) => {
+              const [x, y, scale, mobileX, mobileY] = profileBubbleLayout[index];
+              return (
+                <span
+                  className={`profile-bubble bubble-tone-${index % 6}`}
+                  style={{
+                    "--bubble-x": `${x}%`,
+                    "--bubble-y": `${y}%`,
+                    "--bubble-scale": scale,
+                    "--bubble-mobile-x": `${mobileX}%`,
+                    "--bubble-mobile-y": `${mobileY}%`,
+                    "--bubble-delay": `${-(index % 9) * .43}s`,
+                    "--bubble-duration": `${4.1 + (index % 5) * .38}s`,
+                  } as CSSProperties}
+                  key={label}
+                >
+                  {label}
+                </span>
+              );
+            })}
           </div>
 
           <div className="profile-portrait" aria-hidden="true">
             <img src="/profile/chuichui-portrait-cutout.png" alt="戴圆框眼镜、穿蓝白条纹衣服的手绘人物形象" />
           </div>
 
-          {profileBubbleOpen && (
-            <aside className="profile-bubble-card" id="profile-bubble-card" aria-live="polite">
-              <small>PERSONAL TAG</small>
-              <strong>{profileBubbleOpen}</strong>
-              <p>关于这个标签的具体介绍将在这里补充。</p>
-              <button onClick={() => setProfileBubbleOpen(null)} aria-label="关闭个人标签介绍">×</button>
-            </aside>
-          )}
         </div>
       </section>
 
