@@ -107,23 +107,6 @@ const profileBubbleNotes = [
   "轻松上手，认真打起来也绝不含糊。",
 ] as const;
 
-const profileBubbleLayout = [
-  [58, 36.8, 1.42, 64.3, 22.8], [16.4, 78.8, .72, 71, 30.5], [77.1, 46.2, 1.08, 54, 8.4],
-  [64.6, 30.2, .64, 11.1, 20.9], [75.1, 68.2, 1.34, 28, 19.7], [7, 79, .82, 86.5, 53.3],
-  [80.1, 28.5, 1.15, 34.1, 7.3], [72.2, 81.4, .7, 20.1, 82.7], [5, 92.5, 1.16, 17, 70],
-  [45, 20.9, 1.1, 43, 27.2], [17.9, 35, 1.38, 85.9, 28.2], [88.8, 73.7, .88, 93, 4.3],
-  [54.9, 23.3, .62, 34.2, 13.1], [76.9, 59.1, 1.3, 75.5, 10.7], [23.2, 47.6, 1, 90.3, 58.1],
-  [31.7, 24.6, 1.22, 43.8, 15.9], [87.9, 66, .8, 10.7, 7.3], [22, 55, 1.05, 18.5, 88.6],
-  [38, 45, .86, 82.3, 89], [6.8, 50.7, 1.4, 13.3, 63.6], [72.8, 39.1, 1.15, 10.5, 42.7],
-  [31.8, 67.2, .9, 14.2, 29], [93.7, 87, 1.02, 75.5, 17.6], [20.5, 65.1, .62, 84, 14.8],
-  [32, 55, 1.18, 17.3, 39.1], [19.8, 72.9, .72, 9.6, 75.5], [84.2, 88.3, .64, 84, 79.9],
-  [91.8, 53.6, 1, 82.7, 64.8], [8.5, 64.3, .6, 69.9, 4.9], [59.4, 56.4, 1.25, 84, 67.7],
-  [7.2, 72.1, 1.4, 85.9, 83.8], [78.7, 81.8, .75, 90.5, 74.2], [48.1, 30, 1.1, 7.7, 49],
-  [91.7, 79.5, .72, 86.5, 55.7], [26.4, 79.9, 1.32, 84.8, 95.7], [80.6, 36.7, .78, 42.5, 4.4],
-  [12.4, 58.5, 1.05, 87.1, 49.5], [84.1, 95.2, .68, 52.1, 13.3], [18.2, 93.1, 1.3, 75.7, 7.4],
-  [91.3, 41.8, .72, 13.6, 15.6], [27.4, 34.7, 1.2, 9.9, 94.3], [95.6, 94.7, .82, 87.2, 42.8],
-] as const;
-
 const educationHistory = [
   {
     number: "01",
@@ -807,6 +790,7 @@ export default function Home() {
   const profileLookTargetRef = useRef({ x: 0, y: 0 });
   const profileLookCurrentRef = useRef({ x: 0, y: 0 });
   const profileLookFrameRef = useRef<number | null>(null);
+  const profileLayoutSeedRef = useRef(0);
   const [active, setActive] = useState("home");
   const [exp, setExp] = useState(0);
   const [educationIndex, setEducationIndex] = useState(0);
@@ -924,72 +908,119 @@ export default function Home() {
     const arrangeBubbles = () => {
       const stageRect = stage.getBoundingClientRect();
       const portraitRect = portrait.getBoundingClientRect();
-      const isMobile = window.innerWidth <= 760;
-      const edgePadding = isMobile ? 5 : 10;
-      const columns = window.innerWidth <= 360 ? 3 : isMobile ? 4 : window.innerWidth <= 1100 ? 7 : 9;
-      const rows = window.innerWidth <= 360 ? 19 : isMobile ? 15 : window.innerWidth <= 1100 ? 12 : 9;
-      const cellWidth = (stageRect.width - edgePadding * 2) / columns;
-      const cellHeight = (stageRect.height - edgePadding * 2) / rows;
+      const isMobile = stageRect.width <= 760;
+      const edgePadding = isMobile ? 6 : stageRect.width <= 1100 ? 10 : 14;
 
-      let seed = ((Math.round(stageRect.width) * 73856093) ^ (Math.round(stageRect.height) * 19349663)) >>> 0;
-      const random = () => {
-        seed = (seed + 0x6d2b79f5) >>> 0;
-        let value = seed;
-        value = Math.imul(value ^ (value >>> 15), value | 1);
-        value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-        return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-      };
+      if (profileLayoutSeedRef.current === 0) {
+        const seedValues = new Uint32Array(1);
+        window.crypto?.getRandomValues(seedValues);
+        profileLayoutSeedRef.current = seedValues[0] || (Date.now() >>> 0) || 1;
+      }
 
       const items = bubbles.map((element, index) => {
         const scaleProperty = isMobile ? "--bubble-mobile-scale" : "--bubble-scale";
         const scale = Number(element.style.getPropertyValue(scaleProperty)) || 1;
         return {
           index,
-          width: element.offsetWidth * scale + 4,
-          height: element.offsetHeight * scale + 14,
+          width: element.offsetWidth * scale + 5,
+          height: element.offsetHeight * scale + 18,
         };
       });
 
       const portraitZone = {
-        left: portraitRect.left - stageRect.left,
-        top: portraitRect.top - stageRect.top,
-        right: portraitRect.right - stageRect.left,
-        bottom: portraitRect.bottom - stageRect.top,
+        left: portraitRect.left - stageRect.left - (isMobile ? 5 : 12),
+        top: portraitRect.top - stageRect.top - (isMobile ? 5 : 12),
+        right: portraitRect.right - stageRect.left + (isMobile ? 5 : 12),
+        bottom: portraitRect.bottom - stageRect.top + (isMobile ? 5 : 12),
       };
-      const slots = Array.from({ length: columns * rows }, (_, slotIndex) => {
-        const column = slotIndex % columns;
-        const row = Math.floor(slotIndex / columns);
-        const edgeFactor = Math.sin(Math.PI * (column + .5) / columns);
-        const rowShift = Math.sin((row + 1) * 2.17) * cellWidth * .19;
-        const columnShift = Math.sin((column + row * 1.7) * 1.83) * Math.min(4, cellHeight * .06);
-        const x = edgePadding + (column + .5) * cellWidth + rowShift * edgeFactor;
-        const y = edgePadding + (row + .5) * cellHeight + columnShift;
-        const distanceX = x < portraitZone.left ? portraitZone.left - x : x > portraitZone.right ? x - portraitZone.right : 0;
-        const distanceY = y < portraitZone.top ? portraitZone.top - y : y > portraitZone.bottom ? y - portraitZone.bottom : 0;
-        return { column, row, x, y, portraitDistance: Math.hypot(distanceX, distanceY) };
-      });
-      const reserved = new Set(
-        [...slots]
-          .sort((a, b) => a.portraitDistance - b.portraitDistance)
-          .slice(0, slots.length - items.length)
-          .map((slot) => `${slot.column}-${slot.row}`),
+
+      type BubbleRect = {
+        index: number;
+        x: number;
+        y: number;
+        left: number;
+        right: number;
+        top: number;
+        bottom: number;
+      };
+
+      const intersects = (first: BubbleRect, second: Pick<BubbleRect, "left" | "right" | "top" | "bottom">, gap = 0) => (
+        first.left < second.right + gap
+        && first.right > second.left - gap
+        && first.top < second.bottom + gap
+        && first.bottom > second.top - gap
       );
-      const availableSlots = slots.filter((slot) => !reserved.has(`${slot.column}-${slot.row}`));
-      for (let index = availableSlots.length - 1; index > 0; index -= 1) {
-        const swapIndex = Math.floor(random() * (index + 1));
-        [availableSlots[index], availableSlots[swapIndex]] = [availableSlots[swapIndex], availableSlots[index]];
+
+      const createRandom = (attempt: number) => {
+        let seed = (
+          profileLayoutSeedRef.current
+          ^ Math.imul(Math.round(stageRect.width), 73856093)
+          ^ Math.imul(Math.round(stageRect.height), 19349663)
+          ^ Math.imul(attempt + 1, 83492791)
+        ) >>> 0;
+        return () => {
+          seed = (seed + 0x6d2b79f5) >>> 0;
+          let value = seed;
+          value = Math.imul(value ^ (value >>> 15), value | 1);
+          value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+          return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+        };
+      };
+
+      const tryPacking = (attempt: number, gap: number) => {
+        const random = createRandom(attempt);
+        const placed: BubbleRect[] = [];
+        const packingOrder = items
+          .map((item) => ({ ...item, shuffle: random() }))
+          .sort((first, second) => (
+            second.width * second.height - first.width * first.height
+            || first.shuffle - second.shuffle
+          ));
+
+        for (const item of packingOrder) {
+          const minX = edgePadding + item.width / 2;
+          const maxX = stageRect.width - edgePadding - item.width / 2;
+          const minY = edgePadding + item.height / 2;
+          const maxY = stageRect.height - edgePadding - item.height / 2;
+          if (maxX <= minX || maxY <= minY) return null;
+
+          let candidate: BubbleRect | null = null;
+          for (let sample = 0; sample < 1800; sample += 1) {
+            const x = minX + random() * (maxX - minX);
+            const y = minY + random() * (maxY - minY);
+            const rect = {
+              index: item.index,
+              x,
+              y,
+              left: x - item.width / 2,
+              right: x + item.width / 2,
+              top: y - item.height / 2,
+              bottom: y + item.height / 2,
+            };
+            if (intersects(rect, portraitZone, gap)) continue;
+            if (placed.some((other) => intersects(rect, other, gap))) continue;
+            candidate = rect;
+            break;
+          }
+
+          if (!candidate) return null;
+          placed.push(candidate);
+        }
+
+        return placed;
+      };
+
+      let packed: BubbleRect[] | null = null;
+      const gapOptions = isMobile ? [8, 6, 4, 2, 0] : [12, 9, 6, 3, 0];
+      for (const gap of gapOptions) {
+        for (let attempt = 0; attempt < 18 && !packed; attempt += 1) {
+          packed = tryPacking(attempt + gap * 31, gap);
+        }
+        if (packed) break;
       }
 
-      const positions = new Map<number, { x: number; y: number }>();
-      items.forEach((item, index) => {
-        const slot = availableSlots[index];
-        const jitterX = Math.max(0, (cellWidth - item.width) * .42);
-        const jitterY = Math.max(0, (cellHeight - item.height) * .42);
-        positions.set(item.index, {
-          x: slot.x + (random() * 2 - 1) * jitterX,
-          y: slot.y + (random() * 2 - 1) * jitterY,
-        });
-      });
+      if (!packed) return;
+      const positions = new Map(packed.map(({ index, x, y }) => [index, { x, y }]));
 
       bubbles.forEach((bubble, index) => {
         const position = positions.get(index);
@@ -998,7 +1029,7 @@ export default function Home() {
         bubble.style.setProperty("--bubble-top", `${position.y}px`);
         bubble.style.setProperty(
           "--bubble-note-render-shift-x",
-          position.x < stageRect.width * .2 ? "58px" : position.x > stageRect.width * .8 ? "-58px" : "0px",
+          position.x < stageRect.width * .22 ? "58px" : position.x > stageRect.width * .78 ? "-58px" : "0px",
         );
       });
     };
@@ -1378,25 +1409,18 @@ export default function Home() {
         >
           <div className="profile-bubbles">
             {profileBubbles.map((label, index) => {
-              const [x, y, scale, mobileX, mobileY] = profileBubbleLayout[index];
-              const desktopScale = Math.min(1.12, Math.max(1, scale));
-              const mobileScale = Math.min(1.06, Math.max(1, scale * .88));
+              const desktopScale = 1 + ((index * 7) % 6) * .022;
+              const mobileScale = 1 + ((index * 5) % 4) * .018;
               const bubbleOpen = activeProfileBubble === index;
               return (
                 <button
                   type="button"
                   className={`profile-bubble bubble-tone-${index % 6} ${bubbleOpen ? "is-open" : ""}`}
                   style={{
-                    "--bubble-x": `${x}%`,
-                    "--bubble-y": `${y}%`,
                     "--bubble-scale": desktopScale,
                     "--bubble-note-scale": 1 / desktopScale,
-                    "--bubble-note-shift-x": `${x < 16 ? 72 : x > 84 ? -72 : 0}px`,
                     "--bubble-mobile-scale": mobileScale,
                     "--bubble-mobile-note-scale": 1 / mobileScale,
-                    "--bubble-mobile-x": `${mobileX}%`,
-                    "--bubble-mobile-y": `${mobileY}%`,
-                    "--bubble-mobile-note-shift-x": `${mobileX < 18 ? 58 : mobileX > 82 ? -58 : 0}px`,
                     "--bubble-delay": `${-(index % 9) * .43}s`,
                     "--bubble-duration": `${4.1 + (index % 5) * .38}s`,
                   } as CSSProperties}
