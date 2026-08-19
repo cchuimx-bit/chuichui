@@ -796,6 +796,7 @@ const experienceCards = [
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const musicUserPausedRef = useRef(false);
   const portfolioScrollRef = useRef<HTMLElement>(null);
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
   const experienceDirectionRef = useRef(1);
@@ -816,7 +817,7 @@ export default function Home() {
   const [portfolioOpen, setPortfolioOpen] = useState<number | null>(null);
   const [portfolioFlipped, setPortfolioFlipped] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [musicPlaying, setMusicPlaying] = useState(true);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
@@ -836,7 +837,38 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.58;
-    audio.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
+
+    let disposed = false;
+    const removeUnlockListeners = () => {
+      document.removeEventListener("pointerdown", unlockAudio);
+      document.removeEventListener("touchstart", unlockAudio);
+      document.removeEventListener("keydown", unlockAudio);
+    };
+    const tryPlay = async () => {
+      if (musicUserPausedRef.current) return;
+      try {
+        await audio.play();
+        if (!disposed) setMusicPlaying(true);
+        removeUnlockListeners();
+      } catch {
+        if (!disposed) setMusicPlaying(false);
+      }
+    };
+    function unlockAudio(event: Event) {
+      const target = event.target;
+      if (target instanceof Element && target.closest(".vinyl-control")) return;
+      void tryPlay();
+    }
+
+    void tryPlay();
+    document.addEventListener("pointerdown", unlockAudio, { passive: true });
+    document.addEventListener("touchstart", unlockAudio, { passive: true });
+    document.addEventListener("keydown", unlockAudio);
+
+    return () => {
+      disposed = true;
+      removeUnlockListeners();
+    };
   }, []);
 
   useEffect(() => () => {
@@ -1038,6 +1070,7 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
+      musicUserPausedRef.current = false;
       try {
         await audio.play();
         setMusicPlaying(true);
@@ -1045,6 +1078,7 @@ export default function Home() {
         setMusicPlaying(false);
       }
     } else {
+      musicUserPausedRef.current = true;
       audio.pause();
       setMusicPlaying(false);
     }
@@ -1095,6 +1129,7 @@ export default function Home() {
             src="/audio/city-of-stars-preview.m4a"
             autoPlay
             loop
+            playsInline
             preload="auto"
             onPlay={() => setMusicPlaying(true)}
             onPause={() => setMusicPlaying(false)}
@@ -1163,6 +1198,8 @@ export default function Home() {
           <div className="profile-bubbles">
             {profileBubbles.map((label, index) => {
               const [x, y, scale, mobileX, mobileY] = profileBubbleLayout[index];
+              const desktopScale = Math.max(scale, .82);
+              const mobileScale = Math.max(.88, Math.min(1.18, scale * .88));
               const bubbleOpen = activeProfileBubble === index;
               return (
                 <button
@@ -1171,11 +1208,11 @@ export default function Home() {
                   style={{
                     "--bubble-x": `${x}%`,
                     "--bubble-y": `${y}%`,
-                    "--bubble-scale": scale,
-                    "--bubble-note-scale": 1 / scale,
+                    "--bubble-scale": desktopScale,
+                    "--bubble-note-scale": 1 / desktopScale,
                     "--bubble-note-shift-x": `${x < 16 ? 72 : x > 84 ? -72 : 0}px`,
-                    "--bubble-mobile-scale": scale * .78,
-                    "--bubble-mobile-note-scale": 1 / (scale * .78),
+                    "--bubble-mobile-scale": mobileScale,
+                    "--bubble-mobile-note-scale": 1 / mobileScale,
                     "--bubble-mobile-x": `${mobileX}%`,
                     "--bubble-mobile-y": `${mobileY}%`,
                     "--bubble-mobile-note-shift-x": `${mobileX < 18 ? 58 : mobileX > 82 ? -58 : 0}px`,
@@ -1418,7 +1455,7 @@ export default function Home() {
         >
           <article className="thoughts-card" role="dialog" aria-modal="true" aria-labelledby="thoughts-title">
             <header>
-              <p>CHUICUI&apos;S LITTLE MUSINGS</p>
+              <p>CHUICHUI&apos;S LITTLE MUSINGS</p>
               <h3 id="thoughts-title">吹吹的碎碎念</h3>
             </header>
             <div className="thoughts-copy">
