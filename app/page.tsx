@@ -809,6 +809,7 @@ export default function Home() {
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
   const [activeProfileBubble, setActiveProfileBubble] = useState<number | null>(null);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
+  const pageOverlayOpen = showThoughts || zoomedPhoto !== null || portfolioOpen !== null || experienceDetailOpen;
 
   useEffect(() => {
     const sections = nav.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -1216,12 +1217,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!showThoughts && !zoomedPhoto && portfolioOpen === null && !experienceDetailOpen) return;
-
+    if (!pageOverlayOpen) return;
     const root = document.documentElement;
     const scrollPosition = window.scrollY;
     const previousRootOverflow = root.style.overflow;
     const previousRootOverscroll = root.style.overscrollBehavior;
+    const previousRootScrollBehavior = root.style.scrollBehavior;
     const previousBodyOverflow = document.body.style.overflow;
     const previousBodyPosition = document.body.style.position;
     const previousBodyTop = document.body.style.top;
@@ -1238,6 +1239,26 @@ export default function Home() {
     document.body.style.right = "0";
     document.body.style.width = "100%";
 
+    return () => {
+      root.style.scrollBehavior = "auto";
+      root.style.overflow = previousRootOverflow;
+      root.style.overscrollBehavior = previousRootOverscroll;
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.style.position = previousBodyPosition;
+      document.body.style.top = previousBodyTop;
+      document.body.style.left = previousBodyLeft;
+      document.body.style.right = previousBodyRight;
+      document.body.style.width = previousBodyWidth;
+      window.scrollTo({ top: scrollPosition, left: 0, behavior: "auto" });
+      window.requestAnimationFrame(() => {
+        root.style.scrollBehavior = previousRootScrollBehavior;
+      });
+    };
+  }, [pageOverlayOpen]);
+
+  useEffect(() => {
+    if (!pageOverlayOpen) return;
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       if (portfolioOpen !== null) {
@@ -1249,18 +1270,9 @@ export default function Home() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      root.style.overflow = previousRootOverflow;
-      root.style.overscrollBehavior = previousRootOverscroll;
-      document.body.style.overflow = previousBodyOverflow;
-      document.body.style.position = previousBodyPosition;
-      document.body.style.top = previousBodyTop;
-      document.body.style.left = previousBodyLeft;
-      document.body.style.right = previousBodyRight;
-      document.body.style.width = previousBodyWidth;
-      window.scrollTo(0, scrollPosition);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [showThoughts, zoomedPhoto, portfolioOpen, experienceDetailOpen]);
+  }, [showThoughts, zoomedPhoto, portfolioOpen, experienceDetailOpen, pageOverlayOpen]);
 
   useEffect(() => {
     const scroller = portfolioScrollRef.current;
@@ -1856,7 +1868,6 @@ export default function Home() {
                       return (
                         <button
                           className="portfolio-card"
-                          onMouseDown={(event) => event.button === 0 && openPortfolioItem(itemIndex)}
                           onClick={() => openPortfolioItem(itemIndex)}
                           aria-label={`放大查看作品 ${item.number}：${item.title}`}
                           tabIndex={copyIndex === 1 ? -1 : 0}
