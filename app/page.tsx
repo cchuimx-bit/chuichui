@@ -798,6 +798,8 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const portfolioScrollRef = useRef<HTMLElement>(null);
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
+  const experienceDeckRef = useRef<HTMLDivElement>(null);
+  const experienceScrollFrameRef = useRef<number | null>(null);
   const experienceDirectionRef = useRef(1);
   const thoughtsTimerRef = useRef<number | null>(null);
   const profileStageRef = useRef<HTMLDivElement>(null);
@@ -841,6 +843,9 @@ export default function Home() {
 
   useEffect(() => () => {
     if (thoughtsTimerRef.current) window.clearTimeout(thoughtsTimerRef.current);
+    if (experienceScrollFrameRef.current !== null) {
+      window.cancelAnimationFrame(experienceScrollFrameRef.current);
+    }
   }, []);
 
   useEffect(() => {
@@ -877,7 +882,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (experienceDeckHovered || experienceDetailOpen) return;
+    const supportsAutoPlay = window.matchMedia("(min-width: 761px) and (hover: hover)").matches;
+    if (!supportsAutoPlay || experienceDeckHovered || experienceDetailOpen) return;
 
     const interval = window.setInterval(() => {
       setExperienceFocus((current) => {
@@ -978,9 +984,47 @@ export default function Home() {
     setExperienceDetailOpen(true);
   };
 
+  const scrollExperienceCardIntoView = (index: number) => {
+    const deck = experienceDeckRef.current;
+    const card = deck?.querySelector<HTMLElement>(`[data-experience-index="${index}"]`);
+    if (!deck || !card || deck.scrollWidth <= deck.clientWidth) return;
+
+    const targetLeft = card.offsetLeft - (deck.clientWidth - card.clientWidth) / 2;
+    deck.scrollTo({
+      left: Math.max(0, Math.min(deck.scrollWidth - deck.clientWidth, targetLeft)),
+      behavior: "smooth",
+    });
+  };
+
   const moveExperienceFocus = (direction: number) => {
     experienceDirectionRef.current = direction;
-    setExperienceFocus((current) => (current + direction + experienceCards.length) % experienceCards.length);
+    setExperienceFocus((current) => {
+      const next = (current + direction + experienceCards.length) % experienceCards.length;
+      window.requestAnimationFrame(() => scrollExperienceCardIntoView(next));
+      return next;
+    });
+  };
+
+  const syncExperienceFocusWithScroll = () => {
+    if (experienceScrollFrameRef.current !== null) return;
+
+    experienceScrollFrameRef.current = window.requestAnimationFrame(() => {
+      experienceScrollFrameRef.current = null;
+      const deck = experienceDeckRef.current;
+      if (!deck || deck.scrollWidth <= deck.clientWidth) return;
+
+      const deckCenter = deck.getBoundingClientRect().left + deck.clientWidth / 2;
+      const cards = Array.from(deck.querySelectorAll<HTMLElement>("[data-experience-index]"));
+      const nearest = cards.reduce((best, card) => {
+        const rect = card.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - deckCenter);
+        return distance < best.distance
+          ? { index: Number(card.dataset.experienceIndex), distance }
+          : best;
+      }, { index: experienceFocus, distance: Number.POSITIVE_INFINITY });
+
+      setExperienceFocus(nearest.index);
+    });
   };
 
   const openThoughts = (context: "education" | "internship") => {
@@ -1000,8 +1044,27 @@ export default function Home() {
 
   useEffect(() => {
     if (!showThoughts && !zoomedPhoto && portfolioOpen === null && !experienceDetailOpen) return;
-    const previousOverflow = document.body.style.overflow;
+
+    const root = document.documentElement;
+    const scrollPosition = window.scrollY;
+    const previousRootOverflow = root.style.overflow;
+    const previousRootOverscroll = root.style.overscrollBehavior;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousBodyPosition = document.body.style.position;
+    const previousBodyTop = document.body.style.top;
+    const previousBodyLeft = document.body.style.left;
+    const previousBodyRight = document.body.style.right;
+    const previousBodyWidth = document.body.style.width;
+
+    root.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       if (portfolioOpen !== null) {
@@ -1013,7 +1076,15 @@ export default function Home() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      root.style.overflow = previousRootOverflow;
+      root.style.overscrollBehavior = previousRootOverscroll;
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.style.position = previousBodyPosition;
+      document.body.style.top = previousBodyTop;
+      document.body.style.left = previousBodyLeft;
+      document.body.style.right = previousBodyRight;
+      document.body.style.width = previousBodyWidth;
+      window.scrollTo(0, scrollPosition);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [showThoughts, zoomedPhoto, portfolioOpen, experienceDetailOpen]);
@@ -1214,13 +1285,19 @@ export default function Home() {
           <h2>个人经历</h2>
         </div>
         <div
+          ref={experienceDeckRef}
           className="experience-accordion"
           onMouseEnter={() => setExperienceDeckHovered(true)}
           onMouseLeave={() => setExperienceDeckHovered(false)}
+          onPointerDown={() => setExperienceDeckHovered(true)}
+          onPointerUp={() => setExperienceDeckHovered(false)}
+          onPointerCancel={() => setExperienceDeckHovered(false)}
+          onScroll={syncExperienceFocusWithScroll}
           aria-label="个人经历卡片浏览"
         >
           {experienceCards.map((card, index) => (
             <button
+              data-experience-index={index}
               className={`experience-slide category-${card.category} ${experienceFocus === index ? "is-active" : ""}`}
               onMouseEnter={() => setExperienceFocus(index)}
               onFocus={() => setExperienceFocus(index)}
