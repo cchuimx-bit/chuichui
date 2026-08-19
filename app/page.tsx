@@ -796,6 +796,7 @@ const experienceCards = [
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const musicUserPausedRef = useRef(false);
   const portfolioScrollRef = useRef<HTMLElement>(null);
   const portfolioMosaicRef = useRef<HTMLDivElement>(null);
   const experienceDeckRef = useRef<HTMLDivElement>(null);
@@ -818,7 +819,7 @@ export default function Home() {
   const [portfolioOpen, setPortfolioOpen] = useState<number | null>(null);
   const [portfolioFlipped, setPortfolioFlipped] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [musicPlaying, setMusicPlaying] = useState(true);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const [experienceFocus, setExperienceFocus] = useState(0);
   const [experienceDeckHovered, setExperienceDeckHovered] = useState(false);
   const [experienceDetailOpen, setExperienceDetailOpen] = useState(false);
@@ -838,7 +839,38 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.58;
-    audio.play().then(() => setMusicPlaying(true)).catch(() => setMusicPlaying(false));
+
+    let disposed = false;
+    const removeUnlockListeners = () => {
+      document.removeEventListener("pointerdown", unlockAudio);
+      document.removeEventListener("touchstart", unlockAudio);
+      document.removeEventListener("keydown", unlockAudio);
+    };
+    const tryPlay = async () => {
+      if (musicUserPausedRef.current) return;
+      try {
+        await audio.play();
+        if (!disposed) setMusicPlaying(true);
+        removeUnlockListeners();
+      } catch {
+        if (!disposed) setMusicPlaying(false);
+      }
+    };
+    function unlockAudio(event: Event) {
+      const target = event.target;
+      if (target instanceof Element && target.closest(".vinyl-control")) return;
+      void tryPlay();
+    }
+
+    void tryPlay();
+    document.addEventListener("pointerdown", unlockAudio, { passive: true });
+    document.addEventListener("touchstart", unlockAudio, { passive: true });
+    document.addEventListener("keydown", unlockAudio);
+
+    return () => {
+      disposed = true;
+      removeUnlockListeners();
+    };
   }, []);
 
   useEffect(() => () => {
@@ -1109,6 +1141,7 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
+      musicUserPausedRef.current = false;
       try {
         await audio.play();
         setMusicPlaying(true);
@@ -1116,6 +1149,7 @@ export default function Home() {
         setMusicPlaying(false);
       }
     } else {
+      musicUserPausedRef.current = true;
       audio.pause();
       setMusicPlaying(false);
     }
@@ -1166,6 +1200,7 @@ export default function Home() {
             src="/audio/city-of-stars-preview.m4a"
             autoPlay
             loop
+            playsInline
             preload="auto"
             onPlay={() => setMusicPlaying(true)}
             onPause={() => setMusicPlaying(false)}
@@ -1495,7 +1530,7 @@ export default function Home() {
         >
           <article className="thoughts-card" role="dialog" aria-modal="true" aria-labelledby="thoughts-title">
             <header>
-              <p>CHUICUI&apos;S LITTLE MUSINGS</p>
+              <p>CHUICHUI&apos;S LITTLE MUSINGS</p>
               <h3 id="thoughts-title">吹吹的碎碎念</h3>
             </header>
             <div className="thoughts-copy">
