@@ -914,6 +914,116 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const stage = profileStageRef.current;
+    const portrait = stage?.querySelector<HTMLElement>(".profile-portrait");
+    const bubbles = stage ? Array.from(stage.querySelectorAll<HTMLElement>(".profile-bubble")) : [];
+    if (!stage || !portrait || bubbles.length === 0) return;
+
+    let layoutFrame: number | null = null;
+
+    const arrangeBubbles = () => {
+      const stageRect = stage.getBoundingClientRect();
+      const portraitRect = portrait.getBoundingClientRect();
+      const isMobile = window.innerWidth <= 760;
+      const edgePadding = isMobile ? 5 : 10;
+      const columns = window.innerWidth <= 360 ? 3 : isMobile ? 4 : window.innerWidth <= 1100 ? 7 : 9;
+      const rows = window.innerWidth <= 360 ? 19 : isMobile ? 15 : window.innerWidth <= 1100 ? 12 : 9;
+      const cellWidth = (stageRect.width - edgePadding * 2) / columns;
+      const cellHeight = (stageRect.height - edgePadding * 2) / rows;
+
+      let seed = ((Math.round(stageRect.width) * 73856093) ^ (Math.round(stageRect.height) * 19349663)) >>> 0;
+      const random = () => {
+        seed = (seed + 0x6d2b79f5) >>> 0;
+        let value = seed;
+        value = Math.imul(value ^ (value >>> 15), value | 1);
+        value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+        return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+      };
+
+      const items = bubbles.map((element, index) => {
+        const scaleProperty = isMobile ? "--bubble-mobile-scale" : "--bubble-scale";
+        const scale = Number(element.style.getPropertyValue(scaleProperty)) || 1;
+        return {
+          index,
+          width: element.offsetWidth * scale + 4,
+          height: element.offsetHeight * scale + 14,
+        };
+      });
+
+      const portraitZone = {
+        left: portraitRect.left - stageRect.left,
+        top: portraitRect.top - stageRect.top,
+        right: portraitRect.right - stageRect.left,
+        bottom: portraitRect.bottom - stageRect.top,
+      };
+      const slots = Array.from({ length: columns * rows }, (_, slotIndex) => {
+        const column = slotIndex % columns;
+        const row = Math.floor(slotIndex / columns);
+        const edgeFactor = Math.sin(Math.PI * (column + .5) / columns);
+        const rowShift = Math.sin((row + 1) * 2.17) * cellWidth * .19;
+        const columnShift = Math.sin((column + row * 1.7) * 1.83) * Math.min(4, cellHeight * .06);
+        const x = edgePadding + (column + .5) * cellWidth + rowShift * edgeFactor;
+        const y = edgePadding + (row + .5) * cellHeight + columnShift;
+        const distanceX = x < portraitZone.left ? portraitZone.left - x : x > portraitZone.right ? x - portraitZone.right : 0;
+        const distanceY = y < portraitZone.top ? portraitZone.top - y : y > portraitZone.bottom ? y - portraitZone.bottom : 0;
+        return { column, row, x, y, portraitDistance: Math.hypot(distanceX, distanceY) };
+      });
+      const reserved = new Set(
+        [...slots]
+          .sort((a, b) => a.portraitDistance - b.portraitDistance)
+          .slice(0, slots.length - items.length)
+          .map((slot) => `${slot.column}-${slot.row}`),
+      );
+      const availableSlots = slots.filter((slot) => !reserved.has(`${slot.column}-${slot.row}`));
+      for (let index = availableSlots.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(random() * (index + 1));
+        [availableSlots[index], availableSlots[swapIndex]] = [availableSlots[swapIndex], availableSlots[index]];
+      }
+
+      const positions = new Map<number, { x: number; y: number }>();
+      items.forEach((item, index) => {
+        const slot = availableSlots[index];
+        const jitterX = Math.max(0, (cellWidth - item.width) * .42);
+        const jitterY = Math.max(0, (cellHeight - item.height) * .42);
+        positions.set(item.index, {
+          x: slot.x + (random() * 2 - 1) * jitterX,
+          y: slot.y + (random() * 2 - 1) * jitterY,
+        });
+      });
+
+      bubbles.forEach((bubble, index) => {
+        const position = positions.get(index);
+        if (!position) return;
+        bubble.style.setProperty("--bubble-left", `${position.x}px`);
+        bubble.style.setProperty("--bubble-top", `${position.y}px`);
+        bubble.style.setProperty(
+          "--bubble-note-render-shift-x",
+          position.x < stageRect.width * .2 ? "58px" : position.x > stageRect.width * .8 ? "-58px" : "0px",
+        );
+      });
+    };
+
+    const scheduleLayout = () => {
+      if (layoutFrame !== null) window.cancelAnimationFrame(layoutFrame);
+      layoutFrame = window.requestAnimationFrame(() => {
+        layoutFrame = null;
+        arrangeBubbles();
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleLayout);
+    resizeObserver.observe(stage);
+    bubbles.forEach((bubble) => resizeObserver.observe(bubble));
+    void document.fonts.ready.then(scheduleLayout);
+    scheduleLayout();
+
+    return () => {
+      resizeObserver.disconnect();
+      if (layoutFrame !== null) window.cancelAnimationFrame(layoutFrame);
+    };
+  }, []);
+
+  useEffect(() => {
     const supportsAutoPlay = window.matchMedia("(min-width: 761px) and (hover: hover)").matches;
     if (!supportsAutoPlay || experienceDeckHovered || experienceDetailOpen) return;
 
@@ -1269,6 +1379,8 @@ export default function Home() {
           <div className="profile-bubbles">
             {profileBubbles.map((label, index) => {
               const [x, y, scale, mobileX, mobileY] = profileBubbleLayout[index];
+              const desktopScale = Math.min(1.12, Math.max(1, scale));
+              const mobileScale = Math.min(1.06, Math.max(1, scale * .88));
               const bubbleOpen = activeProfileBubble === index;
               return (
                 <button
@@ -1277,11 +1389,11 @@ export default function Home() {
                   style={{
                     "--bubble-x": `${x}%`,
                     "--bubble-y": `${y}%`,
-                    "--bubble-scale": scale,
-                    "--bubble-note-scale": 1 / scale,
+                    "--bubble-scale": desktopScale,
+                    "--bubble-note-scale": 1 / desktopScale,
                     "--bubble-note-shift-x": `${x < 16 ? 72 : x > 84 ? -72 : 0}px`,
-                    "--bubble-mobile-scale": scale * .78,
-                    "--bubble-mobile-note-scale": 1 / (scale * .78),
+                    "--bubble-mobile-scale": mobileScale,
+                    "--bubble-mobile-note-scale": 1 / mobileScale,
                     "--bubble-mobile-x": `${mobileX}%`,
                     "--bubble-mobile-y": `${mobileY}%`,
                     "--bubble-mobile-note-shift-x": `${mobileX < 18 ? 58 : mobileX > 82 ? -58 : 0}px`,

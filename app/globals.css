@@ -88,12 +88,12 @@ img, video, canvas, svg { max-width: 100%; }
 .profile-section .profile-heading p::after { content: ""; width: clamp(24px,4vw,52px); height: 2px; background: currentColor; }
 .profile-section .profile-heading h2 { margin: 0; font-family: "Caprasimo", "Songti SC", "STSong", "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, serif; font-size: clamp(72px,8.8vw,112px); font-weight: 800; line-height: .88; letter-spacing: -.045em; }
 .profile-stage { --look-x: 0deg; --look-y: 0deg; --look-z: 0deg; --look-shift-x: 0px; --look-shift-y: 0px; position: relative; z-index: 1; width: min(1400px,100%); height: clamp(650px,calc(100svh - 230px),900px); margin: 0 auto; perspective: 900px; }
-.profile-stage::after { content: ""; position: absolute; z-index: -1; width: min(520px,48vw); height: 66px; left: 50%; top: 78%; border-radius: 50%; background: rgba(67,42,12,.14); filter: blur(22px); transform: translate(-50%,-50%); }
-.profile-portrait { position: absolute; z-index: 2; width: clamp(350px,40vw,560px); aspect-ratio: 1; left: 50%; top: 54%; margin: 0; padding: 0; transform-origin: 50% 42%; transform-style: preserve-3d; transform: translate3d(calc(-50% + var(--look-shift-x)),calc(-50% + var(--look-shift-y)),0) rotateX(var(--look-y)) rotateY(var(--look-x)) rotateZ(var(--look-z)); will-change: transform; touch-action: manipulation; }
+.profile-stage::after { content: ""; position: absolute; z-index: -1; width: min(520px,48vw); height: 66px; left: 50%; bottom: 2%; border-radius: 50%; background: rgba(67,42,12,.14); filter: blur(22px); transform: translate(-50%,0); }
+.profile-portrait { position: absolute; z-index: 2; width: clamp(350px,40vw,560px); aspect-ratio: 1; left: 50%; bottom: 0; margin: 0; padding: 0; transform-origin: 50% 68%; transform-style: preserve-3d; transform: translate3d(calc(-50% + var(--look-shift-x)),var(--look-shift-y),0) rotateX(var(--look-y)) rotateY(var(--look-x)) rotateZ(var(--look-z)); will-change: transform; touch-action: manipulation; }
 .profile-portrait img { object-fit: contain; background: transparent; pointer-events: none; transform: translateZ(8px); filter: drop-shadow(0 18px 18px rgba(67,42,12,.12)); transition: transform .28s ease, filter .28s ease; }
 .profile-portrait:hover img { transform: translateZ(8px) scale(1.018); filter: drop-shadow(0 20px 20px rgba(67,42,12,.16)); }
-.profile-bubbles { position: absolute; z-index: 1; inset: 0; pointer-events: none; }
-.profile-bubble { --bubble-render-scale: var(--bubble-scale); --bubble-note-render-scale: var(--bubble-note-scale); --bubble-note-render-shift-x: var(--bubble-note-shift-x); position: absolute; z-index: 1; left: clamp(8%,var(--bubble-x),92%); top: clamp(4%,var(--bubble-y),93%); min-width: 70px; max-width: min(230px,30vw); padding: 13px 19px; border: 0; border-radius: 999px; color: rgba(42,35,27,.92); box-shadow: 0 12px 28px rgba(4,20,30,.18), inset 0 1px rgba(255,255,255,.5); font: 800 12px/1.15 var(--body); letter-spacing: .035em; overflow-wrap: anywhere; text-align: center; white-space: normal; -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); pointer-events: auto; cursor: pointer; animation: profile-bubble-float var(--bubble-duration) ease-in-out var(--bubble-delay) infinite; transition: filter .22s ease, box-shadow .22s ease; }
+.profile-bubbles { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
+.profile-bubble { --bubble-render-scale: var(--bubble-scale); --bubble-note-render-scale: var(--bubble-note-scale); --bubble-note-render-shift-x: var(--bubble-note-shift-x); position: absolute; z-index: 1; left: var(--bubble-left,50%); top: var(--bubble-top,50%); width: max-content; min-width: clamp(82px,6.2vw,104px); max-width: 100px; padding: clamp(12px,.9vw,15px) clamp(12px,1vw,18px); border: 0; border-radius: 999px; color: rgba(42,35,27,.92); box-shadow: 0 12px 28px rgba(4,20,30,.18), inset 0 1px rgba(255,255,255,.5); font: 800 clamp(12px,.84vw,14px)/1.15 var(--body); letter-spacing: .035em; overflow-wrap: anywhere; text-align: center; white-space: normal; -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); pointer-events: auto; cursor: pointer; animation: profile-bubble-float var(--bubble-duration) ease-in-out var(--bubble-delay) infinite; transition: filter .22s ease, box-shadow .22s ease; }
 .profile-bubble::after { content: ""; position: absolute; width: 9px; height: 9px; left: 13px; top: 8px; border-radius: 50%; background: rgba(255,255,255,.42); }
 .profile-bubble:hover { filter: brightness(1.08); box-shadow: 0 15px 32px rgba(4,20,30,.24), inset 0 1px rgba(255,255,255,.58); }
 .profile-bubble:focus-visible { outline: 3px solid rgba(255,209,52,.95); outline-offset: 4px; }
@@ -406,14 +406,14 @@ img, video, canvas, svg { max-width: 100%; }
 @keyframes vinyl-spin { to { transform: rotate(360deg); } }
 @keyframes reel-left { to { transform: translateX(-50%); } }
 @keyframes reel-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-@keyframes profile-bubble-float { 0%,100% { transform: translate3d(-50%,0,0) scale(var(--bubble-render-scale)) rotate(-.8deg); } 50% { transform: translate3d(-50%,-10px,0) scale(var(--bubble-render-scale)) rotate(.9deg); } }
+@keyframes profile-bubble-float { 0%,100% { transform: translate3d(-50%,-50%,0) scale(var(--bubble-render-scale)) rotate(-.8deg); } 50% { transform: translate3d(-50%,calc(-50% - 6px),0) scale(var(--bubble-render-scale)) rotate(.9deg); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .capsule-nav { width: min(620px, calc(100vw - 32px)); }
   .profile-section { padding-inline: 18px; }
-  .profile-stage { height: clamp(650px,78vw,820px); }
+  .profile-stage { height: clamp(860px,90vw,940px); }
   .profile-portrait { width: min(520px,54vw); }
-  .profile-bubble { left: clamp(10%,var(--bubble-x),90%); max-width: min(210px,32vw); }
+  .profile-bubble { min-width: 76px; max-width: 86px; padding: 11px 8px; font-size: 11.5px; }
   .experience-accordion { gap: 5px; height: 610px; }
   .experience-slide { border-radius: 17px; }
   .experience-slide.is-active { flex-grow: 8.5; }
@@ -449,10 +449,10 @@ img, video, canvas, svg { max-width: 100%; }
   .profile-section .profile-heading { margin-bottom: 10px; }
   .profile-section .profile-heading h2 { font-size: clamp(48px,15vw,68px); }
   .profile-section { background-attachment: scroll; }
-  .profile-stage { width: 100%; height: clamp(640px,165vw,760px); }
-  .profile-stage::after { width: min(300px,68vw); height: 48px; top: 75%; }
-  .profile-portrait { width: min(330px,76vw); top: 53%; }
-  .profile-bubble { --bubble-render-scale: var(--bubble-mobile-scale); --bubble-note-render-scale: var(--bubble-mobile-note-scale); --bubble-note-render-shift-x: var(--bubble-mobile-note-shift-x); left: clamp(20%,var(--bubble-mobile-x),80%); top: clamp(4%,var(--bubble-mobile-y),92%); min-width: 54px; max-width: 40vw; padding: 9px 12px; font-size: clamp(8px,2.35vw,10px); line-height: 1.2; }
+  .profile-stage { width: 100%; height: 1050px; }
+  .profile-stage::after { width: min(300px,68vw); height: 48px; bottom: 1%; }
+  .profile-portrait { width: min(330px,76vw); bottom: 0; }
+  .profile-bubble { --bubble-render-scale: var(--bubble-mobile-scale); --bubble-note-render-scale: var(--bubble-mobile-note-scale); --bubble-note-render-shift-x: var(--bubble-mobile-note-shift-x); width: 70px; min-width: 70px; max-width: 70px; padding: 10px 7px; font-size: 11px; line-height: 1.2; }
   .profile-bubble-note { max-width: 180px; padding: 10px 12px; font-size: 11px; }
   .experience-section { min-height: 940px; padding: 90px 15px 120px; background-attachment: scroll; }
   .section-heading h2 { font-size: 60px; }
@@ -596,6 +596,10 @@ img, video, canvas, svg { max-width: 100%; }
   .contact-landscape { padding-inline: 10px; }
   .contact-card { width: 98%; padding-inline: 12px; }
   .contact-card h2 { font-size: clamp(19px,6.3vw,25px); }
+}
+
+@media (max-width: 360px) {
+  .profile-stage { height: 1280px; }
 }
 
 @media (min-width: 1600px) {
